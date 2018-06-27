@@ -60,5 +60,6 @@ typings/
 # next.js build output
 .next
 
-# Remove all zip files
+# Remove all zip and rar files
 *.zip
+*.rar
