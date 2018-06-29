@@ -3,7 +3,7 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 import 'react-select/dist/react-select.css';
 
-import { fetchInfo } from '../actions/actions_info.jsx';
+import { fetchInfo } from '../../actions/actions_info.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class App extends Component {
 
 
   componentDidMount() {
-    const { info, dispatch } = this.props;
+    const { dispatch } = this.props;
     dispatch(fetchInfo());
   }
 

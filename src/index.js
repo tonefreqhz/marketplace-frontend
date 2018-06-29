@@ -1,12 +1,17 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+import {render} from "react-dom";
+import { createBrowserHistory } from "history";
+import { Router, Route, Switch } from "react-router";
 
-import './index.css';
-import App from './containers/App';
+import indexRoutes from "./routes/index.jsx";
+
+import "./assets/scss/material-kit-react.css?v=1.1.0";
+
+var hist = createBrowserHistory();
 
 const store = createStore(
   rootReducer,
@@ -16,7 +21,13 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <App />
+    <Router history={hist}>
+    <Switch>
+        {indexRoutes.map((prop, key) => {
+          return <Route path={prop.path} key={key} component={prop.component} />;
+        })}
+      </Switch>
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );
