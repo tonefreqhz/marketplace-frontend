@@ -4,7 +4,6 @@ import React from "react";
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-
 import { List, ListItem, withStyles, Button } from "@material-ui/core";
 
 import footerStyle from "../../assets/jss/material-kit-react/components/footerStyle.jsx";
@@ -12,7 +11,6 @@ import MegaFooter from "./MegaFooter.jsx";
 
 function Footer({ ...props }) {
   const { classes, whiteFont, topFooter } = props;
-
   const footerClasses = classNames({
     [classes.footer]: true,
     [classes.footerWhiteFont]: whiteFont
@@ -21,7 +19,6 @@ function Footer({ ...props }) {
     [classes.a]: true,
     [classes.footerWhiteFont]: whiteFont
   });
-
   const megaFooter = (topFooter) ? <MegaFooter /> : "" ;
   return (
     <div>
