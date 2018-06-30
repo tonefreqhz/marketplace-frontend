@@ -56,8 +56,8 @@ class SectionBasics extends React.Component {
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={9}>
                 <div style={styles.cols}>
-                  {params.map((param) => {
-                    return(<ProductView params={param} />);
+                  {params.map((param, index) => {
+                    return(<ProductView params={param} key={index}/>);
                   })}
                 </div>
               </GridItem>
