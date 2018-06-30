@@ -4,15 +4,15 @@ import React from "react";
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-import { List, ListItem, withStyles } from "@material-ui/core";
 
-// @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
+import { List, ListItem, withStyles, Button } from "@material-ui/core";
 
 import footerStyle from "../../assets/jss/material-kit-react/components/footerStyle.jsx";
+import MegaFooter from "./MegaFooter.jsx";
 
 function Footer({ ...props }) {
-  const { classes, whiteFont } = props;
+  const { classes, whiteFont, topFooter } = props;
+
   const footerClasses = classNames({
     [classes.footer]: true,
     [classes.footerWhiteFont]: whiteFont
@@ -21,8 +21,11 @@ function Footer({ ...props }) {
     [classes.a]: true,
     [classes.footerWhiteFont]: whiteFont
   });
+
+  const megaFooter = (topFooter) ? <MegaFooter /> : "" ;
   return (
-    
+    <div>
+    {megaFooter}
     <footer className={footerClasses}>
       <div className={classes.container}>
         <div className={classes.left}>
@@ -30,56 +33,59 @@ function Footer({ ...props }) {
             <ListItem className={classes.inlineBlock}>
               <a
                 href="/"
-                className={classes.block}
               >
-                Home
+                <Button simple>Home</Button>
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
                 href="/about"
-                className={classes.block}
               >
-                About us
+                <Button simple>About us</Button>
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
                 href="/contact"
-                className={classes.block}
               >
-                Contact Us
+                <Button simple>Contact Us</Button>
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
                 href="/policy"
-                className={classes.block}
               >
-                Privacy Policy
+                <Button simple>Privacy Policy</Button>
+              </a>
+            </ListItem>
+            <ListItem className={classes.inlineBlock}>
+              <a
+                href="/terms"
+              >
+                <Button simple>Terms & Conditions</Button>
               </a>
             </ListItem>
           </List>
         </div>
         <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} &nbsp;
+          &copy; {1900 + new Date().getYear()}
           <a
             href="/"
             className={aClasses}
-            target="_blank"
           >
-            Bezop Store
-          </a>{" "}
-          world first decentralized store.
+            <Button simple>Bezop Store</Button>
+          </a>
         </div>
       </div>
     </footer>
+    </div>
   );
 }
 
 Footer.propTypes = {
   classes: PropTypes.object.isRequired,
-  whiteFont: PropTypes.bool
+  whiteFont: PropTypes.bool,
+  topFooter: PropTypes.bool
 };
 
 export default withStyles(footerStyle)(Footer);
