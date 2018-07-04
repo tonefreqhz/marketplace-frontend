@@ -1,3 +1,5 @@
+//@desc this is the card footer
+//@author Sylvia Onwukwe
 import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
