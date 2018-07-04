@@ -89,16 +89,16 @@ class Header extends React.Component {
           <div className={classes.flex}>
             {leftLinks !== undefined ? (
               <Hidden smDown implementation="css">
-                {leftLinks}
+                {/* {leftLinks} */}
               </Hidden>
             ) : (
               brandComponent
             )}
           </div>
-          <Hidden smDown implementation="css">
-            {rightLinks}
+          <Hidden mdDown implementation="css">
+            {leftLinks}
           </Hidden>
-          <Hidden mdUp>
+          <Hidden lgUp>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -108,7 +108,7 @@ class Header extends React.Component {
             </IconButton>
           </Hidden>
         </Toolbar>
-        <Hidden mdUp implementation="css">
+        <Hidden lgUp implementation="css">
           <Drawer
             variant="temporary"
             anchor={"right"}
@@ -119,7 +119,7 @@ class Header extends React.Component {
             onClose={this.handleDrawerToggle}
           >
             <div className={classes.appResponsive}>
-              {leftLinks}
+              {/* {leftLinks} */}
               {rightLinks}
             </div>
           </Drawer>

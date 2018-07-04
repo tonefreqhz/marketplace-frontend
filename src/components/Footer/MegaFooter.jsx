@@ -182,6 +182,15 @@ class MegaFooter extends React.Component {
                     Contact Us
                 </a>
                 </ListItem>
+                <ListItem style={{padding: "10px 0px"}}>
+                <ArrowForward />&nbsp;
+                <a
+                    href="/faq"
+                    style={{color: "#3C4858", fontSize: "1.3em", display: "block", width: "100%"}}
+                >
+                    FAQ
+                </a>
+                </ListItem>
             </List>
             </GridItem>
 

@@ -7,11 +7,13 @@ import GridItem from "../../../components/Grid/GridItem.jsx";
 
 import basicsStyle from "../../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 import ProductView from "../../../components/ProductView/ProductView";
+import Sidebar from "../../../components/Sidebar/CategoryCard";
+import MinSearch from "../../../components/Search/MinSearch";
 
 class SectionBasics extends React.Component {
   
   render() {
-    const { classes } = this.props;
+    const { classes, categories } = this.props;
 
     const styles = {
       cols:{
@@ -36,18 +38,50 @@ class SectionBasics extends React.Component {
 
     const params = [
       {
-        name: "Today's Deal"
+        name: "Today's Deal",
+        productProps: {
+          featured: false,
+          latest: false,
+          discount: false,
+          outOfStock: false
+        }
       },
       {
-        name: "Featured Products"
+        name: "Featured Products",
+        productProps: {
+          featured: true,
+          latest: false,
+          discount: false,
+          outOfStock: false
+        }
       },
       {
-        name: "Latest Products"
+        name: "Latest Products",
+        productProps: {
+          featured: false,
+          latest: true,
+          discount: false,
+          outOfStock: false
+        }
       },
       {
-        name: "Popular Products"
+        name: "Popular Products",
+        productProps: {
+          featured: false,
+          latest: false,
+          discount: false,
+          outOfStock: false
+        }
       }
     ];
+
+    let content = null;
+
+    if (categories.length !== 0) {
+      content = categories.map((category, index) => {
+        return(<Sidebar category={category} key={index}/>);
+      });
+    }
 
     return (
       <div className={classes.sections}>
@@ -56,14 +90,16 @@ class SectionBasics extends React.Component {
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={9}>
                 <div style={styles.cols}>
-                  {params.map((param) => {
-                    return(<ProductView params={param} />);
+                  <MinSearch location="stage"/>
+                  {params.map((param, index) => {
+                    return(<ProductView params={param} key={index}/>);
                   })}
                 </div>
               </GridItem>
               <GridItem xs={12} sm={12} md={3}>
                 <div style={styles.cols}>
-                  
+                  <MinSearch location="sidebar"/>
+                  {content}
                 </div>
               </GridItem>
             </GridContainer>
