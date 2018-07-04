@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import AppComponent from '../views/Components/App';
+import AppComponent from '../views/HomePage/App';
 
 const mapStateToProps = state => ({
   info: state.info,
