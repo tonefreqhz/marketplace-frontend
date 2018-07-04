@@ -23,7 +23,7 @@ function ContainedButtons(props) {
   return (
     <div>
         <Card>
-            <CardHeader color="info">
+            <CardHeader color="primary">
               <h4>Add New Product</h4>
               <p>Business Details</p>
             </CardHeader>

@@ -40,7 +40,7 @@ class AddNew extends React.Component{
     return (
       <div>
         <Button
-          color="info"
+          color="primary"
           onClick={() => this.handleClickOpen("modal")}>
           Add New Product
         </Button>

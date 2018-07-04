@@ -42,7 +42,7 @@ class AddNew extends React.Component{
     return (
       <div>
         <Button
-          color="info"
+          color="primary"
           round
           onClick={() => this.handleClickOpen("modal")}>
           Send Message
@@ -78,7 +78,7 @@ class AddNew extends React.Component{
           </DialogContent>
           <DialogActions
             className={classes.modalFooter +" " +classes.modalFooterCenter}>
-            <Button color="info"
+            <Button color="primary"
               onClick={() => this.handleClose("modal")}
             >
               Send Message

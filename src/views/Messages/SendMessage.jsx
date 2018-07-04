@@ -39,7 +39,7 @@ class SendMessage extends React.Component {
               <GridItem>
                 <Card>
                   <form>
-                  <CardHeader color="info">
+                  <CardHeader color="primary">
               <h4>Message</h4>
               <p>Send A New Message</p>
             </CardHeader>

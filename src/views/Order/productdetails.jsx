@@ -46,7 +46,7 @@ function ProductDetails(props) {
     <Grid container>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="info">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Orders</h4>
             <p className={classes.cardCategoryWhite}>
               Product Details
@@ -54,7 +54,7 @@ function ProductDetails(props) {
           </CardHeader>
           <CardBody>
             <Table
-              tableHeaderColor="info"
+              tableHeaderColor="primary"
               tableHead={["ID", "Product Name", "Quantity", "Cost", "VAT", "Weight"]}
               tableData={[
                 ["SKU 001", "Yellow Pillow", "2", "$10", "$2", "20Kg"]

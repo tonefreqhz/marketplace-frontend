@@ -44,7 +44,7 @@ class ReadMore extends React.Component{
       <div>
         <Button
         round
-          color="info"
+          color="primary"
           onClick={() => this.handleClickOpen("modal")}>
           View
         </Button>
@@ -78,14 +78,14 @@ class ReadMore extends React.Component{
             <ViewMessage />
           </DialogContent>
           <DialogActions>
-            <Button
+            <Button color="primary"
               onClick={() => this.handleClose("modal")}
             >
               View Sender
             </Button>
             <Button
               onClick={() => this.handleClose("modal")}
-              color="info">
+              color="primary">
               Reply Message
             </Button>
           </DialogActions>

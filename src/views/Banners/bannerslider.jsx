@@ -11,10 +11,6 @@ import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Card from "../../components/Card/Card.jsx";
 
-import image1 from "../../assets/img/bg.jpg";
-import image2 from "../../assets/img/bg2.jpg";
-import image3 from "../../assets/img/bg3.jpg";
-
 class BannerSlider extends React.Component {
   render() {
     const settings = {
@@ -33,7 +29,7 @@ class BannerSlider extends React.Component {
                 <Carousel {...settings}>
                   <div>
                     <img
-                      src={image1}
+                      src="https://images.pexels.com/photos/135620/pexels-photo-135620.jpeg"
                       alt="First slide"
                       className="slick-image"
                     />
@@ -46,7 +42,7 @@ class BannerSlider extends React.Component {
                   </div>
                   <div>
                     <img
-                      src={image2}
+                      src="https://images.pexels.com/photos/318236/pexels-photo-318236.jpeg"
                       alt="Second slide"
                       className="slick-image"
                     />
@@ -59,7 +55,7 @@ class BannerSlider extends React.Component {
                   </div>
                   <div>
                     <img
-                      src={image3}
+                      src="https://images.pexels.com/photos/336372/pexels-photo-336372.jpeg"
                       alt="Third slide"
                       className="slick-image"
                     />

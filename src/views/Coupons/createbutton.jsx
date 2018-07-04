@@ -42,7 +42,7 @@ class CreateCoupon extends React.Component{
     return (
       <div>
         <Button
-          color="info"
+          color="primary"
           onClick={() => this.handleClickOpen("modal")}>
           Create New Coupon
         </Button>
@@ -79,7 +79,7 @@ class CreateCoupon extends React.Component{
             className={classes.modalFooter +" " +classes.modalFooterCenter}>
             <Button
               onClick={() => this.handleClose("modal")}
-              color="successNoBackground">
+              color="primary">
              Create
             </Button>
           </DialogActions>

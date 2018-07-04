@@ -46,7 +46,7 @@ function PaymentDetail(props) {
     <Grid container>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="info">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Orders</h4>
             <p className={classes.cardCategoryWhite}>
               Manage All Your Orders
@@ -54,7 +54,7 @@ function PaymentDetail(props) {
           </CardHeader>
           <CardBody>
             <Table
-              tableHeaderColor="info"
+              tableHeaderColor="primary"
               tableHead={["Payment Type", "Date", "Status"]}
               tableData={[
                 ["Cheque", "29.01.2018", "Pending"]

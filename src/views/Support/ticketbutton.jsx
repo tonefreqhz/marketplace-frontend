@@ -43,7 +43,7 @@ class TicketButton extends React.Component{
       <div>
         <Button
         round
-          color="info"
+          color="primary"
           onClick={() => this.handleClickOpen("modal")}>
           Create Ticket
         </Button>

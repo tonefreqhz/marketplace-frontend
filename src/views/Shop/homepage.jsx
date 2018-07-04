@@ -8,8 +8,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Store from "@material-ui/icons/Store";
 import Location from "@material-ui/icons/MyLocation";
 // core components
-import Header from "../../components/Header/Header.jsx";
-import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
+//import Header from "../../components/Header/Header.jsx";
+//import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
@@ -20,9 +20,6 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 
 import loginPageStyle from "../../assets/jss/material-kit-react/views/loginPage.jsx";
-
-import image from "../../assets/img/shopOpen.jpg";
-
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -41,26 +38,10 @@ class HomePage extends React.Component {
     );
   }
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes } = this.props;
     return (
       <div>
-         <Header
-          absolute
-          color="transparent"
-          brand="Material Kit React"
-          rightLinks={<HeaderLinks />}
-          {...rest}
-        />
-
-        <div
-          className={classes.pageHeader}
-          style={{
-            backgroundImage: "url(" + image + ")",
-            backgroundColor: "#f9f9f9",
-            backgroundSize: "cover",
-            backgroundPosition: "top center"
-          }}
-        >
+         
           <div className={classes.container}>
             <GridContainer justify="center">
               <GridItem >
@@ -115,7 +96,6 @@ class HomePage extends React.Component {
             </GridContainer>
           </div>
         </div>
-      </div>
     );
   }
 }

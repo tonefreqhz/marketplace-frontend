@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import image1 from "../../assets/img/bg.jpg";
-import image2 from "../../assets/img/bg2.jpg";
-import image3 from "../../assets/img/bg3.jpg";
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
 import DeleteModal from "./deletemodal.jsx"
@@ -36,7 +33,7 @@ function BannerImages(props) {
         <GridItem xs={12} sm={12} md={4}>
       <Avatar
         alt="First Slide"
-        src={image1}
+        src="https://images.pexels.com/photos/135620/pexels-photo-135620.jpeg"
         className={classNames(classes.avatar, classes.bigAvatar)}
       />
       <DeleteModal />
@@ -44,7 +41,7 @@ function BannerImages(props) {
       <GridItem xs={12} sm={12} md={4}>
       <Avatar
         alt="Second Slide"
-        src={image2}
+        src="https://images.pexels.com/photos/318236/pexels-photo-318236.jpeg"
         className={classNames(classes.avatar, classes.bigAvatar)}
       />
       <DeleteModal />
@@ -52,7 +49,7 @@ function BannerImages(props) {
       <GridItem xs={12} sm={12} md={4}>
       <Avatar
         alt="Third Slide"
-        src={image3}
+        src="https://images.pexels.com/photos/336372/pexels-photo-336372.jpeg"
         className={classNames(classes.avatar, classes.bigAvatar)}
       />
       <DeleteModal />

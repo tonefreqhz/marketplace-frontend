@@ -23,7 +23,7 @@ class CreateStock extends React.Component {
   }
   state = {
     age: '',
-    name: 'hai',
+    name: '',
   };
 
   handleChange = name => event => {
@@ -44,7 +44,7 @@ class CreateStock extends React.Component {
       <div>
           <div>
           <Card>
-            <CardHeader color="info">
+            <CardHeader color="primary">
               <h4>Create New Stock</h4>
               <p>Fill the form:</p>
             </CardHeader>
