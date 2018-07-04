@@ -4,7 +4,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import HomeComponent from '../views/Components/Home';
 
 const mapStateToProps = state => ({
-  info: state.info,
+  front: state.front
 });
 
 const Home = connect(

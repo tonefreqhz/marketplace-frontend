@@ -31,9 +31,8 @@ class ProductView extends React.Component {
             float: "right", fontSize: "0.4em"
             },
             smallMore:{
-            float: "right",
-            fontSize: "0.6em",
-            marginTop: "-10px"
+            fontSize: "0.5em",
+            marginTop: "0px"
             },
             productArea:{
                 padding: "30px 0px"
@@ -50,7 +49,7 @@ class ProductView extends React.Component {
                     </h2>
                 </Hidden>
                 <Hidden mdUp>
-                    <h3 style={styles.header}>{params.name}
+                    <h3 style={styles.header}>{params.name + " "}
                     <Button color="primary" size="sm" round style={styles.smallMore}><More />
                         { (params.moreText) ? params.moreText : "More..." }
                     </Button>
@@ -58,22 +57,22 @@ class ProductView extends React.Component {
                 </Hidden>
                 <GridContainer style={styles.productArea}>
                     <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox />
+                        <ProductBox params={params.productProps}/>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox />
+                        <ProductBox params={params.productProps}/>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox />
+                        <ProductBox params={params.productProps}/>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox />
+                        <ProductBox params={params.productProps}/>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox />
+                        <ProductBox params={params.productProps}/>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox />
+                        <ProductBox params={params.productProps}/>
                     </GridItem>
                 </GridContainer>
             </div>

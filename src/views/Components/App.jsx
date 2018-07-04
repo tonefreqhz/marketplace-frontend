@@ -91,9 +91,4 @@ App.defaultProps = {
   dispatch: PropTypes.func,
 };
 
-App.propTypes = {
-  info: PropTypes.node,
-  dispatch: PropTypes.func,
-};
-
 export default App;
