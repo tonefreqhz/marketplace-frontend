@@ -34,35 +34,35 @@ function Footer({ ...props }) {
               <a
                 href="/"
               >
-                <Button simple>Home</Button>
+                <Button simple="true">Home</Button>
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
                 href="/about"
               >
-                <Button simple>About us</Button>
+                <Button simple="true">About us</Button>
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
                 href="/contact"
               >
-                <Button simple>Contact Us</Button>
+                <Button simple="true">Contact Us</Button>
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
                 href="/policy"
               >
-                <Button simple>Privacy Policy</Button>
+                <Button simple="true">Privacy Policy</Button>
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
                 href="/terms"
               >
-                <Button simple>Terms & Conditions</Button>
+                <Button simple="true">Terms & Conditions</Button>
               </a>
             </ListItem>
           </List>
@@ -73,7 +73,7 @@ function Footer({ ...props }) {
             href="/"
             className={aClasses}
           >
-            <Button simple>Bezop Store</Button>
+            <Button simple="true">Bezop Store</Button>
           </a>
         </div>
       </div>

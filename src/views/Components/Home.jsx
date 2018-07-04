@@ -3,32 +3,59 @@ import React from "react";
 import classNames from "classnames";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-import GridContainer from "../../components/Grid/GridContainer.jsx";
-import GridItem from "../../components/Grid/GridItem.jsx";
 
-import Parallax from "../../components/Parallax/Parallax.jsx";
 // sections for this page
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
+import LeftLink from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
-
-import Carousel from "react-slick";
+import Slider from "../../components/Parallax/Slider.jsx";
+import {getSliders, getCategories} from "../../actions/actions_front.jsx";
 
 class Home extends React.Component {
-  render() {
-    const { classes, ...rest } = this.props;
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: false
+
+  constructor(props){
+    super(props);
+    
+    this.state = {
+        loader: "none"
     };
+  }
+
+  componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(getSliders())
+    dispatch(getCategories()).then( () => {
+      this.stopLoader();
+    });
+  }
+
+  stopLoader() {
+    this.setState(...this.state, {loader: "none"});
+  }
+
+  render() {
+    const { classes, front, ...rest } = this.props;
+    
+    const loaderStyle = {
+      position: "fixed",
+      width: "100%",
+      height: "100%",
+      zIndex: "10000",
+      backgroundColor: "#ffffff",
+      backgroundImage: `url('${require('../../assets/img/logo.png')}')`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      opacity: ".98",
+      display: this.state.loader
+    };
+
     return (
       <div>
+        <div style={loaderStyle}></div>
         <Header
           brand="Bezop Store"
           rightLinks={<HeaderLinks />}
+          leftLinks={<LeftLink />}
           fixed
           color="transparent"
           changeColorOnScroll={{
@@ -38,59 +65,10 @@ class Home extends React.Component {
           {...rest}
         />
 
-        <Carousel {...settings}>
-          <Parallax className="slick-image" image={require("../../assets/img/img1.jpg")}>
-            <div style={{backgroundColor: "rgba(0, 0, 0, 0.5)", content: "", display: "block", height: "100%", left: 0, top: 0,
-                  position: "absolute", width: "100%"}}></div>
-            <div className={classes.container}>
-              <GridContainer>
-                <GridItem>
-                  <div style={{textAlign: "center", color: "#ffffff"}}>
-                    <h1 className={classes.title}>Bezop Store</h1>
-                    <h3>
-                    Worlds First Decentralized Store
-                    </h3>
-                  </div>
-                </GridItem>
-              </GridContainer>
-            </div>
-          </Parallax>
-          <Parallax className="slick-image" image={require("../../assets/img/img2.jpg")}>
-            <div style={{backgroundColor: "rgba(0, 0, 0, 0.5)", content: "", display: "block", height: "100%", left: 0, top: 0,
-                  position: "absolute", width: "100%"}}></div>
-            <div className={classes.container}>
-              <GridContainer>
-                <GridItem>
-                  <div style={{textAlign: "center", color: "#ffffff"}}>
-                    <h1 className={classes.title}>Bezop Store</h1>
-                    <h3>
-                    Worlds First Decentralized Store
-                    </h3>
-                  </div>
-                </GridItem>
-              </GridContainer>
-            </div>
-          </Parallax>
-          <Parallax className="slick-image" image={require("../../assets/img/img3.jpg")}>
-            <div style={{backgroundColor: "rgba(0, 0, 0, 0.5)", content: "", display: "block", height: "100%", left: 0, top: 0,
-                  position: "absolute", width: "100%"}}></div>
-            <div className={classes.container}>
-              <GridContainer>
-                <GridItem>
-                  <div style={{textAlign: "center", color: "#ffffff"}}>
-                    <h1 className={classes.title}>Bezop Store</h1>
-                    <h3>
-                    Worlds First Decentralized Store
-                    </h3>
-                  </div>
-                </GridItem>
-              </GridContainer>
-            </div>
-          </Parallax>
-        </Carousel>
+        <Slider classes={classes} slides={front.sliders} />
 
         <div className={classNames(classes.main, classes.mainRaised)}>
-          <Stage />
+          <Stage categories={front.categories} />
         </div>
         <Footer topFooter={true} />
       </div>

@@ -3,7 +3,6 @@ export const INFO_FETCHED = 'INFO_FETCHED';
 export const PRODUCT_FETCHED = 'PRODUCT_FETCHED';
 export const NEW_INFO = 'NEW_INFO';
 
-
 export function loadInfo(results) {
   return {
     type: INFO_FETCHED,
