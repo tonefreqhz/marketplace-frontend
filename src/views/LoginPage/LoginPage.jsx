@@ -17,7 +17,7 @@ import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 
-import image from "../../assets/img/bg7.jpg";
+import image from "../../assets/img/img3.jpg";
 
 class LoginPage extends React.Component {
   constructor(props) {
