@@ -45,7 +45,7 @@ class AddCoupon extends React.Component {
       <div>
           <div>
           <Card>
-            <CardHeader color="info">
+            <CardHeader color="primary">
               <h4>Create New Coupon</h4>
               <p>Discount Coupons</p>
             </CardHeader>

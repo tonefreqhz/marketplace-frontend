@@ -7,9 +7,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 // @material-ui/icons
 import Notes from "@material-ui/icons/NoteAdd";
 import Note from "@material-ui/icons/Note";
-// core components
-import Header from "../../components/Header/Header.jsx";
-import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
+// core components;
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
@@ -20,9 +18,6 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 
 import loginPageStyle from "../../assets/jss/material-kit-react/views/loginPage.jsx";
-
-import image from "../../assets/img/shopOpen.jpg";
-
 class SEO extends React.Component {
   constructor(props) {
     super(props);
@@ -41,25 +36,9 @@ class SEO extends React.Component {
     );
   }
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes } = this.props;
     return (
       <div>
-        <Header
-          absolute
-          color="white"
-          brand="Material Kit React"
-          rightLinks={<HeaderLinks />}
-          {...rest}
-        />
-        <div
-          className={classes.pageHeader}
-          style={{
-            backgroundImage: "url(" + image + ")",
-            backgroundColor: "#f9f9f9",
-            backgroundSize: "cover",
-            backgroundPosition: "top center"
-          }}
-        >
           <div className={classes.container}>
             <GridContainer justify="center">
               <GridItem >
@@ -114,7 +93,6 @@ class SEO extends React.Component {
             </GridContainer>
           </div>
         </div>
-      </div>
     );
   }
 }

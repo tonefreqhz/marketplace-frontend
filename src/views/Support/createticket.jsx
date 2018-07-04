@@ -37,9 +37,9 @@ class CreateTicket extends React.Component {
               <GridItem>
                 <Card>
                   <form>
-                  <CardHeader color="info">
-              <h4>Message</h4>
-              <p>Send A New Message</p>
+                  <CardHeader color="primary">
+              <h4>Support Ticket</h4>
+              <p>Create A New Support Ticket</p>
             </CardHeader>
                     <CardBody>
                       <CustomInput

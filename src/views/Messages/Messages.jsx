@@ -59,7 +59,7 @@ function Messages(props) {
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="info">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Messages</h4>
             <p className={classes.cardCategoryWhite}>
               View Messages

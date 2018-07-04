@@ -10,7 +10,7 @@ import SEO from './seo';
 function Shop({...props}){
   return (
     <NavPills 
-      color="info"
+      color="primary"
       tabs={[
         {
           tabButton: "HomePage",

@@ -42,7 +42,7 @@ class AddStock extends React.Component{
     return (
       <div>
         <Button
-          color="info"
+          color="primary"
           onClick={() => this.handleClickOpen("modal")}>
           Create New Stock
         </Button>
@@ -80,7 +80,7 @@ class AddStock extends React.Component{
             className={classes.modalFooter +" " +classes.modalFooterCenter}>
             <Button
               onClick={() => this.handleClose("modal")}
-              color="successNoBackground">
+              color="primary">
              Create Stock
             </Button>
           </DialogActions>

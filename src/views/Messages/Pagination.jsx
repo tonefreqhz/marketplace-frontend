@@ -16,7 +16,7 @@ function MessagePages({...props}){
         { text: 5 },
         { text: "NEXT" }
       ]}
-      color="info"
+      color="primary"
     />
   );
 }

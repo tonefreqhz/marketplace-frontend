@@ -39,7 +39,7 @@ class ViewMessage extends React.Component {
               <GridItem>
                 <Card>
                   <form>
-                  <CardHeader color="info">
+                  <CardHeader color="primary">
               <h4>View Message</h4>
               <p>From Anne Barley</p>
             </CardHeader>

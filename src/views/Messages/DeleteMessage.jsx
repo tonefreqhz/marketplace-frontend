@@ -9,7 +9,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
-//import Delete from "@material-ui/icons/Delete"
 // core components
 import Button from "../../components/CustomButtons/Button.jsx";
 
@@ -78,14 +77,14 @@ class DeleteMessage extends React.Component{
           </DialogContent>
           <DialogActions
             className={classes.modalFooter +" " +classes.modalFooterCenter}>
-            <Button
+            <Button color="primary"
               onClick={() => this.handleClose("modal")}
             >
               Cancel
             </Button>
-            <Button
+            <Button color="primary"
               onClick={() => this.handleClose("modal")}
-              color="successNoBackground">
+              >
               Delete
             </Button>
           </DialogActions>

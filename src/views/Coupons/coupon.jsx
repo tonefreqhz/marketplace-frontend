@@ -53,7 +53,7 @@ function Coupons(props) {
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="info">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Discount Coupons</h4>
             <p className={classes.cardCategoryWhite}>
               Manage Discounts

@@ -48,7 +48,7 @@ function TableList(props) {
     <Grid container>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="info">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Orders</h4>
             <p className={classes.cardCategoryWhite}>
               Manage All Your Orders
@@ -56,7 +56,7 @@ function TableList(props) {
           </CardHeader>
           <CardBody>
             <Table
-              tableHeaderColor="info"
+              tableHeaderColor="primary"
               tableHead={["ID", "Product", "Status", "Action"]}
               tableData={[
                 ["SKU 001", "Pillow", "Pending", <ViewOrder />]

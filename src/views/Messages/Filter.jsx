@@ -13,7 +13,7 @@ function Filter({...props}){
         { text: "Unread" },
         { text: "Trash" }
       ]}
-      color="info"
+      color="primary"
     />
   );
 }

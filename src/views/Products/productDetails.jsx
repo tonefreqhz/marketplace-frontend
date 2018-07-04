@@ -23,7 +23,7 @@ class AddPage extends React.Component {
   }
   state = {
     age: '',
-    name: 'hai',
+    name: '',
   };
 
   handleChange = name => event => {
@@ -44,7 +44,7 @@ class AddPage extends React.Component {
       <div>
           <div>
           <Card>
-            <CardHeader color="info">
+            <CardHeader color="primary">
               <h4>Add New Product</h4>
               <p>Product Details</p>
             </CardHeader>

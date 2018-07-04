@@ -55,7 +55,7 @@ function Support(props) {
     </GridItem>
       <GridItem>
         <Card>
-          <CardHeader color="info">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Support Tickets</h4>
             <p className={classes.cardCategoryWhite}>
               List of All Products

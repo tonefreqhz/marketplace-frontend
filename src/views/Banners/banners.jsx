@@ -59,14 +59,14 @@ function Banners(props) {
         type="file"
       />
       <label htmlFor="contained-button-file">
-        <Button variant="contained" component="span" className={classes.button} color="info">
+        <Button variant="contained" component="span" className={classes.button} color="primary">
           Upload New Banner
         </Button>
       </label>
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="info">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Store Banners</h4>
             <p className={classes.cardCategoryWhite}>
               Manage Store Banners

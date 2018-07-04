@@ -10,7 +10,7 @@ import PaymentDetail from './paymentdetails';
 function OrderDetails({...props}){
   return (
     <NavPills 
-      color="warning"
+      color="primary"
       tabs={[
         {
           tabButton: "Product Details",
