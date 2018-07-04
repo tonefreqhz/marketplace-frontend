@@ -10,48 +10,34 @@ import LeftLink from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
 import Slider from "../../components/Parallax/Slider.jsx";
 import {getSliders, getCategories} from "../../actions/actions_front.jsx";
+import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 
 class Home extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    
     this.state = {
-        loader: "block"
-    };
+      loader: "block"
+    }
   }
 
   componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(getSliders())
-    dispatch(getCategories()).then( () => {
-      this.stopLoader();
-    });
-  }
-
-  stopLoader() {
-    this.setState(...this.state, {loader: "none"});
+    dispatch(getSliders());
+    dispatch(getCategories())
+      .then(
+        () => {
+          this.setState(...this.state, {loader: "none"})
+        }
+      );
   }
 
   render() {
     const { classes, front, ...rest } = this.props;
-    
-    const loaderStyle = {
-      position: "fixed",
-      width: "100%",
-      height: "100%",
-      zIndex: "10000",
-      backgroundColor: "#ffffff",
-      backgroundImage: `url('${require('../../assets/img/logo.png')}')`,
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-      opacity: ".98",
-      display: this.state.loader
-    };
 
     return (
       <div>
-        <div style={loaderStyle}></div>
+        <PageLoader display={this.state.loader} />
         <Header
           brand="Bezop Store"
           rightLinks={<HeaderLinks />}

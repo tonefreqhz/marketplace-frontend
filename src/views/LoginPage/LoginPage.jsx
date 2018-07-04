@@ -18,20 +18,22 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 
 import image from "../../assets/img/img3.jpg";
+import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      loader: "block"
     };
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
-        this.setState({ cardAnimaton: "" });
+        this.setState({ cardAnimaton: "", loader: "none" });
       }.bind(this),
       700
     );
@@ -40,6 +42,7 @@ class LoginPage extends React.Component {
     const { classes, ...rest } = this.props;
     return (
       <div>
+        <PageLoader display={this.state.loader} />
         <Header
           absolute
           color="transparent"
