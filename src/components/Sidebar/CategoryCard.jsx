@@ -50,7 +50,7 @@ class Sidebar extends React.Component {
     const { classes, category } = this.props;
 
     return(
-        <Link to="/category-link">
+        <Link to="/category/category">
         <Card className={classes.cardCon}>
           <img className={classes.imgCardTop} src={category.image} alt={category.name} />
           <CardBody className={classes.imgCardOverlay+" "+classes.cardBody}>

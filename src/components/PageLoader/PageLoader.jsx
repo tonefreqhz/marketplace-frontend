@@ -1,6 +1,6 @@
 import React from 'react';
 
-import loaderImage from "../../assets/img/logo.png";
+import loaderImage from "../../assets/img/BezopLogo.svg";
 
 export class PageLoader extends React.Component {
 
@@ -20,7 +20,9 @@ export class PageLoader extends React.Component {
         };
 
         return(
-            <div style={loaderStyle}></div>
+            <div style={loaderStyle}>
+                <div className={"fa-spin"} style={loaderStyle}></div>
+            </div>
         );
     }
 }
