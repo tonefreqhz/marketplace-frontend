@@ -78,7 +78,7 @@ class Header extends React.Component {
     const brandComponent = (
       <Link to={"/"}>
       <Button className={classes.title}>
-        <img src={require("../../assets/img/logo.png")} height="60" alt="Logo" />&nbsp;<big><strong style={{color: "#29b6f6"}}>{brand}</strong></big>
+        <img src={require("../../assets/img/BezopLogo.svg")} height="60" alt="Logo" />&nbsp;<big><strong style={{color: "#29b6f6"}}>{brand}</strong></big>
       </Button>
       </Link>
     );

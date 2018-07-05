@@ -8,9 +8,11 @@ import Footer from "../../components/Footer/Footer.jsx";
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 import LeftLink from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
-import Slider from "../../components/Parallax/Slider.jsx";
-import {getSliders, getCategories} from "../../actions/actions_front.jsx";
+import Parallax from "../../components/Parallax/Parallax.jsx";
+import {getVendors} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
+import GridContainer from "../../components/Grid/GridContainer.jsx";
+import GridItem from "../../components/Grid/GridItem.jsx";
 
 class Home extends React.Component {
 
@@ -23,8 +25,7 @@ class Home extends React.Component {
 
   componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(getSliders());
-    dispatch(getCategories())
+    dispatch(getVendors())
       .then(
         () => {
           this.setState(...this.state, {loader: "none"})
@@ -34,7 +35,7 @@ class Home extends React.Component {
 
   render() {
     const { classes, front, ...rest } = this.props;
-    document.title = "Bezop Store || Worlds First Decentralized Store";
+    document.title = "Vendors @ Bezop Store || Worlds First Decentralized Store";
     return (
       <div>
         <PageLoader display={this.state.loader} />
@@ -51,10 +52,26 @@ class Home extends React.Component {
           {...rest}
         />
 
-        <Slider classes={classes} slides={front.sliders} />
+        <Parallax style={{height: "400px"}}
+          image="https://images.pexels.com/photos/886465/pexels-photo-886465.jpeg?auto=compress&cs=tinysrgb&h=350">
+          <div style={{backgroundColor: "rgba(0, 0, 0, 0.5)", content: "", display: "block", height: "100%", left: 0, top: 0,
+                  position: "absolute", width: "100%"}}></div>
+          <div className={classes.container}>
+              <GridContainer>
+              <GridItem>
+                  <div style={{textAlign: "center", color: "#ffffff"}}>
+                    <h1 className={classes.title}>Vendors</h1>
+                    <h3>
+                      Get connected to trusted vendors.
+                    </h3>
+                  </div>
+              </GridItem>
+              </GridContainer>
+          </div>
+        </Parallax>
 
         <div className={classNames(classes.main, classes.mainRaised)}>
-          <Stage categories={front.categories} />
+          <Stage vendors={front.vendors} />
         </div>
         <Footer topFooter={true} />
       </div>
