@@ -44,17 +44,6 @@ function Pagination({ ...props }) {
 
 Pagination.defaultProps = {
   color: "primary",
-  pages: PropTypes.arrayOf(
-    PropTypes.shape({
-      active: PropTypes.bool,
-      disabled: PropTypes.bool,
-      text: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.oneOf(["PREV", "NEXT", "..."])
-      ]).isRequired,
-      onClick: PropTypes.func
-    })
-  ).isRequired,
 };
 
 Pagination.propTypes = {
