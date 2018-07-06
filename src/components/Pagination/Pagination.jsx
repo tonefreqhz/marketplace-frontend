@@ -51,10 +51,7 @@ Pagination.propTypes = {
     PropTypes.shape({
       active: PropTypes.bool,
       disabled: PropTypes.bool,
-      text: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.oneOf(["PREV", "NEXT", "..."])
-      ]).isRequired,
+      text:  PropTypes.node,
       onClick: PropTypes.func
     })
   ).isRequired,
