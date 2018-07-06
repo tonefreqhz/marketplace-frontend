@@ -1,7 +1,30 @@
-import 'whatwg-fetch';
+/**
+ * @description All the actions for the frontend users resides here.
+ * @author Mohammed Odunayo
+ * @name actions_front
+ */
+
 export const SLIDERS = 'SLIDERS';
 export const CATEGORIES = 'CATEGORIES';
 export const VENDORS = 'VENDORS';
+export const BRANDS = 'BRANDS';
+
+export function getBrands() {
+  return dispatch => fetch('http://www.json-generator.com/api/json/get/cfXRcSJNOW?indent=2', {method: 'GET'})
+    .then(response => response.json())
+    .then((json) => {
+      dispatch(displayBrands(json));
+    })
+    .catch(error => console.log(error));
+}
+
+export function displayBrands(brands) {
+  
+  return {
+    type: BRANDS,
+    payload: brands
+  }
+}
 
 export function getVendors() {
   return dispatch => fetch('http://www.json-generator.com/api/json/get/cknaNltAmW?indent=2', {method: 'GET'})

@@ -1,15 +1,21 @@
+/**
+ * @description The VendorView component which is the parent component for vendors.
+ * @author Mohammed Odunayo
+ * @class VendorView
+ * @name VendorView
+ */
+
 import React from "react";
+
 import withStyles from "@material-ui/core/styles/withStyles";
-// nodejs library to set properties for components
-
 import { Hidden } from "@material-ui/core";
-import basicsStyle from "../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 
+import basicsStyle from "../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-import VendorGrid from "./VendorGrid";
+import VendorGrid from "./VendorGrid.jsx";
 
-class CategoryView extends React.Component {
+class VendorView extends React.Component {
     render() {
         const { params } = this.props;
 
@@ -54,4 +60,4 @@ class CategoryView extends React.Component {
     }
   }
   
-  export default withStyles(basicsStyle)(CategoryView);
+  export default withStyles(basicsStyle)(VendorView);
