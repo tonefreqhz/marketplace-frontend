@@ -8,9 +8,11 @@ import Footer from "../../components/Footer/Footer.jsx";
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 import LeftLink from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
-import Slider from "../../components/Parallax/Slider.jsx";
-import {getSliders, getCategories} from "../../actions/actions_front.jsx";
+import Parallax from "../../components/Parallax/Parallax.jsx";
+import {getCategories} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
+import GridContainer from "../../components/Grid/GridContainer.jsx";
+import GridItem from "../../components/Grid/GridItem.jsx";
 
 class Home extends React.Component {
 
@@ -23,7 +25,6 @@ class Home extends React.Component {
 
   componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(getSliders());
     dispatch(getCategories())
       .then(
         () => {
@@ -34,7 +35,7 @@ class Home extends React.Component {
 
   render() {
     const { classes, front, ...rest } = this.props;
-    document.title = "Bezop Store || Worlds First Decentralized Store";
+    document.title = "Categories @ Bezop Store || Worlds First Decentralized Store";
     return (
       <div>
         <PageLoader display={this.state.loader} />
@@ -51,7 +52,22 @@ class Home extends React.Component {
           {...rest}
         />
 
-        <Slider classes={classes} slides={front.sliders} />
+        <Parallax style={{height: "400px"}} image="https://images.pexels.com/photos/40799/paper-colorful-color-loose-40799.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <div style={{backgroundColor: "rgba(0, 0, 0, 0.5)", content: "", display: "block", height: "100%", left: 0, top: 0,
+                  position: "absolute", width: "100%"}}></div>
+          <div className={classes.container}>
+              <GridContainer>
+              <GridItem>
+                  <div style={{textAlign: "center", color: "#ffffff"}}>
+                    <h1 className={classes.title}>Categories</h1>
+                    <h3>
+                      Make a choice from our awesome collections.
+                    </h3>
+                  </div>
+              </GridItem>
+              </GridContainer>
+          </div>
+        </Parallax>
 
         <div className={classNames(classes.main, classes.mainRaised)}>
           <Stage categories={front.categories} />
