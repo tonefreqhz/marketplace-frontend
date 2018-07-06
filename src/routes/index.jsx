@@ -1,3 +1,7 @@
+//@desc The main router of the application
+//@author Muhammed Odunayo
+//@co author Sylvia Onwukwe
+//@co author Ifeoluwa Odewale
 import Home from "../containers/Home";
 import LandingPage from "../containers/LandingPage";
 import ProfilePage from "../containers/ProfilePage";
@@ -17,14 +21,14 @@ var indexRoutes = [
   { path: "/landing-page", name: "LandingPage", component: LandingPage },
   { path: "/profile-page", name: "ProfilePage", component: ProfilePage },
   { path: "/login-page", name: "LoginPage", component: LoginPage },
+  { path: "/dashboard/messages", name: "Messages", component: Messages},
+  { path: "/dashboard/products", name: "Products", component: Products},
+  { path: "/dashboard/settings", name: "Settings", component: Shop},
+  { path: "/dashboard/coupons", name: "Coupons", component: Coupons},
+  { path: "/dashboard/support", name: "Support", component: Support},
+  { path: "/dashboard/banner", name: "banners", component: Banner},
+  { path: "/dashboard/orders", name: "Orders", component: Orders},
   { path: "/dashboard", name:"Dashboard", component: Dashboard},
-  { path: "/messages", name: "Messages", component: Messages},
-  { path: "/products", name: "Products", component: Products},
-  { path: "/settings", name: "Settings", component: Shop},
-  { path: "/coupons", name: "Coupons", component: Coupons},
-  { path: "/support", name: "Support", component: Support},
-  { path: "/banner", name: "banners", component: Banner},
-  { path: "/orders", name: "Orders", component: Orders},
   { path: "/user", name: "Users", component: UserProfile},
   { path: "/app", name: "App", component: App },
   { path: "/", name: "Components", component: Home }

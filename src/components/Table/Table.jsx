@@ -1,5 +1,6 @@
 //@desc this is just a component for creating tables
 //@author Sylvia Onwukwe
+//@co author Ifeoluwa Odewale 
 import React from "react";
 import PropTypes from "prop-types";
 // @material-ui/core components
@@ -69,7 +70,7 @@ CustomTable.propTypes = {
     "gray"
   ]),
   tableHead: PropTypes.arrayOf(PropTypes.string),
-  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.node))
 };
 
 export default withStyles(tableStyle)(CustomTable);

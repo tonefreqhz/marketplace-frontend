@@ -27,15 +27,15 @@ class TicketButton extends React.Component{
       modal: false
     };
   }
-  handleClickOpen(modal) {
-    var x = [];
-    x[modal] = true;
-    this.setState(x);
+  handleClickOpen = () => {
+    this.setState({
+      modal: true
+    });
   }
-  handleClose(modal) {
-    var x = [];
-    x[modal] = false;
-    this.setState(x);
+  handleClose = () => {
+    this.setState({
+      modal: true
+    });
   }
   render(){
     const { classes } = this.props;
@@ -44,7 +44,7 @@ class TicketButton extends React.Component{
         <Button
         round
           color="primary"
-          onClick={() => this.handleClickOpen("modal")}>
+          onClick={this.handleClickOpen}>
           Create Ticket
         </Button>
         <Dialog
@@ -55,7 +55,7 @@ class TicketButton extends React.Component{
           open={this.state.modal}
           TransitionComponent={Transition}
           keepMounted
-          onClose={() => this.handleClose("modal")}
+          onClose={this.handleClose}
           aria-labelledby="modal-slide-title"
           aria-describedby="modal-slide-description">
           <DialogTitle
@@ -67,7 +67,7 @@ class TicketButton extends React.Component{
               key="close"
               aria-label="Close"
               color="inherit"
-              onClick={() => this.handleClose("modal")}>
+              onClick={this.handleClose}>
               <Close className={classes.modalClose} />
             </IconButton>
           </DialogTitle>
@@ -78,7 +78,7 @@ class TicketButton extends React.Component{
           </DialogContent>
           <DialogActions>
             <Button color="primary"
-              onClick={() => this.handleClose("modal")}
+              onClick={this.handleClose}
             >
              Send
             </Button>

@@ -27,23 +27,24 @@ class AddStock extends React.Component{
       modal: false
     };
   }
-  handleClickOpen(modal) {
-    var x = [];
-    x[modal] = true;
-    this.setState(x);
+  handleClickOpen = () => {
+    this.setState({
+      modal: true
+    });
   }
-  handleClose(modal) {
-    var x = [];
-    x[modal] = false;
-    this.setState(x);
+  handleClose = () => {
+    this.setState({
+      modal: false
+    });
   }
   render(){
     const { classes } = this.props;
+
     return (
       <div>
         <Button
           color="primary"
-          onClick={() => this.handleClickOpen("modal")}>
+          onClick={this.handleClickOpen}>
           Create New Stock
         </Button>
         <Dialog
@@ -54,7 +55,7 @@ class AddStock extends React.Component{
           open={this.state.modal}
           TransitionComponent={Transition}
           keepMounted
-          onClose={() => this.handleClose("modal")}
+          onClose={this.handleClose}
           aria-labelledby="modal-slide-title"
           aria-describedby="modal-slide-description">
           <DialogTitle

@@ -45,8 +45,10 @@ const styles = {
   }
 };
 
-function Products(props) {
-  const { classes } = props;
+class  Products extends React.Component{
+  
+  render(){
+  const { classes } = this.props;
   return (
     <Grid container>
     <GridItem xs={12} md={10}>
@@ -58,10 +60,8 @@ function Products(props) {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>All Products</h4>
-            <p className={classes.cardCategoryWhite}>
-              List of All Products
-            </p>
+              <h4 className={classes.cardTitleWhite}>All Products</h4>
+              <p className={classes.cardCategoryWhite}>List of All Products</p>
           </CardHeader>
           <CardBody>
             <Table
@@ -81,14 +81,10 @@ function Products(props) {
       <AddStock />
       </GridItem>
       <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>
-              Product Stock
-            </h4>
-            <p className={classes.cardCategoryWhite}>
-              Manage Product Stock
-            </p>
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Product Stock</h4>
+            <p className={classes.cardCategoryWhite}>Manage Product Stock</p>
           </CardHeader>
           <CardBody>
             <Table
@@ -103,6 +99,7 @@ function Products(props) {
       </GridItem>
     </Grid>
   );
+}
 }
 
 export default withStyles(styles)(Products);

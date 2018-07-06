@@ -28,13 +28,20 @@ class SEO extends React.Component {
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
+    this.cardAnimation = setTimeout(
       function() {
         this.setState({ cardAnimaton: "" });
       }.bind(this),
       700
     );
   }
+  //This is use to stop setTimeout 
+  //in case user leave the page before the setTimout occur
+  //This prevent memory leakage
+  componentWillUnmount(){
+    clearTimeout(this.cardAnimation);
+  }
+
   render() {
     const { classes } = this.props;
     return (

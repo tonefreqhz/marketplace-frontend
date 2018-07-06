@@ -1,5 +1,6 @@
 //@desc These are the sidebar items/routes
 //@author Sylvia Onwukwe
+//@co author Ifeoluwa Odewale
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
@@ -28,66 +29,68 @@ const dashboardRoutes = [
     sidebarName: "Dashboard",
     navbarName: "Material Dashboard",
     icon: Dashboard,
+    exact: true,
     component: DashboardPage
   },
   {
-    path: "/messages",
+    path: "/dashboard/messages",
     sidebarName: "Messages",
     navbarName: "Messages",
     icon: Email,
     component: Messages
   },
+  
   {
-    path: "/products",
+    path: "/dashboard/products",
     sidebarName: "Products",
     navbarName: "Products",
     icon: Store,
     component: Products
   },
   {
-    path: "/orders",
+    path: "/dashboard/orders",
     sidebarName: "Orders",
     navbarName: "Orders",
     icon: ShoppingCart,
     component: TableList
   },
   {
-    path: "/coupons",
+    path: "/dashboard/coupons",
     sidebarName: "Discount Coupons",
     navbarName: "Discount Coupons",
     icon: Loyalty,
     component: Coupons
   },
   {
-    path: "/banner",
+    path: "/dashboard/banner",
     sidebarName: "Banners",
     navbarName: "Banners",
     icon: LocationOn,
     component: Banners
   },
   {
-    path: "/settings",
+    path: "/dashboard/settings",
     sidebarName: "Store Settings",
     navbarName: "Store Settings",
     icon: Notifications,
     component: Shop
   },
   {
-    path: "/support",
+    path: "/dashboard/support",
     sidebarName: "Support Tickets",
     navbarName: "Support Tickets",
     icon: Notifications,
     component: Support
   },
   {
-    path: "/user",
+    path: "/dashboard/user",
     sidebarName: "User Profile",
     navbarName: "Profile",
     icon: Person,
     component: UserProfile
   },
   {
-    path: "/upgrade-to-pro",
+    path: "/dashboard/upgrade-to-pro",
     sidebarName: "View Homepage",
     navbarName: "View Homepage",
     icon: Unarchive,

@@ -47,8 +47,8 @@ class ViewOrder extends React.Component{
           View Order
         </Button>
         <Dialog
-        fullScreen= "false"
-        fullWidth="true"
+        fullScreen= {false}
+        fullWidth={true}
           classes={{
             root: classes.center,
             paper: classes.modal

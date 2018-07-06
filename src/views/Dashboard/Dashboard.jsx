@@ -29,25 +29,21 @@ import {
 import dashboardStyle from "../../assets/jss/material-kit-react/views/dashboardStyle.jsx";
 
 class Dashboard extends React.Component {
-  state = {
-    value: 0
-  };
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
+  constructor(props){
+    super();
+    this.state = {
+      value: 0
+    };
+  }
   render() {
     const { classes } = this.props;
     return (
   
       <div>
         <Grid container>
-          <GridItem xs={12} sm={6} md={3}>
+          <GridItem xs={12} sm={6} md={3}>Mu
             <Card>
-              <CardHeader color="primary" stats icon>
+              <CardHeader color="primary">
                 <CardIcon color="primary">
                   <Store />
                 </CardIcon>
@@ -56,7 +52,7 @@ class Dashboard extends React.Component {
                   49
                 </h3>
               </CardHeader>
-              <CardFooter stats>
+              <CardFooter>
                 <div className={classes.stats}>
                   <Danger>
                     <AddCircle />
@@ -70,14 +66,14 @@ class Dashboard extends React.Component {
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
             <Card>
-              <CardHeader color="success" stats icon>
+              <CardHeader color="success">
                 <CardIcon color="success">
                   <ShoppingCart />
                 </CardIcon>
                 <p className={classes.cardCategory}>Total Sold</p>
                 <h3 className={classes.cardTitle}>34</h3>
               </CardHeader>
-              <CardFooter stats>
+              <CardFooter>
                 <div className={classes.stats}>
                   <History />
                   Sales History
@@ -87,14 +83,14 @@ class Dashboard extends React.Component {
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
             <Card>
-              <CardHeader color="danger" stats icon>
+              <CardHeader color="danger">
                 <CardIcon color="danger">
                   <AttachMoney />
                 </CardIcon>
                 <p className={classes.cardCategory}>Total Earnings</p>
                 <h3 className={classes.cardTitle}>$75,000</h3>
               </CardHeader>
-              <CardFooter stats>
+              <CardFooter>
                 <div className={classes.stats}>
                   <LocalOffer />
                   Tracked from Store
@@ -104,14 +100,14 @@ class Dashboard extends React.Component {
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
             <Card>
-              <CardHeader color="info" stats icon>
+              <CardHeader color="info">
                 <CardIcon color="info">
                   <Loyalty />
                 </CardIcon>
                 <p className={classes.cardCategory}>Used Coupons</p>
                 <h3 className={classes.cardTitle}>245</h3>
               </CardHeader>
-              <CardFooter stats>
+              <CardFooter>
                 <div className={classes.stats}>
                   <Update />
                   From Customers
@@ -124,7 +120,7 @@ class Dashboard extends React.Component {
         <Grid container>
 
         <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
+            <Card>
               <CardHeader color="info">
                 <ChartistGraph
                   className="ct-chart"
@@ -140,7 +136,7 @@ class Dashboard extends React.Component {
                   Increase in Today's Sales
                 </p>
               </CardBody>
-              <CardFooter chart>
+              <CardFooter>
                 <div className={classes.stats}>
                   <AccessTime /> Updated 4 minutes ago
                 </div>
@@ -148,7 +144,7 @@ class Dashboard extends React.Component {
             </Card>
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
+            <Card>
               <CardHeader color="success">
                 <ChartistGraph
                   className="ct-chart"
@@ -164,7 +160,7 @@ class Dashboard extends React.Component {
                   Increase in Weekly Sales.
                 </p>
               </CardBody>
-              <CardFooter chart>
+              <CardFooter>
                 <div className={classes.stats}>
                   <AccessTime /> updated 4 minutes ago
                 </div>
@@ -174,7 +170,7 @@ class Dashboard extends React.Component {
           
           
           <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
+            <Card>
               <CardHeader color="info">
                 <ChartistGraph
                   className="ct-chart"
@@ -191,7 +187,7 @@ class Dashboard extends React.Component {
                   Monthly Sales Performance
                 </p>
               </CardBody>
-              <CardFooter chart>
+              <CardFooter>
                 <div className={classes.stats}>
                   <AccessTime /> Updated 2 days ago
                 </div>

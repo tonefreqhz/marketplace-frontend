@@ -15,31 +15,19 @@ function Shop({...props}){
         {
           tabButton: "HomePage",
           tabContent: (
-            <span>
-              <p>
                 <HomePage />
-              </p>
-            </span>
           )
         },
         {
           tabButton: "Social Media",
           tabContent: (
-            <span>
-              <p>
                <SocialMedia />
-              </p>
-            </span>
           )
         },
         {
           tabButton: "SEO",
           tabContent: (
-            <span>
-              <p>
                 <SEO />
-              </p>
-            </span>
           )
         },
       ]}

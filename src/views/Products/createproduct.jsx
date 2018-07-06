@@ -27,43 +27,43 @@ function ContainedButtons(props) {
               <h4>Add New Product</h4>
               <p>Business Details</p>
             </CardHeader>
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" component="span" className={classes.button}>
-          Upload
+        <input
+          accept="image/*"
+          className={classes.input}
+          id="contained-button-file"
+          multiple
+          type="file"
+        />
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" component="span" className={classes.button}>
+            Upload
+          </Button>
+        </label>
+        <input
+          accept="image/*"
+          className={classes.input}
+          id="contained-button-file"
+          multiple
+          type="file"
+        />
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" component="span" className={classes.button}>
+            Upload
+          </Button>
+        </label>
+        <input
+          accept="image/*"
+          className={classes.input}
+          id="contained-button-file"
+          multiple
+          type="file"
+        />
+        <label htmlFor="contained-button-file">
+        <Button variant="fab" color="primary" aria-label="add" className={classes.button}>
+          <AddIcon />
         </Button>
-      </label>
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" component="span" className={classes.button}>
-          Upload
-        </Button>
-      </label>
-      <input
-        accept="image/*"
-        className={classes.input}
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file">
-      <Button variant="fab" color="primary" aria-label="add" className={classes.button}>
-        <AddIcon />
-      </Button>
-      </label>
-      </Card>
+        </label>
+        </Card>
     </div>
   );
 }

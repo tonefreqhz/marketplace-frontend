@@ -1,5 +1,6 @@
 //@desc This is the sidebar component
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -20,7 +21,7 @@ import sidebarStyle from "./sidebarStyle.jsx";
 const Sidebar = ({ ...props }) => {
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
-    return props.location.pathname.indexOf(routeName) > -1 ? true : false;
+    return props.location.pathname === routeName ? true : false;
   }
   const { classes, color, logo, image, logoText, routes } = props;
   var links = (

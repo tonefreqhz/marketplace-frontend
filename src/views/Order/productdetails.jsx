@@ -47,10 +47,12 @@ function ProductDetails(props) {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Orders</h4>
-            <p className={classes.cardCategoryWhite}>
-              Product Details
-            </p>
+            <div>
+              <h4 className={classes.cardTitleWhite}>Orders</h4>
+            </div>
+            <div>
+              <p className={classes.cardCategoryWhite}> Product Details </p>
+            </div>
           </CardHeader>
           <CardBody>
             <Table

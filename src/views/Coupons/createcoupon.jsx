@@ -27,18 +27,26 @@ class AddCoupon extends React.Component {
     name: 'hai',
   };
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+  handleChange = event => {
+    this.setState({ 
+      name: event.target.value 
+    });
   };
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
+    this.cardAnimation = setTimeout(
       function() {
         this.setState({ cardAnimaton: "" });
       }.bind(this),
       700
     );
   }
+
+  componentWillUnmount(){
+    clearTimeout(this.cardAnimation);
+  }
+
+
   render(){
 
     return (
@@ -104,7 +112,7 @@ class AddCoupon extends React.Component {
           <Select
             native
             value={this.state.category}
-            onChange={this.handleChange('category')}
+            onChange={this.handleChange}
             inputProps={{
               name: 'category',
               id: 'product-category',

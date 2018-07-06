@@ -151,13 +151,13 @@ function UserProfile(props) {
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
-          <Card profile>
+          <Card>
             <CardAvatar profile>
               <a href="#pablo" onClick={e => e.preventDefault()}>
                 <img src={avatar} alt="..." />
               </a>
             </CardAvatar>
-            <CardBody profile>
+            <CardBody>
               <h6 className={classes.cardCategory}>BEZOP DEMO STORE</h6>
               <h4 className={classes.cardTitle}>Alec Thompson</h4>
               <p className={classes.description}>

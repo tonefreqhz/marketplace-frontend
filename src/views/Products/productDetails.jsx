@@ -26,15 +26,13 @@ class AddPage extends React.Component {
     name: '',
   };
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+  handleChange =  event => {
+    this.setState({ name: event.target.value });
   };
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
-      function() {
-        this.setState({ cardAnimaton: "" });
-      }.bind(this),
+        this.setState({ cardAnimaton: "" }),
       700
     );
   }
@@ -45,8 +43,12 @@ class AddPage extends React.Component {
           <div>
           <Card>
             <CardHeader color="primary">
-              <h4>Add New Product</h4>
-              <p>Product Details</p>
+              <div>
+                <h4>Add New Product</h4>
+              </div>
+              <div>
+                <p>Product Details</p>
+              </div>
             </CardHeader>
             <CardBody>
               <Grid container>
@@ -136,7 +138,8 @@ class AddPage extends React.Component {
                       fullWidth: true
                     }}
                     inputProps ={{
-                      type: "color"
+                      type: "color",
+                      value: "#7843ba"
                     }}
                   />
                 </GridItem>
@@ -197,7 +200,7 @@ class AddPage extends React.Component {
           <Select
             native
             value={this.state.category}
-            onChange={this.handleChange('category')}
+            onChange={this.handleChange}
             inputProps={{
               name: 'category',
               id: 'product-category',

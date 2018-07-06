@@ -15,31 +15,19 @@ function OrderDetails({...props}){
         {
           tabButton: "Product Details",
           tabContent: (
-            <span>
-              <p>
               <ProductDetails />  
-              </p>
-            </span>
           )
         },
         {
           tabButton: "Payment Details",
           tabContent: (
-            <span>
-              <p>
               <PaymentDetail />
-              </p>
-            </span>
           )
         },
         {
           tabButton: "Shipment Details",
           tabContent: (
-            <span>
-              <p>
               <ShipmentDetails />
-              </p>
-            </span>
           )
         }
       ]}

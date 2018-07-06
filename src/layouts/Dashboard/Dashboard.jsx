@@ -1,5 +1,6 @@
 //@desc This is the Landing Page of the vendors after sign-in; It contains the header, the sidebar and the footer
 //@author Sylvia Onwukwe
+//@co author Ifeoluwa Odewale
 //@require This page imports routes from dashboard.jsx to display the dashboard component by default
 /* eslint-disable */
 import React from "react";
@@ -26,17 +27,26 @@ import HeaderLinks from "../../components/Header/HeaderLinks";
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.to} key={key} />;
-      return <Route path={prop.path} component={prop.component} key={key} />;
+      
+      if (prop.redirect) return <Redirect from={prop.path} to={prop.to} key={key} />;
+      if(prop.hasOwnProperty("exact")){
+        return <Route exact path={prop.path} component={prop.component} key={key} />
+      }else{
+        return <Route path={prop.path} component={prop.component} key={key} />;
+      }
+      
     })}
   </Switch>
 );
 
 class App extends React.Component {
-  state = {
-    mobileOpen: false
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      mobileOpen: false
+    };
+  }
+  
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };

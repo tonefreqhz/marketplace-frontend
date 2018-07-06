@@ -26,28 +26,33 @@ const styles = theme => ({
   },
 });
 
-function getSteps() {
-  return ['Product Details', 'Business Details', 'Create Product'];
-}
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddPage />;
-    case 1:
-      return <BusinessDetails />;
-    case 2:
-      return <CreateProduct/>;
-    default:
-      return 'Unknown step';
-  }
-}
 
 class ProductStepper extends React.Component {
-  state = {
-    activeStep: 0,
-    skipped: new Set(),
-  };
+  constructor(props){
+    super(props)
+    this.state = {
+      activeStep: 0,
+      skipped: new Set(),
+    };
+  }
+
+  getSteps() {
+    return ['Product Details', 'Business Details', 'Create Product'];
+  }
+
+  getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <AddPage />;
+      case 1:
+        return <BusinessDetails />;
+      case 2:
+        return <CreateProduct/>;
+      default:
+        return 'Unknown step';
+    }
+  }
 
   isStepOptional = step => {
     return step === 1;
@@ -103,7 +108,7 @@ class ProductStepper extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const steps = getSteps();
+    const steps = this.getSteps();
     const { activeStep } = this.state;
 
     return (
@@ -138,7 +143,7 @@ class ProductStepper extends React.Component {
             </div>
           ) : (
             <div>
-              <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+              {this.getStepContent(activeStep)}
               <div>
                 <Button
                   disabled={activeStep === 0}

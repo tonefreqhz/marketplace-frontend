@@ -1,3 +1,4 @@
+//@co author Ifeoluwa Odewale
 import React from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
@@ -42,11 +43,7 @@ function Pagination({ ...props }) {
 }
 
 Pagination.defaultProps = {
-  color: "primary"
-};
-
-Pagination.propTypes = {
-  classes: PropTypes.object.isRequired,
+  color: "primary",
   pages: PropTypes.arrayOf(
     PropTypes.shape({
       active: PropTypes.bool,
@@ -55,6 +52,18 @@ Pagination.propTypes = {
         PropTypes.number,
         PropTypes.oneOf(["PREV", "NEXT", "..."])
       ]).isRequired,
+      onClick: PropTypes.func
+    })
+  ).isRequired,
+};
+
+Pagination.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pages: PropTypes.arrayOf(
+    PropTypes.shape({
+      active: PropTypes.bool,
+      disabled: PropTypes.bool,
+      text: PropTypes.node,
       onClick: PropTypes.func
     })
   ).isRequired,

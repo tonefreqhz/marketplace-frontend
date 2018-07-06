@@ -1,3 +1,4 @@
+//@co author Odewale Ifeoluwa
 import {
   drawerWidth,
   transition,
@@ -21,6 +22,7 @@ const sidebarStyle = theme => ({
     zIndex: "1",
     ...boxShadow,
     width: drawerWidth,
+    overflow: "hidden",
     [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       position: "fixed",
@@ -210,7 +212,7 @@ const sidebarStyle = theme => ({
     position: "relative",
     height: "calc(100vh - 75px)",
     overflow: "auto",
-    width: "260px",
+    width: "300px",
     zIndex: "4",
     overflowScrolling: "touch"
   },

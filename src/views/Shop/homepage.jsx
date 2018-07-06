@@ -28,14 +28,20 @@ class HomePage extends React.Component {
       cardAnimaton: "cardHidden"
     };
   }
+  
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
+    this.cardAnimation = setTimeout(
       function() {
         this.setState({ cardAnimaton: "" });
       }.bind(this),
       700
     );
+  }
+
+  //This is use to stop setTimeout to prevent memory leaking of the server
+  componentWillUnmount(){
+    clearTimeout(this.cardAnimation);
   }
   render() {
     const { classes } = this.props;
