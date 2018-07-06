@@ -1,6 +1,7 @@
 //@desc This is the form a vendor fills when creating a new stock 
 //@require This form requires the addstock.jsx (Modal Box)
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";

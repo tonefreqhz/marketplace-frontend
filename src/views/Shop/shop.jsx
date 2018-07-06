@@ -1,5 +1,6 @@
 //@desc this is the 'store setiings' componenent 
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from 'react';
 
 import NavPills from "../../components/NavPills/NavPills.jsx";

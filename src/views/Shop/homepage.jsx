@@ -1,5 +1,6 @@
 //@desc vendors can manage their homepage from here, set store name and dispay picture
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";

@@ -1,12 +1,12 @@
 //@desc This is the dashboard the vendor lands on once they log in
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 //@require This page requires ChartistGraph @type0.10.1, Charts.jsx(variables/charts), and dashboardStyle.jsx to display properly
 import React from "react";
 import PropTypes from "prop-types";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
-import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 // @material-ui/icons
 import {ShoppingCart,Store,AttachMoney,AddCircle,History,LocalOffer,Update,AccessTime,Loyalty} from "@material-ui/icons";
@@ -26,7 +26,7 @@ import {
   completedTasksChart
 } from "../../variables/charts";
 
-import dashboardStyle from "../../assets/jss/material-kit-react/views/dashboardStyle.jsx";
+
 
 class Dashboard extends React.Component {
   constructor(props){
@@ -258,4 +258,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+export default Dashboard;

@@ -1,5 +1,6 @@
 //@desc this is the last step required in adding new products
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 
 import React from 'react';
 import PropTypes from 'prop-types';

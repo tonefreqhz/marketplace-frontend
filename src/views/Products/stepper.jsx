@@ -1,6 +1,7 @@
 //@desc this is a stepper that guides vendors in adding new product, "Add new Product" form has been added to each step
 // the forms are businessdetails.jsx, productdetails.jsx and createproduct.jsx
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

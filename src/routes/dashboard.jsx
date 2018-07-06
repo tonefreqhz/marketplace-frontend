@@ -12,16 +12,16 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Email from "@material-ui/icons/Email"
 // core components/views
-import DashboardPage from "../views/Dashboard/Dashboard.jsx";
-import UserProfile from "../views/UserProfile/UserProfile.jsx";
-import TableList from "../views/Order/order.jsx";
-import Products from "../views/Products/products.jsx"
-import Coupons from "../views/Coupons/coupon.jsx"
-import Shop from "../views/Shop/shop.jsx"
-import Support from "../views/Support/support.jsx"
-import UpgradeToPro from "../views/UpgradeToPro/UpgradeToPro.jsx";
-import Banners from "../views/Banners/banners.jsx";
-import Messages from "../views/Messages/Messages.jsx"
+import DashboardPage from "../containers/Dashboard.jsx";
+import UserProfile from "../containers/UserProfiles.jsx";
+import Orders from "../containers/Orders.jsx";
+import Products from "../containers/Products.jsx"
+import Coupons from "../containers/Coupons.jsx"
+import Shop from "../containers/Shops.jsx"
+import Support from "../containers/Supports.jsx"
+import UpgradeToPro from "../containers/UpgradeToPro.jsx";
+import Banners from "../containers/Banners.jsx";
+import Messages from "../containers/Messages.jsx"
 
 const dashboardRoutes = [
   {
@@ -52,7 +52,7 @@ const dashboardRoutes = [
     sidebarName: "Orders",
     navbarName: "Orders",
     icon: ShoppingCart,
-    component: TableList
+    component: Orders
   },
   {
     path: "/dashboard/coupons",

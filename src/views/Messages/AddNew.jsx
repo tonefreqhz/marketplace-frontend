@@ -1,5 +1,6 @@
 //@desc this is the modal that pops up when vendor clicks 'send message'
 //@author Sylvia Onwukwe
+//@co author Ifeoluwa Odewale
 import React from 'react';
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -27,15 +28,15 @@ class AddNew extends React.Component{
       modal: false
     };
   }
-  handleClickOpen(modal) {
-    var x = [];
-    x[modal] = true;
-    this.setState(x);
+  handleClickOpen = () => {
+    this.setState({
+      modal: true
+    });
   }
-  handleClose(modal) {
-    var x = [];
-    x[modal] = false;
-    this.setState(x);
+  handleClose = () => {
+    this.setState({
+      modal: false
+    });
   }
   render(){
     const { classes } = this.props;
@@ -44,7 +45,7 @@ class AddNew extends React.Component{
         <Button
           color="primary"
           round
-          onClick={() => this.handleClickOpen("modal")}>
+          onClick={this.handleClickOpen}>
           Send Message
         </Button>
         <Dialog
@@ -55,7 +56,7 @@ class AddNew extends React.Component{
           open={this.state.modal}
           TransitionComponent={Transition}
           keepMounted
-          onClose={() => this.handleClose("modal")}
+          onClose={this.handleClose}
           aria-labelledby="modal-slide-title"
           aria-describedby="modal-slide-description">
           <DialogTitle
@@ -67,7 +68,7 @@ class AddNew extends React.Component{
               key="close"
               aria-label="Close"
               color="inherit"
-              onClick={() => this.handleClose("modal")}>
+              onClick={this.handleClose}>
               <Close className={classes.modalClose} />
             </IconButton>
           </DialogTitle>
@@ -79,7 +80,7 @@ class AddNew extends React.Component{
           <DialogActions
             className={classes.modalFooter +" " +classes.modalFooterCenter}>
             <Button color="primary"
-              onClick={() => this.handleClose("modal")}
+              onClick={this.handleClose}
             >
               Send Message
             </Button>

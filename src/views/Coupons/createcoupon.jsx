@@ -1,6 +1,7 @@
 //@desc This is the 'product details' form a vendor fills when adding products. 
 //@require This form requires the stepper.jsx(A stepper). It is the first step in adding new products
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";

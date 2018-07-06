@@ -1,5 +1,6 @@
 //@desc this is the tab containing order details when a vendor clicks view detail {vieworder.jsx}
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from 'react';
 
 import NavPills from "../../components/NavPills/NavPills.jsx";

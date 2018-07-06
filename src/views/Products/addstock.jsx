@@ -1,5 +1,6 @@
 //@desc this is a modal that opens when vendors click 'Create new stock"
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from 'react';
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";

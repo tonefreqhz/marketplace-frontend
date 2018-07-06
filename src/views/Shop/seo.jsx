@@ -1,5 +1,6 @@
 //desc vendors can set keywords and descriptions for their store
 //@author Sylvia Onwukwe
+//@co author Odewale Ifeoluwa
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
