@@ -1,15 +1,21 @@
+/**
+ * @description The stage section for the category page.
+ * @author Mohammed Odunayo
+ * @class Stage
+ * @name Stage
+ */
+
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridContainer from "../../../components/Grid/GridContainer.jsx";
 import GridItem from "../../../components/Grid/GridItem.jsx";
-
 import basicsStyle from "../../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 import CategoryView from "../../../components/CategoryView/CategoryView";
 import MinSearch from "../../../components/Search/MinSearch";
 
-class SectionBasics extends React.Component {
+class Stage extends React.Component {
   
   render() {
     const { classes, categories } = this.props;
@@ -55,4 +61,4 @@ class SectionBasics extends React.Component {
   }
 }
 
-export default withStyles(basicsStyle)(SectionBasics);
+export default withStyles(basicsStyle)(Stage);

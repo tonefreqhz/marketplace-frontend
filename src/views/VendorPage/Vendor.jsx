@@ -1,9 +1,15 @@
+/**
+ * @description The vendor page view.
+ * @author Mohammed Odunayo
+ * @class Vendor
+ * @name Vendor
+ */
+
 import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-
 // sections for this page
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 import LeftLink from "../../components/Header/LeftLinks.jsx";
@@ -14,7 +20,7 @@ import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 
-class Home extends React.Component {
+class Vendor extends React.Component {
 
   constructor(props) {
     super(props);
@@ -80,4 +86,4 @@ class Home extends React.Component {
 }
 
 
-export default Home;
+export default Vendor;

@@ -1,8 +1,8 @@
 /**
- * @description The category grid view component which renders the category grid view.
+ * @description The brand grid view component which renders the brand grid view.
  * @author Mohammed Odunayo
- * @class CategoryGrid
- * @name CategoryGrid
+ * @class BrandGrid
+ * @name BrandGrid
  */
 
 import React from "react";
@@ -26,11 +26,30 @@ const style = {
     categoryCard: {
         overflow: "hidden"
     },
-    cardFoot: {
-        backgroundColor: "#ffffff",
-        padding: "20px",
-        position: "relative",
-        paddingTop: "0px"
+    cardBody: {
+        transition: "background-color 0.6s, padding 0.6s",
+        backgroundColor: "rgba(0,0,0,0)",
+        paddingTop: "100%",
+        "&:hover": {
+            backgroundColor: "rgba(0,0,0,0.5)",
+            paddingTop: "20px"
+        }
+    },
+    cardTitle: {
+        color: "#ffffff",
+        fontWeight: "bold",
+        Position: "relative",
+        marginTop: "20%",
+        textAlign: "center",
+        textShadow: "2px 2px 5px black"
+    },
+    cardText: {
+      color: "#ffffff",
+      fontWeight: "bold",
+      Position: "relative",
+      marginTop: "-2%",
+      textAlign: "center",
+      textShadow: "2px 2px 5px black"
     },
     cardCon: {
         overflow: "hidden",
@@ -38,33 +57,14 @@ const style = {
     },
     cardButton: {
         padding: "0px",
+        margin: "0px",
         marginBottom: "30px",
         fontWeight: "normal",
         width: "100%"
-    },
-    cardScreen: {
-        width: "100%",
-        height: "250px",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center"
-    },
-    scene: {
-        perspective: "600px"
-    },
-    card: {
-        transformStyle: "preserve-3d",
-        transformOrigin: "center top",
-        transition: "transform 0.5s",
-        display: "block",
-        "&:hover": {
-            transform: "rotateX(8deg) rotateY(-8deg)",
-            zIndex: "3000"
-        }
     }
-};
+  };
 
-class CategoryGrid extends React.Component {
+class BrandGrid extends React.Component {
 
     render() {
       const { classes, params } = this.props;
@@ -72,16 +72,15 @@ class CategoryGrid extends React.Component {
       return (
         <div>
             <GridContainer>
-            {params.map((category, index) => {
+            {params.map((brand, index) => {
                 return(
                     <GridItem xs={12} sm={6} md={4} lg={3} key={index} className={classes.scene}>
-                        <Link to="/category/category" className={classes.card}>
+                        <Link to="/brand/brand" className={classes.card}>
                             <Button simple="true" className={classes.cardButton}>
                                 <Card className={classes.cardCon}>
-                                    <div className={classes.cardScreen} style={{backgroundImage: `url('${category.image}')`}}></div>
-                                    <CardBody className={classes.cardFoot}>
-                                        <h3>{category.name}</h3>
-                                        <p>{category.info}</p>
+                                    <img className={classes.imgCardTop} src={brand.image} alt={brand.name} />
+                                    <CardBody className={classes.imgCardOverlay+" "+classes.cardBody}>
+                                        <h3 className={classes.cardTitle}>{brand.name}</h3>
                                     </CardBody>
                                 </Card>
                             </Button>
@@ -95,9 +94,9 @@ class CategoryGrid extends React.Component {
     }
   }
 
-  CategoryGrid.prototypes = {
+  BrandGrid.prototypes = {
     classes: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired
   };
 
-  export default withStyles(style)(CategoryGrid);
+  export default withStyles(style)(BrandGrid);

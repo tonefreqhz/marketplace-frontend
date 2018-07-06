@@ -1,8 +1,8 @@
 /**
- * @description This is the parent component that control the category view.
+ * @description This is the parent component that control the brand view.
  * @author Mohammed Odunayo
- * @class CategoryView
- * @name CategoryView
+ * @class BrandView
+ * @name BrandView
  */
 
 import React from "react";
@@ -13,9 +13,9 @@ import { Hidden } from "@material-ui/core";
 import basicsStyle from "../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-import CategoryGrid from "./CategoryGrid.jsx";
+import BrandGrid from "./BrandGrid.jsx";
 
-class CategoryView extends React.Component {
+class BrandView extends React.Component {
     render() {
         const { params } = this.props;
 
@@ -45,14 +45,14 @@ class CategoryView extends React.Component {
         return (
             <div>
                 <Hidden smDown>
-                    <h2 style={styles.header}>All Categories</h2>
+                    <h2 style={styles.header}>All Brands</h2>
                 </Hidden>
                 <Hidden mdUp>
-                    <h3 style={styles.header}>All Categories</h3>
+                    <h3 style={styles.header}>All Brands</h3>
                 </Hidden>
                 <GridContainer style={styles.productArea}>
                     <GridItem>
-                        <CategoryGrid params={params}/>
+                        <BrandGrid params={params}/>
                     </GridItem>
                 </GridContainer>
             </div>
@@ -60,4 +60,4 @@ class CategoryView extends React.Component {
     }
   }
   
-  export default withStyles(basicsStyle)(CategoryView);
+  export default withStyles(basicsStyle)(BrandView);

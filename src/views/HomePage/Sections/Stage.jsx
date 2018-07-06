@@ -1,16 +1,23 @@
+/**
+ * @description The stage section for the home page.
+ * @author Mohammed Odunayo
+ * @class Stage
+ * @name Stage
+ */
+
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridContainer from "../../../components/Grid/GridContainer.jsx";
 import GridItem from "../../../components/Grid/GridItem.jsx";
-
 import basicsStyle from "../../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 import ProductView from "../../../components/ProductView/ProductView";
 import Sidebar from "../../../components/Sidebar/CategoryCard";
 import MinSearch from "../../../components/Search/MinSearch";
+import AdvanceSearch from "../../../components/Search/AdvanceSearch";
 
-class SectionBasics extends React.Component {
+class Stage extends React.Component {
   
   render() {
     const { classes, categories } = this.props;
@@ -99,6 +106,11 @@ class SectionBasics extends React.Component {
               <GridItem xs={12} sm={12} md={3}>
                 <div style={styles.cols}>
                   <MinSearch location="sidebar"/>
+                  <AdvanceSearch
+                    slideRange={{min: 10000, max: 100000000}}
+                    slideState={[20000000, 80000000]}
+                    slideStep={1000}
+                  />
                   {content}
                 </div>
               </GridItem>
@@ -110,4 +122,4 @@ class SectionBasics extends React.Component {
   }
 }
 
-export default withStyles(basicsStyle)(SectionBasics);
+export default withStyles(basicsStyle)(Stage);

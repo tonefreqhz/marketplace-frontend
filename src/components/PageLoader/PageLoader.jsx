@@ -1,5 +1,11 @@
-import React from 'react';
+/**
+ * @description The pageLoader component.
+ * @author Mohammed Odunayo
+ * @class PageLoader
+ * @name PageLoader
+ */
 
+import React from 'react';
 import loaderImage from "../../assets/img/BezopLogo.svg";
 
 export class PageLoader extends React.Component {

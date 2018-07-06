@@ -1,16 +1,22 @@
+/**
+ * @description The vendor grid view component which renders the vendor grid view.
+ * @author Mohammed Odunayo
+ * @class VendorGrid
+ * @name VendorGrid
+ */
+
 import React from "react";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import PropTypes from 'prop-types';
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
-import PropTypes from 'prop-types';
+import { Button } from "@material-ui/core";
 // core components
 import Card from "../../components/Card/Card.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
-
 import imagesStyles from "../../assets/jss/material-kit-react/imagesStyles.jsx";
-import GridContainer from "../Grid/GridContainer";
-import GridItem from "../Grid/GridItem";
-import { Button } from "@material-ui/core";
+import GridContainer from "../Grid/GridContainer.jsx";
+import GridItem from "../Grid/GridItem.jsx";
 
 const style = {
     ...imagesStyles,
@@ -66,7 +72,7 @@ const style = {
     }
 };
 
-class CategoryGrid extends React.Component {
+class VendorGrid extends React.Component {
 
     render() {
       const { classes, params } = this.props;
@@ -101,9 +107,9 @@ class CategoryGrid extends React.Component {
     }
   }
 
-  CategoryGrid.prototypes = {
+  VendorGrid.prototypes = {
     classes: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired
   };
 
-  export default withStyles(style)(CategoryGrid);
+  export default withStyles(style)(VendorGrid);

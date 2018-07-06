@@ -1,21 +1,21 @@
 /**
- * @description The Vendor container.
+ * @description The Brand container.
  * @author Mohammed Odunayo
- * @class Vendor
- * @name Vendor
+ * @class Brand
+ * @name Brand
  */
 
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import componentsStyle from "../assets/jss/material-kit-react/views/components.jsx";
-import VendorComponent from '../views/VendorPage/Vendor.jsx';
+import BrandComponent from '../views/BrandPage/Brand.jsx';
 
 const mapStateToProps = state => ({
   front: state.front
 });
 
-const Vendor = connect(
+const Brand = connect(
   mapStateToProps,
-)(VendorComponent);
+)(BrandComponent);
 
-export default withStyles(componentsStyle)(Vendor);
+export default withStyles(componentsStyle)(Brand);

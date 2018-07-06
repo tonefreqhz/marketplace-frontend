@@ -1,22 +1,22 @@
+/**
+ * @description The productBox component which renders the grid view for products.
+ * @author Mohammed Odunayo
+ * @class ProductBox
+ * @name ProductBox
+ */
+
 import React from "react";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Tooltip from "@material-ui/core/Tooltip";
+import {ShoppingCart, Visibility, Favorite, FavoriteBorder, CompareArrows} from "@material-ui/icons";
 import PropTypes from 'prop-types';
 // core components
 import Card from "../../components/Card/Card.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
-
-import Typo from "../../assets/jss/material-kit-react/components/typographyStyle";
-import Cart from "@material-ui/icons/ShoppingCart";
-import Tooltip from "@material-ui/core/Tooltip";
+import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx";
 import tooltipsStyle from "../../assets/jss/material-kit-react/tooltipsStyle.jsx";
-
-import View from "@material-ui/icons/Visibility";
-import Love from "@material-ui/icons/Favorite";
-import NotLove from "@material-ui/icons/FavoriteBorder";
-import Compare from "@material-ui/icons/CompareArrows";
-
 import imagesStyles from "../../assets/jss/material-kit-react/imagesStyles.jsx";
 import QuickView from "./QuickView.jsx";
 
@@ -82,7 +82,7 @@ class ProductBox extends React.Component {
         super(props);
         
         this.state = {
-            Favorite: false,
+            FavoriteProducts: false,
             QuickViewModal: false
         };
 
@@ -91,10 +91,10 @@ class ProductBox extends React.Component {
     }
 
     FavToggle(){
-        if(this.state.Favorite){
-            this.setState(...this.state, {Favorite: false});
+        if(this.state.FavoriteProducts){
+            this.setState(...this.state, {FavoriteProducts: false});
         } else {
-            this.setState(...this.state, {Favorite: true});
+            this.setState(...this.state, {FavoriteProducts: true});
         }
     }
 
@@ -108,16 +108,16 @@ class ProductBox extends React.Component {
 
     render() {
       const { classes, params } = this.props;
-      const {Favorite, QuickViewModal} = this.state;
+      const {FavoriteProducts, QuickViewModal} = this.state;
       
       let Fav;
       let LatestSticker;
       let FeaturedSticker;
       
-      if(Favorite){
-        Fav = <Love />;
+      if(FavoriteProducts){
+        Fav = <Favorite />;
       }else{
-        Fav = <NotLove />
+        Fav = <FavoriteBorder />
       }
 
       if(params.latest){
@@ -158,7 +158,7 @@ class ProductBox extends React.Component {
                         classes={{ tooltip: classes.tooltips }}
                     >
                     <Button round onClick={this.QuickViewToggle} justIcon simple color="primary" size="lg" style={{padding: "0px", margin: "0px auto 0px auto"}}>
-                        <View />
+                        <Visibility />
                     </Button>
                     </Tooltip>
 
@@ -168,7 +168,7 @@ class ProductBox extends React.Component {
                         classes={{ tooltip: classes.tooltips }}
                     >
                     <Button round justIcon simple color="primary" size="lg" style={{padding: "0px", margin: "0px auto 0px auto"}}>
-                        <Compare />
+                        <CompareArrows />
                     </Button>
                     </Tooltip>
 
@@ -197,7 +197,7 @@ class ProductBox extends React.Component {
                     <span style={Typo.primaryText}><strong>$50,000,000</strong></span>
                 </p>
                 <Button color="primary" fullWidth round className={classes.Cart}>
-                    <Cart /> Add To Cart
+                    <ShoppingCart /> Add To Cart
                 </Button>
             </CardBody>
             </Card>

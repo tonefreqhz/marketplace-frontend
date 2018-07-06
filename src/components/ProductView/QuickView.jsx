@@ -1,29 +1,24 @@
+/**
+ * @description The QuickView component which render a product brief details.
+ * @author Mohammed Odunayo
+ * @class QuickView
+ * @name QuickView
+ */
+
 import React from 'react';
+import Carousel from "react-slick";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Slide from "@material-ui/core/Slide";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import IconButton from "@material-ui/core/IconButton";
-import {ShoppingCart,Pageview, CompareArrows, FavoriteBorder} from "@material-ui/icons";
-import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx"
+import {Select, IconButton, FormControl, MenuItem, InputLabel, Chip, DialogActions, DialogContent, DialogTitle, Slide, Dialog} from "@material-ui/core";
 // @material-ui/icons
-import Close from "@material-ui/icons/Close";
-import DialogActions from "@material-ui/core/DialogActions";
-import Button from "../../components/CustomButtons/Button.jsx";
+import {Close, ShoppingCart, Pageview, CompareArrows, FavoriteBorder} from "@material-ui/icons";
 
+import Button from "../../components/CustomButtons/Button.jsx";
+import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx"
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-import Carousel from "react-slick";
 import ProductInfo from "./ProductInfo.jsx";
-import Chip from '@material-ui/core/Chip';
-
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 function Transition(props) {
   return <Slide direction="down" {...props} />;
