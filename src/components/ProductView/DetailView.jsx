@@ -1,37 +1,46 @@
 /**
- * @description The QuickView component which render a product brief details.
+ * @description The DetailView component which render a product full details.
  * @author Mohammed Odunayo
- * @class QuickView
- * @name QuickView
+ * @class DetailView
+ * @name DetailView
  */
 
 import React from 'react';
 import Carousel from "react-slick";
-import {Link} from "react-router-dom";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
-import {Select, IconButton, FormControl, MenuItem, InputLabel, Chip, DialogActions, DialogContent, DialogTitle, Slide, Dialog} from "@material-ui/core";
+import {Select, FormControl, MenuItem, InputLabel, Chip, Hidden} from "@material-ui/core";
 // @material-ui/icons
-import {Close, ShoppingCart, Pageview, CompareArrows, FavoriteBorder, Favorite} from "@material-ui/icons";
+import {ShoppingCart, CompareArrows, FavoriteBorder, Favorite} from "@material-ui/icons";
 
 import Button from "../../components/CustomButtons/Button.jsx";
 import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx"
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-import ProductInfo from "./ProductInfo.jsx";
+import DetailInfo from './DetailInfo';
 
-function Transition(props) {
-  return <Slide direction="down" {...props} />;
-}
-
-class QuickView extends React.Component{
+class DetailView extends React.Component{
     constructor(props) {
         super(props);
 
         this.state = {
-            quantity: 1
+            quantity: 1,
+            product: this.props.product
         };
+
+        this.FavToggle = this.FavToggle.bind(this);
+    }
+
+    FavToggle(){
+        let pro = this.props.product;
+        if(pro.favorite){
+            pro.favorite = false;
+            this.setState(...this.state, {product: pro});
+        } else {
+            pro.favorite = true;
+            this.setState(...this.state, {product: pro});
+        }
     }
 
     quantityChange = event => {
@@ -39,7 +48,31 @@ class QuickView extends React.Component{
     };
 
   render(){
-    const { classes, param, event, favToggle, product, data } = this.props;
+    const { classes, product, vendor, brand } = this.props;
+
+    const styles = {
+        cols:{
+        display: "block",
+        marginBottom: "30px"
+        },
+        container:{
+        padding: "0px 30px"
+        },
+        header:{
+        borderBottom: "1px solid lightgray"
+        },
+        bigMore:{
+        float: "right", fontSize: "0.4em"
+        },
+        smallMore:{
+        fontSize: "0.5em",
+        marginTop: "0px"
+        },
+        productArea:{
+            padding: "30px 0px"
+        }
+    }
+
     const settings = {
         dots: true,
         infinite: true,
@@ -69,31 +102,23 @@ class QuickView extends React.Component{
 
     return (
       <div>
-        <Dialog classes={{
-            root: classes.center,
-            paper: classes.modal
-          }} open={param} TransitionComponent={Transition} keepMounted onClose={event} aria-labelledby="modal-slide-title"
-          aria-describedby="modal-slide-description">
-          
-          <DialogTitle id="classic-modal-slide-title" disableTypography className={classes.modalHeader}>
-            <IconButton className={classes.modalCloseButton} key="close" aria-label="Close" color="inherit" onClick={event}>
-              <Close className={classes.modalClose} />
-            </IconButton>
-            <h3 className={classes.modalTitle}>Quick View</h3>
-          </DialogTitle>
-          
-          <DialogContent id="modal-slide-description" className={classes.modalBody}>
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={5}>
+        <Hidden smDown>
+            <h2 style={styles.header}>{product.name}</h2>
+        </Hidden>
+        <Hidden mdUp>
+            <h3 style={styles.header}>{product.name}</h3>
+        </Hidden>
+        <GridContainer justify="center">
+            <GridItem xs={12} sm={6}>
                 <Carousel {...settings}>
-                    {product.images.map((image, index) => {
+                    {(product.images)? product.images.map((image, index) => {
                         return(<img className="slick-image" src={image} alt={product.name} key={index} />);
-                    })}
+                    }) : null}
                 </Carousel>
-                <Button onClick={event} color="primary" round><CompareArrows/> Compare</Button>
-                <Button onClick={favToggle} color="primary" round>{(product.favorite)? <span><Favorite/> Remove From Wishlist</span> : <span><FavoriteBorder/> Add To Wishlist</span>}</Button>
-              </GridItem>
-              <GridItem xs={12} sm={7}>
+                <Button color="primary" round><CompareArrows/> Compare</Button>
+                <Button onClick={this.FavToggle} color="primary" round>{(product.favorite)? <span><Favorite/> Remove From Wishlist</span> : <span><FavoriteBorder/> Add To Wishlist</span>}</Button>
+            </GridItem>
+            <GridItem xs={12} sm={6}>
                 <h2 style={style.productTitle}>{product.name}</h2>
                 <h3 className={classes.productPrice}>
                     <del style={Typo.mutedText}>
@@ -118,11 +143,11 @@ class QuickView extends React.Component{
                         </Select>
                     </FormControl>
                 </form>
-                <Button onClick={event} color="primary" round><ShoppingCart/> Add To Cart</Button>
+                <Button color="primary" round><ShoppingCart/> Add To Cart</Button>
                 <br/><br/>
-                <ProductInfo data={data} product={product} />
+                <DetailInfo vendor={vendor} brand={brand} product={product} />
                 <h3>Product Tags</h3>
-                {product.tags.map((tag, index) => {
+                {(product.tags)? product.tags.map((tag, index) => {
                     return(<Chip
                         label={tag}
                         style={style.chip}
@@ -131,19 +156,12 @@ class QuickView extends React.Component{
                         clickable
                         key={index}
                     />);
-                })}
-              </GridItem>
-            </GridContainer>
-          </DialogContent>
-          <DialogActions className={classes.modalFooter}>
-            <Link to={"/product/"+product.id}>
-                <Button onClick={event} round><Pageview/> View Details</Button>
-            </Link>
-          </DialogActions>
-        </Dialog>
-      </div>
+                }) : null}
+            </GridItem>
+        </GridContainer>
+    </div>
     );
   }
 }
 
-export default withStyles(modalStyle)(QuickView);
+export default withStyles(modalStyle)(DetailView);

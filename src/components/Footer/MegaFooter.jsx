@@ -163,7 +163,7 @@ class MegaFooter extends React.Component {
                 <ListItem style={{padding: "10px 0px"}}>
                 <ArrowForward />&nbsp;
                 <a
-                    href="/featured-products"
+                    href="/products/featured"
                     style={{color: "#3C4858", fontSize: "1.3em", display: "block", width: "100%"}}
                 >
                     Featured Products

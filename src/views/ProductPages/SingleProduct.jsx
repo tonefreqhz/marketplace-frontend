@@ -1,8 +1,8 @@
 /**
- * @description The category page view.
+ * @description The single product page view.
  * @author Mohammed Odunayo
- * @class Category
- * @name Category
+ * @class SingleProduct
+ * @name SingleProduct
  */
 
 import React from "react";
@@ -11,46 +11,57 @@ import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 // sections for this page
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
-import LeftLink from "../../components/Header/LeftLinks.jsx";
+import LeftLinks from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
 import Parallax from "../../components/Parallax/Parallax.jsx";
-import {getCategories} from "../../actions/actions_front.jsx";
-import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
+import {getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
+import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 
-class Category extends React.Component {
+class SingleProduct extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      loader: "block"
-    };
 
+    this.state = {
+      loader: "block",
+      product: {},
+      productId: this.props.location.pathname.replace("/product/", "")
+    };
+    
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(getCategories())
+    
+    dispatch(getVendors());
+    dispatch(getBrands());
+    dispatch(getCategories());
+    dispatch(getProducts())
       .then(
         () => {
-          this.setState(...this.state, {loader: "none"})
+          this.setState(...this.state, {loader: "none"});
+          const product = this.props.front.products.filter(product => product.id === this.state.productId);
+          this.setState(...this.state, {product: product[0]});
         }
       );
   }
 
   render() {
     const { classes, front, ...rest } = this.props;
-    document.title = "Categories @ Bezop Store || Worlds First Decentralized Store";
+    const { product } = this.state;
+    document.title = (product)? product.name + " @ Bezop Store || Worlds First Decentralized Store" : null;
+
     return (
       <div>
         <PageLoader display={this.state.loader} />
         <Header
           brand="Bezop Store"
           rightLinks={<HeaderLinks />}
-          leftLinks={<LeftLink />}
+          leftLinks={<LeftLinks />}
           fixed
           color="transparent"
           changeColorOnScroll={{
@@ -60,16 +71,16 @@ class Category extends React.Component {
           {...rest}
         />
 
-        <Parallax style={{height: "400px"}} image="https://images.pexels.com/photos/40799/paper-colorful-color-loose-40799.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+        <Parallax style={{height: "400px"}} image={(product.images)? product.images[0] : null}>
           <div style={{backgroundColor: "rgba(0, 0, 0, 0.5)", content: "", display: "block", height: "100%", left: 0, top: 0,
                   position: "absolute", width: "100%"}}></div>
           <div className={classes.container}>
               <GridContainer>
               <GridItem>
                   <div style={{textAlign: "center", color: "#ffffff"}}>
-                    <h1 className={classes.title}>Categories</h1>
+                    <h1 className={classes.title}>{product.name}</h1>
                     <h3>
-                      Make a choice from our awesome collections.
+                      {product.brief}
                     </h3>
                   </div>
               </GridItem>
@@ -78,7 +89,14 @@ class Category extends React.Component {
         </Parallax>
 
         <div className={classNames(classes.main, classes.mainRaised)}>
-          <Stage categories={front.categories} />
+          <Stage
+            product={product}
+            singleProduct={true}
+            heading={product.name}
+            categories={front.categories}
+            vendor={front.vendors[product.vendorId]}
+            brand={front.brands[product.brandId]}
+          />
         </div>
         <Footer topFooter={true} />
       </div>
@@ -87,4 +105,4 @@ class Category extends React.Component {
 }
 
 
-export default Category;
+export default SingleProduct;

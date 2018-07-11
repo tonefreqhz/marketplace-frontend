@@ -1,8 +1,8 @@
 /**
- * @description The Product Info component which render a product detail information.
+ * @description The Detail Info component which render a product detail information.
  * @author Mohammed Odunayo
- * @class ProductInfo
- * @name ProductInfo
+ * @class DetailInfo
+ * @name DetailInfo
  */
 
 import React from 'react';
@@ -32,7 +32,7 @@ const styles = theme => ({
   },
 });
 
-class ProductInfo extends React.Component {
+class DetailInfo extends React.Component {
   state = {
     expanded: null,
   };
@@ -44,7 +44,7 @@ class ProductInfo extends React.Component {
   };
 
   render() {
-    const { classes, product, data } = this.props;
+    const { classes, product, vendor, brand } = this.props;
     const { expanded } = this.state;
 
     return (
@@ -61,25 +61,25 @@ class ProductInfo extends React.Component {
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}><Info/>&nbsp;Vendor Information</Typography>
+            <Typography className={classes.heading}><Info/>&nbsp;Vendor&nbsp;Information</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails style={{display: "block"}}>
-            <h3>{data.vendors[product.vendorId].name}</h3>
+            <h3>{(vendor)? vendor.name : null}</h3>
             <p>
-                Email Address: {data.vendors[product.vendorId].email}
+                Email Address: {(vendor)? vendor.email : null}
             </p>
             <p>
-                Address: {data.vendors[product.vendorId].address}
+                Address: {(vendor)? vendor.address : null}
             </p>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}><Detail/>&nbsp;Product Details</Typography>
+            <Typography className={classes.heading}><Detail/>&nbsp;Product&nbsp;Details</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <ul>
-                <li><strong>Brand:</strong> {data.brands[product.brandId].name}</li>
+                <li><strong>Brand:</strong> {(brand)? brand.name : null}</li>
                 <li><strong>Length:</strong> {product.length}</li>
                 <li><strong>Width:</strong> {product.width}</li>
                 <li><strong>Height:</strong> {product.height}</li>
@@ -92,8 +92,8 @@ class ProductInfo extends React.Component {
   }
 }
 
-ProductInfo.propTypes = {
+DetailInfo.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ProductInfo);
+export default withStyles(styles)(DetailInfo);

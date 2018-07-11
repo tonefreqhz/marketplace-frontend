@@ -32,6 +32,9 @@ class LoginPage extends React.Component {
       cardAnimation: "cardHidden",
       loader: "block"
     };
+
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears

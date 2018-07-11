@@ -24,6 +24,9 @@ import Page404 from "../containers/Page404.jsx";
 import Category from "../containers/Category.jsx";
 import Brand from "../containers/Brand.jsx";
 import Vendor from "../containers/Vendor.jsx";
+import Profile from "../containers/ProfilePage.jsx";
+import SingleProduct from "../containers/SingleProduct.jsx";
+import ProductList from "../containers/ProductList.jsx";
 
 var indexRoutes = [
   { path: "/dashboard/messages", name: "Messages", component: Messages},
@@ -37,11 +40,14 @@ var indexRoutes = [
   { path: "/dashboard", name:"Dashboard", component: Dashboard},
 
   { path: "/categories", name: "Categories", component: Category },
-  { path: "/category/", name: "Category", component: Category },
+  { path: "/category/:category", name: "Category", component: Category },
+  { path: "/products/:products", name: "ProductList", component: ProductList },
+  { path: "/product/:product", name: "Product", component: SingleProduct },
+  { path: "/profile", name: "Profile", component: Profile },
   { path: "/vendors", name: "Vendors", component: Vendor },
-  { path: "/vendor/", name: "Vendor", component: Vendor },
+  { path: "/vendor/:vendor", name: "Vendor", component: Vendor },
   { path: "/brands", name: "Brands", component: Brand },
-  { path: "/brand/", name: "Brand", component: Brand },
+  { path: "/brand/:brand", name: "Brand", component: Brand },
   { path: "/login", name: "LoginPage", component: Login},
   { path: "/", exact: true, name: "Home", component: Home },
   { path: "*", name: "Page404", component: Page404 },

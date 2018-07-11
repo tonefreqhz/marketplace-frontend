@@ -9,10 +9,11 @@ import React from "react";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Nouislider from "react-nouislider";
+import SearchDropdown from "./SearchDropdown.jsx";
 
 const style = {
   sliderCon: {
-    margin: "23px"
+    marginTop: "23px"
   },
   priceRange: {
     fontWeight: "bold"
@@ -20,6 +21,9 @@ const style = {
   right: {
     float: "right",
     display: "block"
+  },
+  subCons: {
+    marginBottom: "30px"
   }
 };
 
@@ -70,22 +74,36 @@ class AdvanceSearch extends React.Component {
     this.setState(...this.state, {slideState: val});
   }
 
+  componentWillReceiveProps(newProps) {
+    this.setState(...this.state, {
+      slideRange: {min: Number(newProps.slideRange.min), max: Number(newProps.slideRange.max)},
+      slideState: newProps.slideState.map(item => Number(item)),
+      slideStep: Number(newProps.slideStep)
+    });
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, data, slideEvent } = this.props;
 
     return(
       <div className={"slider slider-info "+classes.sliderCon}>
-        <p className={classes.priceRange}>
-          <span>{this.formatCurrency(this.state.slideState[0])}</span>
-          <span className={classes.right}>{this.formatCurrency(this.state.slideState[1])}</span>
-        </p>
-        <Nouislider
-          start={this.state.slideState}
-          connect={[false, true, false]}
-          step={this.state.slideStep}
-          range={this.state.slideRange}
-          onSlide={this.slideChange}
-        />
+        <div className={classes.subCons}>
+          <p className={classes.priceRange}>
+            <span>{this.formatCurrency(this.state.slideState[0])}</span>
+            <span className={classes.right}>{this.formatCurrency(this.state.slideState[1])}</span>
+          </p>
+          <Nouislider
+            start={this.state.slideState}
+            connect={[false, true, false]}
+            step={this.state.slideStep}
+            range={this.state.slideRange}
+            onSlide={this.slideChange}
+            onSet={slideEvent}
+          />
+        </div>
+        <div className={classes.subCons}>
+          <SearchDropdown data={data} />
+        </div>
       </div>
     );
   }

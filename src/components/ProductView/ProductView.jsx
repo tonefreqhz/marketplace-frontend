@@ -19,7 +19,7 @@ import ProductBox from "./ProductBox.jsx";
 
 class ProductView extends React.Component {
     render() {
-        const { params } = this.props;
+        const { products, heading, moreText, range, data } = this.props;
 
         const styles = {
             cols:{
@@ -44,41 +44,37 @@ class ProductView extends React.Component {
             }
         }
 
+        let boxProducts = [];
+
+        if (products.length > 0) {
+            boxProducts = products.slice(0, ((this.props.all)? undefined : 6));
+            boxProducts = boxProducts.filter(product => (product.discountPrice >= range[0] && product.discountPrice <= range[1]));
+            boxProducts.sort((a,b) => 0.5 - Math.random());
+        }
+
         return (
             <div>
                 <Hidden smDown>
-                    <h2 style={styles.header}>{params.name}
+                    <h2 style={styles.header}>{heading}
                     <Button color="primary" size="sm" round style={styles.bigMore}><More />
-                        { (params.moreText) ? params.moreText : "More..." }
+                        { (moreText) ? moreText : "More..." }
                     </Button>
                     </h2>
                 </Hidden>
                 <Hidden mdUp>
-                    <h3 style={styles.header}>{params.name + " "}
+                    <h3 style={styles.header}>{heading + " "}
                     <Button color="primary" size="sm" round style={styles.smallMore}><More />
-                        { (params.moreText) ? params.moreText : "More..." }
+                        { (moreText) ? moreText : "More..." }
                     </Button>
                     </h3>
                 </Hidden>
                 <GridContainer style={styles.productArea}>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={6} lg={4}>
-                        <ProductBox params={params.productProps}/>
-                    </GridItem>
+                    {boxProducts.map((product, index) => {
+                        return(<GridItem xs={12} sm={12} md={6} lg={4} key={index}>
+                            <ProductBox product={product} data={data}/>
+                        </GridItem>);
+                        }
+                    )}
                 </GridContainer>
             </div>
         );

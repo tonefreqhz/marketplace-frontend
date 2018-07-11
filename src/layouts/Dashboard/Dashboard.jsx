@@ -12,9 +12,9 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import Header from "../../components/Header/Header.jsx";
+import Header from "../../components/Header/VendorHeader.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-import Sidebar from "../../components/Sidebar/Sidebar.jsx";
+import Sidebar from "../../components/Sidebar/VendorSidebar";
 
 import dashboardRoutes from "../../routes/dashboard.jsx";
 
@@ -22,7 +22,7 @@ import dashboardStyle from "../../assets/jss/material-kit-react/layouts/dashboar
 
 import image from "../../assets/img/profile-bg.jpg";
 import logo from "../../assets/img/logo.png";
-import HeaderLinks from "../../components/Header/HeaderLinks";
+import MobileSidebar from "../../components/Sidebar/MobileSidebar";
 
 const switchRoutes = (
   <Switch>
@@ -68,28 +68,40 @@ class App extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
+    const sideMenu = <Sidebar
+      routes={dashboardRoutes}
+      logoText="Bezop&nbsp;Store"
+      logo={logo}
+      image={image}
+      handleDrawerToggle={this.handleDrawerToggle}
+      open={this.state.mobileOpen}
+      color="blue"
+      {...rest}
+    />;
+    const mobileSidebar = <MobileSidebar
+      routes={dashboardRoutes}
+      logoText="Bezop&nbsp;Store"
+      logo={logo}
+      image={image}
+      handleDrawerToggle={this.handleDrawerToggle}
+      open={this.state.mobileOpen}
+      color="blue"
+      {...rest}
+    />;
+
     return (
       <div className={classes.wrapper}>
-        <Sidebar
-          routes={dashboardRoutes}
-          logoText={"Bezop Store"}
-          logo={logo}
-          image={image}
-          handleDrawerToggle={this.handleDrawerToggle}
-          open={this.state.mobileOpen}
-          color="blue"
-          {...rest}
-        />
+        {sideMenu}
         <div className={classes.mainPanel} ref="mainPanel">
           <Header
-            brand="Bezop Store"
-            rightLinks={<HeaderLinks />}
+            brand="Bezop&nbsp;Store"
+            rightLinks={mobileSidebar}
             color="white"
             routes={dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
           />
-          {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+          {/* On the /maps route we want the map to be on full screen - this is not possible if the content and container classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
               <div className={classes.container}>{switchRoutes}</div>

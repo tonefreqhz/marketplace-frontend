@@ -24,7 +24,7 @@ const store = createStore(
 render(
   <Provider store={store}>
     <Router history={hist}>
-    <Switch>
+      <Switch>
         {indexRoutes.map((prop, key) => {
           return <Route path={prop.path} exact={prop.exact} key={key} component={prop.component} />;
         })}

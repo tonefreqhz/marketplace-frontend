@@ -1,5 +1,5 @@
 /**
- * @description The stage section for the home page.
+ * @description The stage section for the product page.
  * @author Mohammed Odunayo
  * @class Stage
  * @name Stage
@@ -16,6 +16,7 @@ import ProductView from "../../../components/ProductView/ProductView";
 import Sidebar from "../../../components/Sidebar/CategoryCard";
 import MinSearch from "../../../components/Search/MinSearch";
 import AdvanceSearch from "../../../components/Search/AdvanceSearch";
+import DetailView from "../../../components/ProductView/DetailView";
 
 class Stage extends React.Component {
 
@@ -54,12 +55,12 @@ class Stage extends React.Component {
   setPriceRange(values) {
     this.setState(...this.state, {priceRange: values});
   }
-  
+
   render() {
-    const { classes, products, ...data } = this.props;
+    const { classes, ...data } = this.props;
 
     let priceRange = [1,2];
-    priceRange = (products.length > 0)? this.getPriceRange(products) : [1,2];
+    priceRange = (data.products.length > 0)? this.getPriceRange(data.products) : [1,2];
 
     const styles = {
       cols:{
@@ -82,11 +83,6 @@ class Stage extends React.Component {
       }
     }
 
-    const todaysDeal = products.filter(product => product.todaysDeal === true);
-    const featured = products.filter(product => product.featured === true);
-    const latest = products.filter(product => product.latest === true);
-    const popular = products.filter(product => product.popular === true);
-
     let content = null;
 
     if (data.categories.length !== 0) {
@@ -100,28 +96,38 @@ class Stage extends React.Component {
         <div style={styles.container}>
           <div>
             <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={9}>
-                <div style={styles.cols}>
                   <MinSearch location="stage"/>
-                    <ProductView products={todaysDeal} range={this.state.priceRange} data={data} heading="Today's Deals"/>
-                    <ProductView products={featured} range={this.state.priceRange} data={data} heading="Featured Products"/>
-                    <ProductView products={latest} range={this.state.priceRange} data={data} heading="Latest Products"/>
-                    <ProductView products={popular} range={this.state.priceRange} data={data} heading="Popular Products"/>
-                </div>
-              </GridItem>
-              <GridItem xs={12} sm={12} md={3}>
-                <div style={styles.cols}>
-                  <MinSearch location="sidebar"/>
-                  <AdvanceSearch
-                    slideRange={{min: priceRange[0], max: priceRange[1]}}
-                    slideState={this.state.priceRange}
-                    slideStep={(priceRange[1] / priceRange[0])}
-                    data={data}
-                    slideEvent={this.setPriceRange}
-                  />
-                  {content}
-                </div>
-              </GridItem>
+                  {(data.singleProduct)?
+                    <GridItem sm={12}>
+                      <div style={styles.cols}>
+                        <DetailView product={data.product} vendor={data.vendor} brand={data.vendor} />
+                      </div>
+                    </GridItem>
+                    :
+                    <GridItem xs={12} sm={12} md={9}>
+                      <div style={styles.cols}>
+                        <ProductView products={data.products} range={this.state.priceRange} data={data} all={true} heading={data.heading}/>
+                      </div>
+                    </GridItem>
+                  }
+                
+                  {(data.singleProduct)?
+                    null
+                    :
+                    <GridItem xs={12} sm={12} md={3}>
+                      <div style={styles.cols}>
+                        <MinSearch location="sidebar"/>
+                        <AdvanceSearch
+                          slideRange={{min: priceRange[0], max: priceRange[1]}}
+                          slideState={this.state.priceRange}
+                          slideStep={(priceRange[1] / priceRange[0])}
+                          data={data}
+                          slideEvent={this.setPriceRange}
+                        />
+                        {content}
+                      </div>
+                    </GridItem>
+                  }
             </GridContainer>
           </div>
         </div>
