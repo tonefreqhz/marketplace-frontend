@@ -46,9 +46,9 @@ class ProductView extends React.Component {
 
         let boxProducts = [];
 
-        if (products.length > 0) {
-            boxProducts = products.slice(0, ((this.props.all)? undefined : 6));
-            boxProducts = boxProducts.filter(product => (product.discountPrice >= range[0] && product.discountPrice <= range[1]));
+        if (products.length > 0 && data.vendors.length > 0 && data.brands.length > 0) {
+            boxProducts = products.filter(product => (product.discountPrice >= range[0] && product.discountPrice <= range[1]));
+            boxProducts = boxProducts.slice(0, ((this.props.all)? undefined : 6));
             boxProducts.sort((a,b) => 0.5 - Math.random());
         }
 

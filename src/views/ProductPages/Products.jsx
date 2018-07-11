@@ -112,7 +112,8 @@ class Products extends React.Component {
         this.setState(...this.state, {
           pageTitle: "Today's Deal",
           pageBanner: "https://images.pexels.com/photos/346746/pexels-photo-346746.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-          products: products
+          products: products,
+          loader: "none"
         });
       break;
       case "featured":
@@ -120,7 +121,8 @@ class Products extends React.Component {
         this.setState(...this.state, {
           pageTitle: "Featured Products",
           pageBanner: "https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-          products: products
+          products: products,
+          loader: "none"
         });
       break;
       case "latest":
@@ -128,7 +130,8 @@ class Products extends React.Component {
         this.setState(...this.state, {
           pageTitle: "Latest Products",
           pageBanner: "https://images.pexels.com/photos/1073767/pexels-photo-1073767.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-          products: products
+          products: products,
+          loader: "none"
         });
       break;
       case "popular":
@@ -136,7 +139,8 @@ class Products extends React.Component {
         this.setState(...this.state, {
           pageTitle: "Popular Products",
           pageBanner: "https://images.pexels.com/photos/353347/pexels-photo-353347.jpeg?auto=compress&cs=tinysrgb&h=350",
-          products: products
+          products: products,
+          loader: "none"
         });
       break;
       default:
@@ -144,7 +148,8 @@ class Products extends React.Component {
         this.setState(...this.state, {
           pageTitle: "Products",
           pageBanner: "https://images.pexels.com/photos/268819/pexels-photo-268819.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-          products: products
+          products: products,
+          loader: "none"
         });
       }
   }

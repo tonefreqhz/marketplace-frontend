@@ -24,7 +24,8 @@ import Page404 from "../containers/Page404.jsx";
 import Category from "../containers/Category.jsx";
 import Brand from "../containers/Brand.jsx";
 import Vendor from "../containers/Vendor.jsx";
-import Profile from "../containers/ProfilePage.jsx";
+import About from "../containers/AboutPage.jsx";
+import Contact from "../containers/ContactPage.jsx";
 import SingleProduct from "../containers/SingleProduct.jsx";
 import ProductList from "../containers/ProductList.jsx";
 
@@ -43,12 +44,13 @@ var indexRoutes = [
   { path: "/category/:category", name: "Category", component: Category },
   { path: "/products/:products", name: "ProductList", component: ProductList },
   { path: "/product/:product", name: "Product", component: SingleProduct },
-  { path: "/profile", name: "Profile", component: Profile },
   { path: "/vendors", name: "Vendors", component: Vendor },
   { path: "/vendor/:vendor", name: "Vendor", component: Vendor },
   { path: "/brands", name: "Brands", component: Brand },
   { path: "/brand/:brand", name: "Brand", component: Brand },
   { path: "/login", name: "LoginPage", component: Login},
+  { path: "/contact", name: "Contact", component: Contact },
+  { path: "/about", name: "About", component: About },
   { path: "/", exact: true, name: "Home", component: Home },
   { path: "*", name: "Page404", component: Page404 },
 ];
