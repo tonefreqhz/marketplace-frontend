@@ -4,10 +4,11 @@
 */
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
-import ProductsComponent from '../views/Products/products';
+import ProductCategoryComponent from '../../views/Products/Category/category';
+//import { postProductDetails } from "../../actions/actions_product"
 
 
-const ProductsStyle = {
+const ProductCategoryStyle = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
       color: "white",
@@ -37,11 +38,11 @@ const ProductsStyle = {
   }
 };
 const mapStateToProps = state => ({
-  front: state.front
+  product: state.product
 });
 
-const Products = connect(
-  mapStateToProps,
-)(ProductsComponent);
+const ProductCategory = connect(
+  mapStateToProps
+)(ProductCategoryComponent);
 
-export default withStyles(ProductsStyle)(Products);
+export default withStyles(ProductCategoryStyle)(ProductCategory)

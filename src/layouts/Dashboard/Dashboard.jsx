@@ -29,9 +29,18 @@ const switchRoutes = (
     {dashboardRoutes.map((prop, key) => {
       
       if (prop.redirect) return <Redirect from={prop.path} to={prop.to} key={key} />;
-      if(prop.hasOwnProperty("exact")){
+      if(prop.hasOwnProperty("subMenu")){
+        return prop.subMenu.map((submenu, subkey) => {
+          if(submenu.hasOwnProperty("exact")){
+            return <Route exact path={submenu.path} component={submenu.component} key={`${key}.${subkey}`} />
+          } else {
+            return <Route path={submenu.path} component={submenu.component} key={`${key}.${subkey}`} />;
+          }
+        }
+      )
+      }else if(prop.hasOwnProperty("exact")){
         return <Route exact path={prop.path} component={prop.component} key={key} />
-      }else{
+      } else {
         return <Route path={prop.path} component={prop.component} key={key} />;
       }
       
