@@ -1,5 +1,4 @@
-//@desc This is the 'product details' form a vendor fills when adding products. 
-//@require This form requires the stepper.jsx(A stepper). It is the first step in adding new products
+//@desc This is the 'product category' form a vendor fills when creating a new product category 
 //@author Sylvia Onwukwe
 //@author Odewale Ifeolwa
 import React from "react";

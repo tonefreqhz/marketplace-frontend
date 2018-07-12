@@ -35,7 +35,7 @@ class TicketButton extends React.Component{
   }
   handleClose = () => {
     this.setState({
-      modal: true
+      modal: false
     });
   }
   render(){
