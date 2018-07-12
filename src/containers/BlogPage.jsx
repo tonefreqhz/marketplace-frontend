@@ -1,21 +1,21 @@
 /**
- * @description The About Page container.
+ * @description The Blog Page container.
  * @author Mohammed Odunayo
- * @class AboutPage
- * @name AboutPage
+ * @class BlogPage
+ * @name BlogPage
  */
 
 import { connect } from 'react-redux';
 import componentsStyle from "../assets/jss/material-kit-react/views/components.jsx";
 import withStyles from "@material-ui/core/styles/withStyles";
-import AboutPageComponent from '../views/AboutPage/AboutPage';
+import BlogPageComponent from '../views/BlogPages/BlogPage';
 
 const mapStateToProps = state => ({
   info: state.front,
 });
 
-const AboutPage = connect(
+const BlogPage = connect(
   mapStateToProps,
-)(AboutPageComponent);
+)(BlogPageComponent);
 
-export default withStyles(componentsStyle)(AboutPage);
+export default withStyles(componentsStyle)(BlogPage);

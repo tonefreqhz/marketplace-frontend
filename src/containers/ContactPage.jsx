@@ -11,7 +11,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import ContactPageComponent from '../views/ContactPage/ContactPage';
 
 const mapStateToProps = state => ({
-  info: state.info,
+  info: state.front,
 });
 
 const ContactPage = connect(

@@ -6,6 +6,7 @@
  */
 
 import React from "react";
+import {Link} from "react-router-dom";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import More from "@material-ui/icons/ViewList";
@@ -19,7 +20,7 @@ import ProductBox from "./ProductBox.jsx";
 
 class ProductView extends React.Component {
     render() {
-        const { products, heading, moreText, range, data } = this.props;
+        const { products, heading, moreLink, range, data } = this.props;
 
         const styles = {
             cols:{
@@ -45,7 +46,7 @@ class ProductView extends React.Component {
         }
 
         let boxProducts = [];
-
+        
         if (products.length > 0 && data.vendors.length > 0 && data.brands.length > 0) {
             boxProducts = products.filter(product => (product.discountPrice >= range[0] && product.discountPrice <= range[1]));
             boxProducts = boxProducts.slice(0, ((this.props.all)? undefined : 6));
@@ -56,16 +57,28 @@ class ProductView extends React.Component {
             <div>
                 <Hidden smDown>
                     <h2 style={styles.header}>{heading}
-                    <Button color="primary" size="sm" round style={styles.bigMore}><More />
-                        { (moreText) ? moreText : "More..." }
-                    </Button>
+                    {(moreLink) ? 
+                        <Link to={moreLink}> 
+                            <Button color="primary" size="sm" round style={styles.bigMore}><More />
+                                More...
+                            </Button>
+                        </Link>
+                    :
+                        null
+                    }
                     </h2>
                 </Hidden>
                 <Hidden mdUp>
                     <h3 style={styles.header}>{heading + " "}
-                    <Button color="primary" size="sm" round style={styles.smallMore}><More />
-                        { (moreText) ? moreText : "More..." }
-                    </Button>
+                    {(moreLink) ? 
+                        <Link to={moreLink}>
+                            <Button color="primary" size="sm" round style={styles.smallMore}><More />
+                                More...
+                            </Button>
+                        </Link>
+                    :
+                        null
+                    }
                     </h3>
                 </Hidden>
                 <GridContainer style={styles.productArea}>
