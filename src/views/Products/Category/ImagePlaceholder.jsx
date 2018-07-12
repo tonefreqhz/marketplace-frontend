@@ -8,10 +8,21 @@ class ImagePlaceholder extends React.Component{
         }
     }
 
+    
+
     componentWillReceiveProps(newProps){
         if(this.props.srcImage !== newProps.srcImage){
             this.setState({
                 srcImage: newProps.srcImage
+            })
+        }
+    }
+
+    componentDidUpdate(prevProps){
+        //console.log(this.props.srcImage)
+        if(this.props.srcImage !== prevProps.srcImage){
+            this.setState({
+                srcImage:this.props.srcImage
             })
         }
     }

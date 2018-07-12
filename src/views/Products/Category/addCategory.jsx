@@ -9,8 +9,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select2 from "react-select";
 import { withStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
-
 import 'react-select/dist/react-select.css';
+
+
 import GridItem from "../../../components/Grid/GridItem.jsx";
 import Card from "../../../components/Card/Card.jsx";
 import CardBody from "../../../components/Card/CardBody.jsx";
@@ -18,6 +19,10 @@ import CardHeader from "../../../components/Card/CardHeader.jsx";
 import CardFooter from "../../../components/Card/CardFooter.jsx";
 import CustomInput from "../../../components/CustomInput/CustomInput.jsx";
 import ImagePlaceholder from "./ImagePlaceholder";
+import validator from "../../../helpers/validator";
+import ImageCropModal from "./imageCropperModal";
+import Snackbar from '@material-ui/core/Snackbar';
+import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
 
 //The component Style
 const styles = theme => ({
@@ -51,20 +56,80 @@ class AddCategory extends React.Component {
         name:"",
         description: "",
         kind: "",
-        logo: {},
+        thumbnail: {},
         banner: {},
+      },
+      categoryDetailsError: {
+        name:false,
+        description: false,
+        kind: false,
+        thumbnail: false,
+        banner:false,
       },
       selectedCategoryKind: null,
       categoryKindSelect: "react-select-label-hidden",
-      srcImage: "https://placehold.it/1600x1200/cccccc/453422",
-      srcImageThumb: "http://unsplash.it/1600/1200?random",
+      srcImage: "http://localhost:3000/assets/img/the-smiths.png",
+      srcImageThumb: "http://localhost:3000/assets/img/the-smiths.png",
+      snackBarOpen: true,
+      snackBarMessage: "",
+      imageCropped: {},
+      imageCroppedThumbnail: {}
       
     };
     this.fileInput = React.createRef();
     this.thumbnail = React.createRef();
   }
 
+  //Check the imput Error
+  inputErrorValidation(type, value, value2 = null){
+    let output = false;
+    switch(type){
+      case "name":
+          output = validator.minStrLen(value, 3);
+      break;
+      case "kind":
+          output = validator.isEmpty(value);
+      break;
+      case "description":
+          output = validator.minStrLen(value, 15);
+      break;
+      case "srcImageThumb":
+          output = validator.minHeight(value, 400) || validator.minWidth(value2, 400);
+        break;
+      case "srcImage":
+          output = validator.minHeight(value, 1200) || validator.minWidth(value2, 1600);
+        break;
+      default:
+        output = false;
+      break
+    }
 
+    return output;
+  }
+
+  onCloseHandler = () => {
+    this.setState({ snackBarOpen: false });
+  }
+
+  //Setting the state of all input feilds
+  setCategoryDetails = (type, value) => {
+    let newcategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
+    newcategoryDetails[type] = value;
+    this.setState({
+        categoryDetails: newcategoryDetails,
+    });
+    this.setCategoryDetailsSpecialError(type, value);
+  }
+
+
+  //Setting the state every fields that have error
+  setCategoryDetailsSpecialError(type, value, value1 = null){
+    let newCategoryDetailsError = JSON.parse(JSON.stringify(this.state.categoryDetailsError));
+    newCategoryDetailsError[type] = this.inputErrorValidation(type, value, value1);
+    this.setState({
+        categoryDetailsError: newCategoryDetailsError
+    })
+  }
   //Get the value of Input Element
   handleChange =  (event) => {
     this.setCategoryDetails(event.target.name, event.target.value);
@@ -72,19 +137,19 @@ class AddCategory extends React.Component {
 
   //Banner File Upload
   onChangeBanner = (e) => {
-    this.readURL(this.fileInput.current, "srcImage");
+    this.readURL(this.fileInput.current, "srcImage", 1024, 576);
   }
 
   //Thumbnail File Upload
   onChangeThumbnail = () => {
-    this.readURL(this.thumbnail.current, "srcImageThumb")
+    this.readURL(this.thumbnail.current, "srcImageThumb", 500, 500)
   }
 
   //This handles the country select element
   handleCategoryKindChange = (selectedCategoryKind) => {
     this.setState({ selectedCategoryKind });
     if(selectedCategoryKind !== null){
-      this.setCategoryDetails("country", selectedCategoryKind.value);
+      this.setCategoryDetails("kind", selectedCategoryKind.value);
       this.setState({
         categoryKindSelect: "react-select-label-visible"
       })
@@ -92,11 +157,14 @@ class AddCategory extends React.Component {
       this.setState({
         categoryKindSelect: "react-select-label-hidden"
       })
+      this.setCategoryDetailsSpecialError("kind", "");
     }
   }
 
+  
+
   //Rendreing the Image Preview
-  readURL = (input, type) => {
+  readURL = (input, type, weight = null, height = null) => {
       if (input.files && input.files[0]) {
           if(input.files[0].type.match(/image.*/)){
               let reader = new FileReader();
@@ -105,14 +173,28 @@ class AddCategory extends React.Component {
               let image = new Image();
               //Assign the image uploaded to the new image instance
                image.src = e.target.result;
+               let that = this;
                image.onload = function() {
-                    console.log(this.height);
+                  if(that.inputErrorValidation(type, this.height, this.width)){
+                    that.setState({
+                      snackBarOpen: true,
+                      snackBarMessage: `Either the height of the image is less than ${height} or width less than ${weight}`
+                    })
+                  }else{
+                    that.newImageState(type, e.target.result);
+                  }
+
                }
-                this.newImageState(type, e.target.result)
-              }          
+                
+              }  
+              
               reader.readAsDataURL(input.files[0]);
+              
           }else{
-            alert("The file format is not supported");
+            this.setState({
+              snackBarOpen: true,
+              snackBarMessage: `Sorry, only "jpeg, jpg, gif and png is allowed"`
+            })
           }
           
         }
@@ -125,15 +207,15 @@ class AddCategory extends React.Component {
     });
   }
 
-  //Setting the state of all input feilds
-  setCategoryDetails = (type, value) => {
-    let newcategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
-    newcategoryDetails[type] = value
-    this.setState({
-        categoryDetails: newcategoryDetails
-    })
-  }
+  assignCroppedImage = (newCroppedImage, type) =>{
 
+    let newCroppedCategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
+    newCroppedCategoryDetails[type] = newCroppedImage;
+    this.setState({
+      categoryDetails: newCroppedCategoryDetails
+    })
+    console.log(newCroppedCategoryDetails);
+  }
 
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
@@ -152,7 +234,10 @@ class AddCategory extends React.Component {
            categoryKindSelect,
            selectedCategoryKind,
            srcImage,
-           srcImageThumb
+           srcImageThumb,
+           categoryDetailsError,
+           snackBarOpen,
+           snackBarMessage
           } = this.state;
     return (
       <div>
@@ -170,8 +255,9 @@ class AddCategory extends React.Component {
               <Grid container>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Category Name"
+                    labelText={categoryDetailsError.name === false? "Category Name" : "The length of Category must not be less than 3 characters"}
                     id="name"
+                    error={categoryDetailsError.name}
                     inputProps={{
                       value: categoryDetails.name,
                       name:"name",
@@ -196,30 +282,47 @@ class AddCategory extends React.Component {
                         {value: "digital", label: "Digital"},
                         {value: "physical", label: "Physical"}
                       ]}
+                      className={categoryDetailsError.kind === true ? "select-menu-error": ""}
                       />
                   </FormControl>
                 </GridItem>
               </Grid>
               <Grid container>
                 <GridItem xs={12}>
+
                 <CustomInput
-                    labelText="Description"
+                    error={categoryDetailsError.description}
+                    labelText={categoryDetailsError.description === false ? "Description" : "The length of Category must not be less than 15 characters"}
                     id="description"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       multiline: true,
-                      rows: 5
+                      rows: 5,
+                      name: "description",
+                      onChange: this.handleChange
                     }}
                   />
                 </GridItem>
+
                 <GridItem xs={12} md={6}>
+                <div style={{margin: "5px"}}>
+                    <ImageCropModal 
+                    imgSrc={srcImage} 
+                    topMostParentImageLink={this.assignCroppedImage}
+                    minWidth={1024} 
+                    minHeight={576}
+                    aspectWidth={16}
+                    aspectHeight={9}
+                    cropInfoStorage="imageCropped"
+                    />
+                </div>
                 <div>
                 <ImagePlaceholder srcImage={srcImage}/>
                 </div>
                 <label htmlFor="contained-button-file">
-                  <Button variant="contained" color="primary" component="span" className={classes.fluidButton}>
+                  <Button variant="contained" color="primary" component="span" className={classes.fluidButton} >
                     Upload Category Banner
                   </Button>
                 </label>
@@ -234,6 +337,17 @@ class AddCategory extends React.Component {
                 </GridItem>
                 
                 <GridItem xs={12} md={6}>
+                  <div style={{margin: "5px"}}>
+                    <ImageCropModal 
+                    imgSrc={srcImageThumb} 
+                    topMostParentImageLink={this.assignCroppedImage}
+                    minWidth={500} 
+                    minHeight={500}
+                    aspectWidth={1}
+                    aspectHeight={1}
+                    cropInfoStorage="imageCroppedThumbnail"
+                    />
+                </div>
                 <div>
                 <ImagePlaceholder srcImage={srcImageThumb}/>
                 </div>
@@ -264,6 +378,17 @@ class AddCategory extends React.Component {
                     </Grid>
             </CardFooter>
           </Card>
+          <Snackbar
+            anchorOrigin={{vertical: "top", horizontal: "center"}}
+            open={snackBarOpen}
+            onClose={this.onCloseHandler}
+          >
+              <BezopSnackBar
+              onClose={this.onCloseHandler}
+              variant="error"
+              message={snackBarMessage}
+              />
+            </Snackbar>
       </div>
     );
   }

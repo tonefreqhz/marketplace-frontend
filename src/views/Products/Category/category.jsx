@@ -14,6 +14,7 @@ import CardBody from "../../../components/Card/CardBody.jsx";
 import AddNewProductCategory from "./categoryModal";
 
 
+
 class Category extends React.Component{
   
   render(){
