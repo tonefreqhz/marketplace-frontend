@@ -1,5 +1,5 @@
 /**
- * @description The stage section for the vendor page.
+ * @description The stage section for the brand page.
  * @author Mohammed Odunayo
  * @class Stage
  * @name Stage
@@ -12,13 +12,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GridContainer from "../../../components/Grid/GridContainer.jsx";
 import GridItem from "../../../components/Grid/GridItem.jsx";
 import basicsStyle from "../../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
-import VendorView from "../../../components/VendorView/VendorView";
-import MinSearch from "../../../components/Search/MinSearch";
+import BrandView from "../../../components/BrandView/BrandView.jsx";
+import MinSearch from "../../../components/Search/MinSearch.jsx";
 
 class Stage extends React.Component {
   
   render() {
-    const { classes, vendors } = this.props;
+    const { classes, brands } = this.props;
 
     const styles = {
       cols:{
@@ -50,7 +50,7 @@ class Stage extends React.Component {
                 <div style={styles.cols}>
                   <MinSearch location="stage"/>
                   <MinSearch location="sidebar"/>
-                  <VendorView params={vendors}/>
+                  <BrandView params={brands}/>
                 </div>
               </GridItem>
             </GridContainer>

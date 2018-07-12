@@ -1,15 +1,20 @@
+/**
+ * @description The ProductView component which is the parent component for products.
+ * @author Mohammed Odunayo
+ * @class ProductView
+ * @name ProductView
+ */
+
 import React from "react";
+
 import withStyles from "@material-ui/core/styles/withStyles";
-// nodejs library to set properties for components
+import More from "@material-ui/icons/ViewList";
+import { Hidden } from "@material-ui/core";
 
 import Button from '../../components/CustomButtons/Button.jsx';
-import More from "@material-ui/icons/ViewList"
-import { Hidden } from "@material-ui/core";
 import basicsStyle from "../../assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
-
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-
 import ProductBox from "./ProductBox.jsx";
 
 class ProductView extends React.Component {

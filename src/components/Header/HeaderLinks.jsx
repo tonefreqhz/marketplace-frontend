@@ -1,21 +1,18 @@
-/*eslint-disable*/
+/**
+ * @description The component responsible for rendering the responsive header menus.
+ * @author Mohammed Odunayo
+ * @class HeaderLinks
+ * @name HeaderLinks
+ */
+
 import React from "react";
 import {Link} from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-
-import CustomDropdown from "../../components/CustomDropdown/CustomDropdown.jsx";
+import {List, ListItem, Collapse} from "@material-ui/core";
+import {ExpandLess, ExpandMore, CompareArrows, ShoppingCart} from '@material-ui/icons';
 
 import headerLinksStyle from "../../assets/jss/material-kit-react/components/headerLinksStyle.jsx";
-
-import CartIcon from '@material-ui/icons/ShoppingCart';
-import CompareIcon from '@material-ui/icons/CompareArrows';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import Badge from '../../components/Badge/Badge.jsx';
 
 class HeaderLinks extends React.Component {
@@ -34,12 +31,12 @@ class HeaderLinks extends React.Component {
         <List className={classes.list}>
           <ListItem className={classes.listItem}>
             <Link to="/cart" className={classes.navLink} color="transparent">
-              <CartIcon />&nbsp;Shopping Cart&nbsp;<Badge color="primary" className={classes.navLink}><big style={{fontSize: "1.3em"}}>0</big></Badge>
+              <ShoppingCart />&nbsp;Shopping Cart&nbsp;<Badge color="primary" className={classes.navLink}><big style={{fontSize: "1.3em"}}>0</big></Badge>
             </Link>
           </ListItem>
           <ListItem className={classes.listItem}>
             <Link to="/compare" className={classes.navLink} color="transparent">
-              <CompareIcon />&nbsp;Compare&nbsp;<Badge color="primary" className={classes.navLink}><big style={{fontSize: "1.3em"}}>0</big></Badge>
+              <CompareArrows />&nbsp;Compare&nbsp;<Badge color="primary" className={classes.navLink}><big style={{fontSize: "1.3em"}}>0</big></Badge>
             </Link>
           </ListItem>
           <ListItem className={classes.listItem}>

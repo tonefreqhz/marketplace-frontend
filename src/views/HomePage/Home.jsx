@@ -1,12 +1,17 @@
+/**
+ * @description The home page view.
+ * @author Mohammed Odunayo
+ * @class Home
+ * @name Home
+ */
+
 import React from "react";
-// nodejs library that concatenates classes
 import classNames from "classnames";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-
 // sections for this page
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
-import LeftLink from "../../components/Header/LeftLinks.jsx";
+import LeftLinks from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
 import Slider from "../../components/Parallax/Slider.jsx";
 import {getSliders, getCategories} from "../../actions/actions_front.jsx";
@@ -41,7 +46,7 @@ class Home extends React.Component {
         <Header
           brand="Bezop Store"
           rightLinks={<HeaderLinks />}
-          leftLinks={<LeftLink />}
+          leftLinks={<LeftLinks />}
           fixed
           color="transparent"
           changeColorOnScroll={{

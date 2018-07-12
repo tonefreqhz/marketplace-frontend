@@ -1,8 +1,8 @@
 /**
- * @description The category page view.
+ * @description The brand page view.
  * @author Mohammed Odunayo
- * @class Category
- * @name Category
+ * @class Brand
+ * @name Brand
  */
 
 import React from "react";
@@ -14,12 +14,12 @@ import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 import LeftLink from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
 import Parallax from "../../components/Parallax/Parallax.jsx";
-import {getCategories} from "../../actions/actions_front.jsx";
+import {getBrands} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 
-class Category extends React.Component {
+class Brand extends React.Component {
 
   constructor(props) {
     super(props);
@@ -30,7 +30,7 @@ class Category extends React.Component {
 
   componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(getCategories())
+    dispatch(getBrands())
       .then(
         () => {
           this.setState(...this.state, {loader: "none"})
@@ -40,7 +40,7 @@ class Category extends React.Component {
 
   render() {
     const { classes, front, ...rest } = this.props;
-    document.title = "Categories @ Bezop Store || Worlds First Decentralized Store";
+    document.title = "Brands @ Bezop Store || Worlds First Decentralized Store";
     return (
       <div>
         <PageLoader display={this.state.loader} />
@@ -57,16 +57,16 @@ class Category extends React.Component {
           {...rest}
         />
 
-        <Parallax style={{height: "400px"}} image="https://images.pexels.com/photos/40799/paper-colorful-color-loose-40799.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+        <Parallax style={{height: "400px"}} image="https://i.pinimg.com/originals/c6/13/99/c6139938461b00f610636dc2ff7279d3.jpg">
           <div style={{backgroundColor: "rgba(0, 0, 0, 0.5)", content: "", display: "block", height: "100%", left: 0, top: 0,
                   position: "absolute", width: "100%"}}></div>
           <div className={classes.container}>
               <GridContainer>
               <GridItem>
                   <div style={{textAlign: "center", color: "#ffffff"}}>
-                    <h1 className={classes.title}>Categories</h1>
+                    <h1 className={classes.title}>Brands</h1>
                     <h3>
-                      Make a choice from our awesome collections.
+                      Shop by your favorite brands.
                     </h3>
                   </div>
               </GridItem>
@@ -75,7 +75,7 @@ class Category extends React.Component {
         </Parallax>
 
         <div className={classNames(classes.main, classes.mainRaised)}>
-          <Stage categories={front.categories} />
+          <Stage brands={front.brands} />
         </div>
         <Footer topFooter={true} />
       </div>
@@ -84,4 +84,4 @@ class Category extends React.Component {
 }
 
 
-export default Category;
+export default Brand;

@@ -1,9 +1,10 @@
-//@desc The main router of the application
-//@author Muhammed Odunayo
-//@co author Sylvia Onwukwe
-//@co author Ifeoluwa Odewale
-import Home from "../containers/Home";
-import LoginPage from "../containers/LoginPage.jsx";
+/**
+ * @description The main router of the application.
+ * @author Mohammed Odunayo
+ * @co-author Sylvia Onwukwe
+ * @co-author Ifeoluwa Odewale
+ * @name index
+ */
 
 //Dashboard Router
 import Dashboard from "../layouts/Dashboard/Dashboard.jsx";
@@ -16,10 +17,13 @@ import Shop from "../layouts/Dashboard/Dashboard.jsx";
 import Support from "../layouts/Dashboard/Dashboard.jsx";
 import UserProfile from "../layouts/Dashboard/Dashboard.jsx";
 
-//Sample Container
-import App from '../containers/App';
-import Category from "../containers/Category";
-import Vendor from "../containers/Vendor";
+//User Router
+import Home from "../containers/Home.jsx";
+import Login from "../containers/Login.jsx";
+import Page404 from "../containers/Page404.jsx";
+import Category from "../containers/Category.jsx";
+import Brand from "../containers/Brand.jsx";
+import Vendor from "../containers/Vendor.jsx";
 
 var indexRoutes = [
   { path: "/dashboard/messages", name: "Messages", component: Messages},
@@ -33,13 +37,16 @@ var indexRoutes = [
   { path: "/dashboard/orders", name: "Orders", component: Orders},
   { path: "/dashboard/user", name: "Users", component: UserProfile},
   { path: "/dashboard", name:"Dashboard", component: Dashboard},
-  { path: "/category/", name: "Category", component: Category },
-  { path: "/vendor/", name: "Vendor", component: Vendor },
+
   { path: "/categories", name: "Categories", component: Category },
+  { path: "/category/", name: "Category", component: Category },
   { path: "/vendors", name: "Vendors", component: Vendor },
-  { path: "/login", name: "LoginPage", component: LoginPage },
-  { path: "/app", name: "App", component: App },
-  { path: "/", name: "Components", component: Home }
+  { path: "/vendor/", name: "Vendor", component: Vendor },
+  { path: "/brands", name: "Brands", component: Brand },
+  { path: "/brand/", name: "Brand", component: Brand },
+  { path: "/login", name: "LoginPage", component: Login},
+  { path: "/", exact: true, name: "Home", component: Home },
+  { path: "*", name: "Page404", component: Page404 },
 ];
 
 export default indexRoutes;
