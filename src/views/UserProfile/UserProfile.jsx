@@ -1,3 +1,5 @@
+//@desc This is the User Profile component, vendors can edit their profile or change password
+//@author Sylvia Onwukwe
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";

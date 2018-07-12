@@ -1,0 +1,20 @@
+//@desc This is the filter on Admin Order Component filtering completed, processing and pending orders
+//@author Sylvia Onwukwe
+import React from 'react';
+
+import Paginations from "../../components/Pagination/Pagination.jsx";
+
+function Filter({...props}){
+  return (
+    <Paginations
+      pages={[
+        { text: "Completed" },
+        { text: "Processing" },
+        { text: "Pending"}
+      ]}
+      color="info"
+    />
+  );
+}
+
+export default Filter;

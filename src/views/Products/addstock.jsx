@@ -48,6 +48,8 @@ class AddStock extends React.Component{
           Create New Stock
         </Button>
         <Dialog
+        fullScreen={true}
+        fullWidth={true}
           classes={{
             root: classes.center,
             paper: classes.modal

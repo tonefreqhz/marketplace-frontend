@@ -1,3 +1,5 @@
+//@desc these are the modal that pops up when vendor clicks 'Trash'button to delete a message
+//@author Sylvia Onwukwe
 import React from 'react';
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";

@@ -1,5 +1,4 @@
-//@desc This is the 'product details' form a vendor fills when adding products. 
-//@require This form requires the stepper.jsx(A stepper). It is the first step in adding new products
+//@desc this is the create coupon form
 //@author Sylvia Onwukwe
 import React from "react";
 import Grid from "@material-ui/core/Grid";

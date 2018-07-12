@@ -1,3 +1,6 @@
+//@desc this is the google map component on the vendor's page
+//not currently used on the store
+//@author Sylvia Onwukwe
 import React from "react";
 import {
   withScriptjs,

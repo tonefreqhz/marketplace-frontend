@@ -1,3 +1,5 @@
+//@desc is the delete modal that opens when 'delete' button is clicked
+//@author Sylvia Onwukwe
 import React from 'react';
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";

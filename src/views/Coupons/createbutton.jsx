@@ -1,4 +1,4 @@
-//@desc this is a modal that opens when vendors click 'Create new stock"
+//@desc this is the create new coupon button
 //@author Sylvia Onwukwe
 import React from 'react';
 // material-ui components

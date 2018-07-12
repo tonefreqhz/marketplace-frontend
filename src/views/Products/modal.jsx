@@ -47,7 +47,7 @@ class AddNew extends React.Component{
           Add New Product
         </Button>
         <Dialog
-        fullScreen={false}
+        fullScreen={true}
         fullWidth={true}
           classes={{
             root: classes.center,

@@ -34,7 +34,7 @@ class TicketButton extends React.Component{
   }
   handleClose = () => {
     this.setState({
-      modal: true
+      modal: false
     });
   }
   render(){
@@ -67,7 +67,7 @@ class TicketButton extends React.Component{
               key="close"
               aria-label="Close"
               color="inherit"
-              onClick={this.handleClose}>
+              onClick={() => this.handleClose("modal")}>
               <Close className={classes.modalClose} />
             </IconButton>
           </DialogTitle>
@@ -78,8 +78,8 @@ class TicketButton extends React.Component{
           </DialogContent>
           <DialogActions>
             <Button color="primary"
-              onClick={this.handleClose}
-            >
+              onClick={() => this.handleClose("modal")}>
+            
              Send
             </Button>
           </DialogActions>

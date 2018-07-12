@@ -1,4 +1,4 @@
-//@desc this is a modal that opens when vendors click 'Create new stock"
+//@desc this is a modal that opens when vendors click 'View' Order
 //@author Sylvia Onwukwe
 import React from 'react';
 // material-ui components
@@ -47,7 +47,7 @@ class ViewOrder extends React.Component{
           View Order
         </Button>
         <Dialog
-        fullScreen= {false}
+        fullScreen= {true}
         fullWidth={true}
           classes={{
             root: classes.center,
