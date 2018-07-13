@@ -14,7 +14,7 @@ import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 import LeftLinks from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
 import Slider from "../../components/Parallax/Slider.jsx";
-import {getSliders, getCategories} from "../../actions/actions_front.jsx";
+import {getSliders, getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 
 class Home extends React.Component {
@@ -23,13 +23,19 @@ class Home extends React.Component {
     super(props);
     this.state = {
       loader: "block"
-    }
+    };
+    
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
 
   componentWillMount() {
     const { dispatch } = this.props;
     dispatch(getSliders());
-    dispatch(getCategories())
+    dispatch(getVendors());
+    dispatch(getBrands());
+    dispatch(getCategories());
+    dispatch(getProducts())
       .then(
         () => {
           this.setState(...this.state, {loader: "none"})
@@ -40,6 +46,7 @@ class Home extends React.Component {
   render() {
     const { classes, front, ...rest } = this.props;
     document.title = "Bezop Store || Worlds First Decentralized Store";
+
     return (
       <div>
         <PageLoader display={this.state.loader} />
@@ -59,7 +66,7 @@ class Home extends React.Component {
         <Slider classes={classes} slides={front.sliders} />
 
         <div className={classNames(classes.main, classes.mainRaised)}>
-          <Stage categories={front.categories} />
+          <Stage products={front.products} categories={front.categories} vendors={front.vendors} brands={front.brands} />
         </div>
         <Footer topFooter={true} />
       </div>

@@ -50,7 +50,7 @@ class HeaderLinks extends React.Component {
             </Link>
           </ListItem>
           <ListItem className={classes.listItem} onClick={this.handleClick}>
-            <Link to="/products" className={classes.navLink} color="transparent">
+            <Link to="#products" className={classes.navLink} color="transparent">
               Products {this.state.open ? <ExpandLess /> : <ExpandMore />}
             </Link>
           </ListItem>
@@ -61,16 +61,16 @@ class HeaderLinks extends React.Component {
                 <Link to="/" className={classes.dropdownLink}>All Products</Link>
               </ListItem>
               <ListItem button className={classes.nested}>
-                <Link to="/product/today" className={classes.dropdownLink}>Today's Deal</Link>
+                <Link to="/products/today" className={classes.dropdownLink}>Today's Deal</Link>
               </ListItem>
               <ListItem button className={classes.nested}>
-                <Link to="/product/featured" className={classes.dropdownLink}>Featured Products</Link>
+                <Link to="/products/featured" className={classes.dropdownLink}>Featured Products</Link>
               </ListItem>
               <ListItem button className={classes.nested}>
-                <Link to="/product/latest" className={classes.dropdownLink}>Latest Products</Link>
+                <Link to="/products/latest" className={classes.dropdownLink}>Latest Products</Link>
               </ListItem>
               <ListItem button className={classes.nested}>
-                <Link to="/product/popular" className={classes.dropdownLink}>Popular Products</Link>
+                <Link to="/products/popular" className={classes.dropdownLink}>Popular Products</Link>
               </ListItem>
             </List>
           </Collapse>
@@ -91,7 +91,7 @@ class HeaderLinks extends React.Component {
             </Link>
           </ListItem>
           <ListItem className={classes.listItem}>
-            <Link to="/categories" className={classes.navLink} color="transparent">
+            <Link to="/blogs" className={classes.navLink} color="transparent">
               Blogs
             </Link>
           </ListItem>

@@ -18,9 +18,48 @@ import MinSearch from "../../../components/Search/MinSearch";
 import AdvanceSearch from "../../../components/Search/AdvanceSearch";
 
 class Stage extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      priceRange: [1,2]
+    }
+
+    this.getPriceRange = this.getPriceRange.bind(this);
+    this.setPriceRange = this.setPriceRange.bind(this);
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.products.length > 0) {
+      this.setState(...this.state, {priceRange: this.getPriceRange(newProps.products)});
+    }
+  }
+  
+  getPriceRange(arr) {
+    let min = arr[0].discountPrice, max = arr[0].discountPrice;
+  
+    for (let i = 1, len=arr.length; i < len; i++) {
+      let v = arr[i].discountPrice;
+      min = (v < min) ? v : min;
+      max = (v > max) ? v : max;
+    }
+
+    min = Math.floor((min + 1) / 100) * 100;
+    max = Math.ceil((max + 1) / 100) * 100;
+
+    return ([min, max]);
+  }
+
+  setPriceRange(values) {
+    this.setState(...this.state, {priceRange: values});
+  }
   
   render() {
-    const { classes, categories } = this.props;
+    const { classes, products, ...data } = this.props;
+
+    let priceRange = [1,2];
+    priceRange = (products.length > 0)? this.getPriceRange(products) : [1,2];
 
     const styles = {
       cols:{
@@ -43,49 +82,15 @@ class Stage extends React.Component {
       }
     }
 
-    const params = [
-      {
-        name: "Today's Deal",
-        productProps: {
-          featured: false,
-          latest: false,
-          discount: false,
-          outOfStock: false
-        }
-      },
-      {
-        name: "Featured Products",
-        productProps: {
-          featured: true,
-          latest: false,
-          discount: false,
-          outOfStock: false
-        }
-      },
-      {
-        name: "Latest Products",
-        productProps: {
-          featured: false,
-          latest: true,
-          discount: false,
-          outOfStock: false
-        }
-      },
-      {
-        name: "Popular Products",
-        productProps: {
-          featured: false,
-          latest: false,
-          discount: false,
-          outOfStock: false
-        }
-      }
-    ];
+    const todaysDeal = products.filter(product => product.todaysDeal === true);
+    const featured = products.filter(product => product.featured === true);
+    const latest = products.filter(product => product.latest === true);
+    const popular = products.filter(product => product.popular === true);
 
     let content = null;
 
-    if (categories.length !== 0) {
-      content = categories.map((category, index) => {
+    if (data.categories.length !== 0) {
+      content = data.categories.map((category, index) => {
         return(<Sidebar category={category} key={index}/>);
       });
     }
@@ -98,18 +103,21 @@ class Stage extends React.Component {
               <GridItem xs={12} sm={12} md={9}>
                 <div style={styles.cols}>
                   <MinSearch location="stage"/>
-                  {params.map((param, index) => {
-                    return(<ProductView params={param} key={index}/>);
-                  })}
+                  <ProductView products={todaysDeal} moreLink="/products/today" range={this.state.priceRange} data={data} heading="Today's Deals"/>
+                  <ProductView products={featured} moreLink="/products/featured" range={this.state.priceRange} data={data} heading="Featured Products"/>
+                  <ProductView products={latest} moreLink="/products/latest" range={this.state.priceRange} data={data} heading="Latest Products"/>
+                  <ProductView products={popular} moreLink="/products/popular" range={this.state.priceRange} data={data} heading="Popular Products"/>
                 </div>
               </GridItem>
               <GridItem xs={12} sm={12} md={3}>
                 <div style={styles.cols}>
                   <MinSearch location="sidebar"/>
                   <AdvanceSearch
-                    slideRange={{min: 10000, max: 100000000}}
-                    slideState={[20000000, 80000000]}
-                    slideStep={1000}
+                    slideRange={{min: priceRange[0], max: priceRange[1]}}
+                    slideState={this.state.priceRange}
+                    slideStep={(priceRange[1] / priceRange[0])}
+                    data={data}
+                    slideEvent={this.setPriceRange}
                   />
                   {content}
                 </div>

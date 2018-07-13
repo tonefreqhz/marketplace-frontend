@@ -8,6 +8,24 @@ export const SLIDERS = 'SLIDERS';
 export const CATEGORIES = 'CATEGORIES';
 export const VENDORS = 'VENDORS';
 export const BRANDS = 'BRANDS';
+export const PRODUCTS = 'PRODUCTS';
+
+export function getProducts() {
+  return dispatch => fetch('http://www.json-generator.com/api/json/get/ceTGDOLMbS?indent=2', {method: 'GET'})
+    .then(response => response.json())
+    .then((json) => {
+      dispatch(displayProducts(json));
+    })
+    .catch(error => console.log(error));
+}
+
+export function displayProducts(products) {
+  
+  return {
+    type: PRODUCTS,
+    payload: products
+  }
+}
 
 export function getBrands() {
   return dispatch => fetch('http://www.json-generator.com/api/json/get/cfXRcSJNOW?indent=2', {method: 'GET'})

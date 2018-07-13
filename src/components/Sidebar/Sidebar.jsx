@@ -1,6 +1,7 @@
 //@desc This is the sidebar component
 //@author Sylvia Onwukwe
 //@co author Odewale Ifeoluwa
+
 import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";

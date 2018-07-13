@@ -27,6 +27,7 @@ import work2 from "../../assets/img/examples/clem-onojeghuo.jpg";
 import work3 from "../../assets/img/examples/cynthia-del-rio.jpg";
 import work4 from "../../assets/img/examples/mariya-georgieva.jpg";
 import work5 from "../../assets/img/examples/clem-onojegaw.jpg";
+import LeftLinks from "../../components/Header/LeftLinks";
 
 class ProfilePage extends React.Component {
   render() {
@@ -40,16 +41,18 @@ class ProfilePage extends React.Component {
     return (
       <div>
         <Header
-          color="transparent"
-          brand="Material Kit React"
+          brand="Bezop Store"
           rightLinks={<HeaderLinks />}
+          leftLinks={<LeftLinks />}
           fixed
+          color="transparent"
           changeColorOnScroll={{
             height: 200,
             color: "white"
           }}
           {...rest}
         />
+
         <Parallax small filter image={require("../../assets/img/profile-bg.jpg")} />
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div>
