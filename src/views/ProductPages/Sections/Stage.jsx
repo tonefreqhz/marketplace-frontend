@@ -107,7 +107,7 @@ class Stage extends React.Component {
                   {(data.singleProduct)?
                     <GridItem sm={12}>
                       <div style={styles.cols}>
-                        <DetailView product={data.product} vendor={data.vendor} brand={data.vendor} />
+                        <DetailView product={data.product} vendor={data.vendor} brand={data.brand} />
                       </div>
                     </GridItem>
                     :
