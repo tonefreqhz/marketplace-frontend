@@ -1,58 +1,59 @@
+//@desc this is create new post modal
+//@author Sylvia Onwukwe
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
+// material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Slide from "@material-ui/core/Slide";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
-
-import AddCategory from "./addCategory";
-
-import modalStyle from "../../../assets/jss/material-kit-react/modalStyle.jsx";
-
+// core components
+import Button from "../../components/CustomButtons/Button.jsx";
+import CreateBlog from "./createBlog.jsx";
+import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 function Transition(props) {
-  return <Slide direction="up" {...props} />;
+  return <Slide direction="down" {...props} />;
 }
 
-class CategoryModal extends React.Component {
-
-  constructor(props){
+class NewPost extends React.Component{
+  constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      modal: false
     };
   }
 
   handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+    this.setState({
+      modal: true
+    });
+  }
 
   handleClose = () => {
-    this.setState({ open: false });
-  };
-
+    this.setState({
+      modal: false
+    });
+  }
   render(){
     const { classes } = this.props;
     return (
       <div>
-         <Button
-         variant="contained"
+        <Button
           color="primary"
-          onClick={this.handleClickOpen}
-          style={{marginBottom: "10px"}}>
-          Add New Product Category
+          onClick={this.handleClickOpen}>
+          Create New Post
         </Button>
         <Dialog
-        fullScreen={false}
+        fullScreen={true}
         fullWidth={true}
           classes={{
             root: classes.center,
             paper: classes.modal
           }}
-          open={this.state.open}
+          open={this.state.modal}
           TransitionComponent={Transition}
           keepMounted
           onClose={this.handleClose}
@@ -75,12 +76,12 @@ class CategoryModal extends React.Component {
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-            <AddCategory/>
+            <CreateBlog />
           </DialogContent>
         </Dialog>
       </div>
     );
   }
-  }
-  
-  export default withStyles(modalStyle)(CategoryModal);
+}
+
+export default withStyles(modalStyle)(NewPost);

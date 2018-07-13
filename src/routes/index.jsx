@@ -16,6 +16,7 @@ import Banner from "../layouts/Dashboard/Dashboard.jsx";
 import Shop from "../layouts/Dashboard/Dashboard.jsx";
 import Support from "../layouts/Dashboard/Dashboard.jsx";
 import UserProfile from "../layouts/Dashboard/Dashboard.jsx";
+import Blog from "../layouts/Dashboard/Dashboard.jsx";
 
 //User Router
 import Home from "../containers/Home.jsx";
@@ -43,6 +44,7 @@ var indexRoutes = [
   { path: "/dashboard/support", name: "Support", component: Support},
   { path: "/dashboard/banner", name: "banners", component: Banner},
   { path: "/dashboard/orders", name: "Orders", component: Orders},
+  { path: "/dashboard/blog", name: "Blog", component: Blog},
   { path: "/dashboard/user", name: "Users", component: UserProfile},
   { path: "/dashboard", name:"Dashboard", component: Dashboard},
 
