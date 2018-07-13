@@ -16,15 +16,15 @@ import AddNewProductCategory from "./categoryModal";
 
 
 class Category extends React.Component{
-  
+
   render(){
-  const { classes } = this.props;
+  const { classes, postProductCategoryDetails } = this.props;
   return (
     <Grid container>
     <GridItem xs={12} md={10}>
     </GridItem>
     <GridItem xs={6} md={2}>
-    <AddNewProductCategory/>
+    <AddNewProductCategory addProductCategory={postProductCategoryDetails}/>
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>

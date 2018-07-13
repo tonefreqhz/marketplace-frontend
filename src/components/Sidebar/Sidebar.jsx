@@ -30,8 +30,9 @@ class Sidebar extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      open: true
+      dropdowns: this.props.dropdowns
     }
+    console.log(this.props)
 
   }
   // verifies if routeName is the one active (in browser input)
@@ -45,8 +46,12 @@ class Sidebar extends React.Component{
 
 
   //The Submenu Toggle
-  handleClick = () => {
-    this.setState(state => ({ open: !this.state.open }));
+  handleClick = (menu) => {
+    let newDropdowns = JSON.parse(JSON.stringify(this.state.dropdowns));
+    newDropdowns.dropdowns[menu] = !this.state.dropdowns[menu]
+    this.setState({
+        dropdowns: newDropdowns
+    });
   };
 
   render(){

@@ -37,7 +37,7 @@ class CategoryModal extends React.Component {
   };
 
   render(){
-    const { classes } = this.props;
+    const { classes, addProductCategory } = this.props;
     return (
       <div>
          <Button
@@ -77,7 +77,7 @@ class CategoryModal extends React.Component {
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-            <AddCategory/>
+            <AddCategory addProductCategory={addProductCategory}/>
           </DialogContent>
         </Dialog>
       </div>

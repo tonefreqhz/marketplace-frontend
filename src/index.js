@@ -6,12 +6,9 @@ import rootReducer from './reducers';
 import {render} from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router";
-import dotenv from "dotenv";
 import indexRoutes from "./routes/index.jsx";
 
 import "./assets/scss/material-kit-react.css?v=1.1.0";
-
-dotenv.config();
 
 var hist = createBrowserHistory();
 

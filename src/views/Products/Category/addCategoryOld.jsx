@@ -22,6 +22,7 @@ import CardFooter from "../../../components/Card/CardFooter.jsx";
 import CustomInput from "../../../components/CustomInput/CustomInput.jsx";
 import ImagePlaceholder from "./ImagePlaceholder";
 import validator from "../../../helpers/validator";
+import ImageCropModal from "./imageCropperModal";
 import Snackbar from '@material-ui/core/Snackbar';
 import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
 
@@ -57,8 +58,14 @@ class AddCategory extends React.Component {
         name:"",
         description: "",
         kind: "",
-        banner: "",
-        thumbnail: ""
+        srcImageThumb: {
+          cropDimension: {},
+          src: ""
+        },
+        srcImage: {
+          cropDimension: {},
+          src: ""
+        },
       },
       categoryDetailsError: {
         name:false,
@@ -69,8 +76,8 @@ class AddCategory extends React.Component {
       },
       selectedCategoryKind: null,
       categoryKindSelect: "react-select-label-hidden",
-      banner: `${process.env.REACT_APP_API_URL}/assets/img/1024x576.png`,
-      thumbnail: `${process.env.REACT_APP_API_URL}/assets/img/500x500.png`,
+      srcImage: `${process.env.REACT_APP_API_URL}/assets/img/1024x576.png`,
+      srcImageThumb: `${process.env.REACT_APP_API_URL}/assets/img/500x500.png`,
       snackBarOpen: true,
       snackBarMessage: "",
       imageCropped: {},
@@ -78,7 +85,7 @@ class AddCategory extends React.Component {
       
     };
     this.fileInput = React.createRef();
-    this.thumb = React.createRef();
+    this.thumbnail = React.createRef();
   }
 
   //Check the imput Error
@@ -94,10 +101,10 @@ class AddCategory extends React.Component {
       case "description":
           output = validator.minStrLen(value, 15);
       break;
-      case "thumbanil":
+      case "srcImageThumb":
           output = validator.minHeight(value, 500) || validator.minWidth(value2, 500);
         break;
-      case "banner":
+      case "srcImage":
           output = validator.minHeight(value, 576) || validator.minWidth(value2, 1024);
         break;
       default:
@@ -119,10 +126,7 @@ class AddCategory extends React.Component {
     this.setState({
         categoryDetails: newcategoryDetails,
     });
-
-    if(["thumbnail", "banner"].indexOf(type) < 0){
-      this.setCategoryDetailsSpecialError(type, value);
-    }
+    this.setCategoryDetailsSpecialError(type, value);
   }
 
 
@@ -141,14 +145,12 @@ class AddCategory extends React.Component {
 
   //Banner File Upload
   onChangeBanner = (e) => {
-    this.readURL(this.fileInput.current, "banner", 1024, 576);
-
+    this.readURL(this.fileInput.current, "srcImage", 1024, 576);
   }
 
   //Thumbnail File Upload
   onChangeThumbnail = () => {
-
-    this.readURL(this.thumb.current, "thumbnail", 500, 500)
+    this.readURL(this.thumbnail.current, "srcImageThumb", 500, 500)
   }
 
   //This handles the country select element
@@ -172,11 +174,8 @@ class AddCategory extends React.Component {
   //Rendreing the Image Preview
   readURL = (input, type, weight = null, height = null) => {
       if (input.files && input.files[0]) {
-        
           if(input.files[0].type.match(/image.*/)){
-            if(input.files[0].size < (1 * 1024 * 1024)){
               let reader = new FileReader();
-              console.log(input.files[0]);
               reader.onload = (e) => {
                 //Create a new Image intance
               let image = new Image();
@@ -191,20 +190,13 @@ class AddCategory extends React.Component {
                     })
                   }else{
                     that.newImageState(type, e.target.result);
-                    that.setCategoryDetails(type, e.target.result);
+                    that.compactImageCropping(type, e.target.result);
                   }
                }
                 
               }  
               
               reader.readAsDataURL(input.files[0]);
-            }else{
-              this.setState({
-                snackBarOpen: true,
-                snackBarMessage: `Sorry, only image size should not be more than 1MB`
-              })
-            }
-              
               
           }else{
             this.setState({
@@ -216,12 +208,62 @@ class AddCategory extends React.Component {
         }
   }
 
-  //Setting the state of the image preview
+  //Setting the state of the image
   newImageState = (imageProp, src) => {
     this.setState({
       [imageProp]: src
     });
   }
+
+  assignCroppedImage = (newCroppedImage, type) =>{
+    this.setState({
+      [type]: newCroppedImage
+    })
+    this.compactImageCropping(type, "" , newCroppedImage);
+    //console.log(newCroppedCategoryDetails);
+  }
+
+  //Prepare the image Cropped
+  compactImageCropping = (type, imgSrc = "", cropD = {}) => {
+    let src; //image source
+    let cropDem; //Crop Dimension
+    let newCroppedCategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
+
+    if(["srcImage", "srcImageThumb"].indexOf(type) > -1){
+        if(validator.isEmpty(imgSrc)){
+          src = type === "srcImage" ? this.state.imgSrc : this.state.imgSrcThumb;
+        }else{
+          src = imgSrc;
+        }
+
+        if(type.search(/Thumb/) > -1){
+          newCroppedCategoryDetails.srcImageThumb.src = src
+        }else{
+          newCroppedCategoryDetails.srcImage.src = src
+        }
+        
+
+    }
+    
+    if(["imageCropped", "imageCroppedThumbnail"].indexOf(type) > -1){
+      if(Object.keys(cropD).length === 0){
+        cropDem = type === "imageCropped" ? this.state.categoryDetails.imageCropped : this.state.categoryDetails.imageCroppedThumbnail;
+      }else{
+        cropDem = cropD
+      }
+
+      if(type.search(/Thumb/) > -1){
+        newCroppedCategoryDetails.srcImageThumb.cropDimension = cropDem
+      }else{
+        newCroppedCategoryDetails.srcImage.cropDimension = cropDem
+      }
+    }
+
+    this.setState({
+      categoryDetails: newCroppedCategoryDetails
+    })
+  }
+
   //Create new Category
   createNewCategory = () => {
     this.props.addProductCategory(this.state.categoryDetails);
@@ -243,8 +285,8 @@ class AddCategory extends React.Component {
     const {categoryDetails,
            categoryKindSelect,
            selectedCategoryKind,
-           banner,
-           thumbnail,
+           srcImage,
+           srcImageThumb,
            categoryDetailsError,
            snackBarOpen,
            snackBarMessage
@@ -317,8 +359,19 @@ class AddCategory extends React.Component {
                 </GridItem>
 
                 <GridItem xs={12} md={8}>
+                <div style={{margin: "5px"}}>
+                    <ImageCropModal 
+                    imgSrc={srcImage} 
+                    topMostParentImageLink={this.assignCroppedImage}
+                    minWidth={1024} 
+                    minHeight={576}
+                    aspectWidth={16}
+                    aspectHeight={9}
+                    cropInfoStorage="imageCropped"
+                    />
+                </div>
                 <div>
-                <ImagePlaceholder srcImage={banner}/>
+                <ImagePlaceholder srcImage={srcImage}/>
                 </div>
                 <label htmlFor="contained-button-file">
                   <Button variant="contained" color="primary" component="span" className={classes.fluidButton} >
@@ -336,8 +389,19 @@ class AddCategory extends React.Component {
                 </GridItem>
                 
                 <GridItem xs={12} md={4}>
+                  <div style={{margin: "5px"}}>
+                    <ImageCropModal 
+                    imgSrc={srcImageThumb} 
+                    topMostParentImageLink={this.assignCroppedImage}
+                    minWidth={500} 
+                    minHeight={500}
+                    aspectWidth={1}
+                    aspectHeight={1}
+                    cropInfoStorage="imageCroppedThumbnail"
+                    />
+                </div>
                 <div>
-                <ImagePlaceholder srcImage={thumbnail}/>
+                <ImagePlaceholder srcImage={srcImageThumb}/>
                 </div>
                 <label htmlFor="contained-button-thumbnail">
                   <Button variant="contained" color="primary" component="span" className={classes.fluidButton}>
@@ -350,7 +414,7 @@ class AddCategory extends React.Component {
                   id="contained-button-thumbnail"
                   type="file"
                   onChange={this.onChangeThumbnail}
-                  ref={this.thumb}
+                  ref={this.thumbnail}
                 />
                 </GridItem>
                 

@@ -5,7 +5,7 @@
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import ProductCategoryComponent from '../../views/Products/Category/category';
-//import { postProductDetails } from "../../actions/actions_product"
+import { postProductCategoryDetails } from "../../actions/actions_product_category"
 
 
 const ProductCategoryStyle = {
@@ -41,8 +41,18 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
+
+const mapDispatchToProps = (dispatch, newProps) => {
+  return {
+    postProductCategoryDetails : (productDetails) => {
+      dispatch(postProductCategoryDetails(productDetails));
+    }
+  }
+}
+
 const ProductCategory = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ProductCategoryComponent);
 
 export default withStyles(ProductCategoryStyle)(ProductCategory)

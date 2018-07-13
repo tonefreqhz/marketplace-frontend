@@ -16,7 +16,7 @@ import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 
-import dashboardRoutes from "../../routes/dashboard.jsx";
+import {dashboardRoutes, dropdowns} from "../../routes/dashboard.jsx";
 
 import dashboardStyle from "../../assets/jss/material-kit-react/layouts/dashboardStyle.jsx";
 
@@ -81,6 +81,7 @@ class App extends React.Component {
       <div className={classes.wrapper}>
         <Sidebar
           routes={dashboardRoutes}
+          dropdowns = {dropdowns}
           logoText={"Bezop Store"}
           logo={logo}
           image={image}
