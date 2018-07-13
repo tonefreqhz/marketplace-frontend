@@ -14,7 +14,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Header from "../../components/Header/VendorHeader.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-import Sidebar from "../../components/Sidebar/VendorSidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 import dashboardRoutes from "../../routes/dashboard.jsx";
 
