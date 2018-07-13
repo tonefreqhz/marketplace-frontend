@@ -101,7 +101,7 @@ class Sidebar extends React.Component{
             to={submenu.path}
             className={classes.item}
             activeClassName="active"
-            key={`${key}.${subkey+1}`}
+            key={key + "." + (subkey+1)}
           >
                 <List component="div" disablePadding>
                   <ListItem button className={`${classes.nested}${subMenuActiveClass}`}>
