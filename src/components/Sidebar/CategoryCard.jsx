@@ -65,9 +65,9 @@ const style = {
 class CategoryCard extends React.Component {
   render() {
     const { classes, category } = this.props;
-
+    let key = this._reactInternalFiber.return.key;
     return(
-        <Link to="/category/category">
+        <Link to={"/category/" + key}>
           <Button simple="true" className={classes.cardButton}>
             <Card className={classes.cardCon}>
               <img className={classes.imgCardTop} src={category.image} alt={category.name} />

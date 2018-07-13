@@ -6,6 +6,7 @@
  */
 
 import React from "react";
+import {Link} from "react-router-dom";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -82,7 +83,7 @@ class ProductBox extends React.Component {
         super(props);
         
         this.state = {
-            FavoriteProducts: false,
+            Product: this.props.product,
             QuickViewModal: false
         };
 
@@ -91,11 +92,18 @@ class ProductBox extends React.Component {
     }
 
     FavToggle(){
-        if(this.state.FavoriteProducts){
-            this.setState(...this.state, {FavoriteProducts: false});
+        let pro = this.state.Product;
+        if(pro.favorite){
+            pro.favorite = false;
+            this.setState(...this.state, {Product: pro});
         } else {
-            this.setState(...this.state, {FavoriteProducts: true});
+            pro.favorite = true;
+            this.setState(...this.state, {Product: pro});
         }
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.setState(...this.state, {Product: newProps.product})
     }
 
     QuickViewToggle(){
@@ -107,26 +115,28 @@ class ProductBox extends React.Component {
     }
 
     render() {
-      const { classes, params } = this.props;
-      const {FavoriteProducts, QuickViewModal} = this.state;
+      const { classes, data } = this.props;
+      const {Product, QuickViewModal} = this.state;
       
-      let Fav;
+      let Fav = {};
       let LatestSticker;
       let FeaturedSticker;
       
-      if(FavoriteProducts){
-        Fav = <Favorite />;
+      if(Product.favorite){
+        Fav.icon = <Favorite />;
+        Fav.tooltip = "Remove From Wishlist";
       }else{
-        Fav = <FavoriteBorder />
+        Fav.icon = <FavoriteBorder />;
+        Fav.tooltip = "Add To Wishlist";
       }
 
-      if(params.latest){
+      if(Product.latest){
         LatestSticker = <img src={require("../../assets/img/NewProduct.png")} alt="New Product" className={classes.latestSticker}/>;
       }else{
         LatestSticker = null;
       }
 
-      if(params.featured){
+      if(Product.featured){
           FeaturedSticker = <img src={require("../../assets/img/FeaturedProduct.png")} alt="New Product" className={classes.featuredSticker}/>;
       }else{
           FeaturedSticker = null;
@@ -134,10 +144,10 @@ class ProductBox extends React.Component {
 
       return (
         <div>
-            <QuickView param={QuickViewModal} event={this.QuickViewToggle} />
+            <QuickView param={QuickViewModal} favToggle={this.FavToggle} event={this.QuickViewToggle} data={data} product={Product} />
             <Card className={classes.productCon}>
             <Card className={classes.productHead}>
-                <img src={require("../../assets/img/phone2.jpg")} alt="Product" className={classes.productPix} />
+                <img src={Product.images[0]} alt={Product.name} className={classes.productPix} />
                 <div className={classes.imgCardOverlay}>
                     {LatestSticker}
                     {FeaturedSticker}
@@ -145,10 +155,10 @@ class ProductBox extends React.Component {
             </Card>
             <CardBody className={classes.productBody}>
                 <p className={classes.productVendor}>
-                    <a href="#vendor-link" style={Typo.primaryText}>Bezop</a>
+                    <Link to={"/vendor/"+Product.vendorId} style={Typo.primaryText}>{data.vendors[Product.vendorId].name}</Link>
                 </p>
                 <h4>
-                    <a href="#product-link" className={classes.productTitle}>Android Smart Phone</a>
+                    <Link to={"/product/"+Product.id} className={classes.productTitle}>{Product.name}</Link>
                 </h4>
 
                 <div style={{margin: "0px auto", display: "block", textAlign: "center"}}>
@@ -173,28 +183,27 @@ class ProductBox extends React.Component {
                     </Tooltip>
 
                     <Tooltip
-                        title="Add to Wishlist"
+                        title={Fav.tooltip}
                         placement="top"
                         classes={{ tooltip: classes.tooltips }}
                     >
                     <Button round justIcon simple onClick={this.FavToggle} color="primary" size="lg" style={{padding: "0px", margin: "0px auto 0px auto"}}>
-                        {Fav}
+                        {Fav.icon}
                     </Button>
                     </Tooltip>
                 </div>
 
                 <p style={{textAlign: "center"}}>
-                With supporting text below as a
-                natural lead-in to additional content.
+                {Product.brief}
                 </p>
                 <p className={classes.productPrice}>
                     <del style={Typo.mutedText}>
                         <small>
-                            <strong>$70,000,000</strong>
+                            <strong>{Product.costPrice}</strong>
                         </small>
                     </del>
                     {" "}
-                    <span style={Typo.primaryText}><strong>$50,000,000</strong></span>
+                    <span style={Typo.primaryText}><strong>{Product.sellingPrice}</strong></span>
                 </p>
                 <Button color="primary" fullWidth round className={classes.Cart}>
                     <ShoppingCart /> Add To Cart

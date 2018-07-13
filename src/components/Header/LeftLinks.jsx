@@ -32,10 +32,10 @@ class LeftLinks extends React.Component {
                 }}
                 dropdownList={[
                   <NavLink to="/" className={classes.dropdownLink}>All Products</NavLink>,
-                  <NavLink to="/product/today" className={classes.dropdownLink}>Today's Deal</NavLink>,
-                  <NavLink to="/product/featured" className={classes.dropdownLink}>Featured Products</NavLink>,
-                  <NavLink to="/product/latest" className={classes.dropdownLink}>Latest Products</NavLink>,
-                  <NavLink to="/product/popular" className={classes.dropdownLink}>Popular Products</NavLink>,
+                  <NavLink to="/products/today" className={classes.dropdownLink}>Today's Deal</NavLink>,
+                  <NavLink to="/products/featured" className={classes.dropdownLink}>Featured Products</NavLink>,
+                  <NavLink to="/products/latest" className={classes.dropdownLink}>Latest Products</NavLink>,
+                  <NavLink to="/products/popular" className={classes.dropdownLink}>Popular Products</NavLink>,
                 ]}
               />
             </ListItem>
@@ -55,7 +55,7 @@ class LeftLinks extends React.Component {
               </NavLink>
             </ListItem>
             <ListItem className={classes.listItem}>
-              <NavLink to="/categories" className={classes.navLink} color="transparent">
+              <NavLink to="/blogs" className={classes.navLink} color="transparent">
                 Blogs
               </NavLink>
             </ListItem>

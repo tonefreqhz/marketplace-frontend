@@ -75,7 +75,7 @@ class CategoryGrid extends React.Component {
             {params.map((category, index) => {
                 return(
                     <GridItem xs={12} sm={6} md={4} lg={3} key={index} className={classes.scene}>
-                        <Link to="/category/category" className={classes.card}>
+                        <Link to={"/category/" + index} className={classes.card}>
                             <Button simple="true" className={classes.cardButton}>
                                 <Card className={classes.cardCon}>
                                     <div className={classes.cardScreen} style={{backgroundImage: `url('${category.image}')`}}></div>

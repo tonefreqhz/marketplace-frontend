@@ -88,7 +88,7 @@ class VendorGrid extends React.Component {
                                 <Card className={classes.cardCon}>
                                     <div className={classes.cardScreen} style={{backgroundImage: `url('${vendor.slide}')`}}></div>
                                     <div  className={classes.vendorImage}>
-                                        <img src={require('../../assets/img/BezopLogo.svg')} width="80" alt={vendor.name} />
+                                        <img src={vendor.image} width="80" alt={vendor.name} />
                                     </div>
                                     <CardBody className={classes.cardFoot}>
                                         <h4>{vendor.name}</h4>

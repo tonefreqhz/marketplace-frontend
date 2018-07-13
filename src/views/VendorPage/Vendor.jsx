@@ -26,7 +26,10 @@ class Vendor extends React.Component {
     super(props);
     this.state = {
       loader: "block"
-    }
+    };
+
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
 
   componentWillMount() {

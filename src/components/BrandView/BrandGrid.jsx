@@ -75,7 +75,7 @@ class BrandGrid extends React.Component {
             {params.map((brand, index) => {
                 return(
                     <GridItem xs={12} sm={6} md={4} lg={3} key={index} className={classes.scene}>
-                        <Link to="/brand/brand" className={classes.card}>
+                        <Link to={"/brand/" + index} className={classes.card}>
                             <Button simple="true" className={classes.cardButton}>
                                 <Card className={classes.cardCon}>
                                     <img className={classes.imgCardTop} src={brand.image} alt={brand.name} />

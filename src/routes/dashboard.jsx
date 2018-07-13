@@ -47,6 +47,7 @@ export const dashboardRoutes = [
     navbarName: "Products",
     icon: Store,
     component: Products,
+    dropdown : "product",
     subMenu: [
       {
         path: "/dashboard/products",
@@ -106,6 +107,7 @@ export const dashboardRoutes = [
     navbarName: "Blog",
     icon: Store,
     component: Products,
+    dropdown: "blog",
     subMenu: [
       {
         path: "/dashboard/products",

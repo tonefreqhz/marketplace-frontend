@@ -5,7 +5,9 @@
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import ProductCategoryComponent from '../../views/Products/Category/category';
-import { postProductCategoryDetails } from "../../actions/actions_product_category"
+import { 
+postProductCategoryDetails,
+fetchProductCategories } from "../../actions/actions_product_category"
 
 
 const ProductCategoryStyle = {
@@ -38,7 +40,7 @@ const ProductCategoryStyle = {
   }
 };
 const mapStateToProps = state => ({
-  product: state.product
+  productCategory: state.productCategory
 });
 
 
@@ -46,6 +48,9 @@ const mapDispatchToProps = (dispatch, newProps) => {
   return {
     postProductCategoryDetails : (productDetails) => {
       dispatch(postProductCategoryDetails(productDetails));
+    },
+    fetchProductCategories: () => {
+      dispatch(fetchProductCategories());
     }
   }
 }

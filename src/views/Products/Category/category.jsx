@@ -17,7 +17,23 @@ import AddNewProductCategory from "./categoryModal";
 
 class Category extends React.Component{
 
+  constructor(props){
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  componentDidMount(){
+    this.props.fetchProductCategories()
+  }
+
+  componentDidUpdate(prevProps){
+
+  }
+
   render(){
+    console.log(this.props)
   const { classes, postProductCategoryDetails } = this.props;
   return (
     <Grid container>
