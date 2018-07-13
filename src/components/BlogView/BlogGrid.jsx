@@ -1,8 +1,8 @@
 /**
- * @description The blog list view component which renders the blog list view.
+ * @description The blog grid view component which renders the blog grid view.
  * @author Mohammed Odunayo
- * @class BlogList
- * @name BlogList
+ * @class BlogGrid
+ * @name BlogGrid
  */
 
 import React from "react";
@@ -10,8 +10,6 @@ import {Link} from "react-router-dom";
 import PropTypes from 'prop-types';
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Avatar, Hidden } from "@material-ui/core";
-import { Comment } from "@material-ui/icons";
 // core components
 import Card from "../../components/Card/Card.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
@@ -46,17 +44,13 @@ const style = {
 
     },
     cardText: {
-        fontSize: "1em"
-    },
-    avatar: {
-      margin: "10px 10px 0px 0px",
-      width: 50,
-      height: 50,
-      float: "left"
+        fontSize: "1em",
+        marginTop: "-10px"
     },
     cardFootText: {
-        fontSize: "1em",
-        marginTop: "30px"
+        fontSize: "0.8em",
+        marginTop: "10px",
+        marginBottom: "-10px"
     },
     postButtonCon: {
         float: "right",
@@ -64,7 +58,7 @@ const style = {
     }
   };
 
-class BlogList extends React.Component {
+class BlogGrid extends React.Component {
 
     render() {
       const { classes, img } = this.props;
@@ -72,16 +66,7 @@ class BlogList extends React.Component {
       return (
         <div>
             <GridContainer className={classes.con}>
-                <GridItem sm={(img)? 12 : null} md={(img)? 4 : null} lg={(img)? 3 : null} className={classes.scene}>
-                    <Hidden mdUp>
-                        <Avatar
-                            alt="User"
-                            src={require("../../assets/img/faces/marc.jpg")}
-                            className={classes.avatar}
-                        />
-                        <p className={classes.cardFootText}>By <strong>Author Name</strong>, Post Date</p>
-                    </Hidden>
-                    <br/>
+                <GridItem sm={(img)? 12 : null} className={classes.scene}>
                     {(img)?
                     <Link to="/blog/blog" className={classes.card}>
                         <Button simple className={classes.cardButton}>
@@ -96,10 +81,11 @@ class BlogList extends React.Component {
                     :
                     null}
                 </GridItem>
-                <GridItem sm={12} md={(img)? 8 : 12} lg={(img)? 9 : 12}>
+                <GridItem sm={12}>
                     <CardBody className={classes.cardBody}>
+                        <p className={classes.cardFootText}><strong style={{color: primaryColor}}>Author Name</strong>, Post Date</p>
                         <Link to="/blog/blog" className={classes.card}>
-                            <h3 className={classes.cardTitle}>Article Title</h3>
+                            <h4 className={classes.cardTitle}>Article Title</h4>
                         </Link>
                         <p className={classes.cardText}>
                         Like so many organizations these days, Autodesk is a company in transition.
@@ -107,17 +93,6 @@ class BlogList extends React.Component {
                         Yet its own business model disruption is only part of the story — and
                         <Link to="/blog/blog" style={{color: primaryColor}}> Read More...</Link>
                         </p>
-                        <div className={classes.postButtonCon}>
-                            <Button color="primary" simple><Comment /> Post Comment</Button>
-                        </div>
-                        <Hidden smDown>
-                            <Avatar
-                                alt="User"
-                                src={require("../../assets/img/faces/marc.jpg")}
-                                className={classes.avatar}
-                            />
-                            <p className={classes.cardFootText}>By <strong>Author Name</strong>, Post Date</p>
-                        </Hidden>
                     </CardBody>
                 </GridItem>
             </GridContainer>
@@ -126,9 +101,9 @@ class BlogList extends React.Component {
     }
   }
 
-  BlogList.prototypes = {
+  BlogGrid.prototypes = {
     classes: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired
   };
 
-  export default withStyles(style)(BlogList);
+  export default withStyles(style)(BlogGrid);

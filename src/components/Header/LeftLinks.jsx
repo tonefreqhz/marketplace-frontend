@@ -55,7 +55,7 @@ class LeftLinks extends React.Component {
               </NavLink>
             </ListItem>
             <ListItem className={classes.listItem}>
-              <NavLink to="/blog" className={classes.navLink} color="transparent">
+              <NavLink to="/blogs" className={classes.navLink} color="transparent">
                 Blogs
               </NavLink>
             </ListItem>

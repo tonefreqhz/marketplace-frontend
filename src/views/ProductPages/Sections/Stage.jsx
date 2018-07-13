@@ -32,8 +32,10 @@ class Stage extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.products.length > 0) {
-      this.setState(...this.state, {priceRange: this.getPriceRange(newProps.products)});
+    if(!this.props.singleProduct) {
+      if (newProps.products.length > 0) {
+        this.setState(...this.state, {priceRange: this.getPriceRange(newProps.products)});
+      }
     }
   }
   
@@ -60,7 +62,10 @@ class Stage extends React.Component {
     const { classes, ...data } = this.props;
 
     let priceRange = [1,2];
-    priceRange = (data.products.length > 0)? this.getPriceRange(data.products) : [1,2];
+
+    if(!data.singleProduct){
+      priceRange = (data.products.length > 0)? this.getPriceRange(data.products) : [1,2];
+    }
 
     const styles = {
       cols:{
@@ -85,10 +90,12 @@ class Stage extends React.Component {
 
     let content = null;
 
-    if (data.categories.length !== 0) {
-      content = data.categories.map((category, index) => {
-        return(<Sidebar category={category} key={index}/>);
-      });
+    if(!data.singleProduct) {
+      if (data.categories.length !== 0) {
+        content = data.categories.map((category, index) => {
+          return(<Sidebar category={category} key={index}/>);
+        });
+      }
     }
 
     return (

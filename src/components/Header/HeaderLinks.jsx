@@ -91,7 +91,7 @@ class HeaderLinks extends React.Component {
             </Link>
           </ListItem>
           <ListItem className={classes.listItem}>
-            <Link to="/blog" className={classes.navLink} color="transparent">
+            <Link to="/blogs" className={classes.navLink} color="transparent">
               Blogs
             </Link>
           </ListItem>

@@ -116,6 +116,7 @@ class Header extends React.Component {
             classes={{
               paper: classes.drawerPaper
             }}
+            style={{overflowY: "scroll"}}
             onClose={this.handleDrawerToggle}
           >
             <div className={classes.appResponsive}>

@@ -26,7 +26,9 @@ import CategoryProductList from "../containers/CategoryProductList.jsx";
 import Brand from "../containers/Brand.jsx";
 import Vendor from "../containers/Vendor.jsx";
 import About from "../containers/AboutPage.jsx";
-import Blog from "../containers/BlogPage.jsx";
+import Blogs from "../containers/BlogPage.jsx";
+import BrandProductList from "../containers/BrandProductList.jsx";
+import SingleBlog from "../containers/SingleBlogPage.jsx";
 import Contact from "../containers/ContactPage.jsx";
 import SingleProduct from "../containers/SingleProduct.jsx";
 import ProductList from "../containers/ProductList.jsx";
@@ -44,14 +46,15 @@ var indexRoutes = [
 
   { path: "/categories", name: "Categories", component: Category },
   { path: "/category/:category", name: "CategoryProducts", component: CategoryProductList },
-  { path: "/products", name: "ProductList", component: ProductList },
   { path: "/products/:products", name: "ProductList", component: ProductList },
+  { path: "/products", name: "ProductList", component: ProductList },
   { path: "/product/:product", name: "Product", component: SingleProduct },
   { path: "/vendors", name: "Vendors", component: Vendor },
   { path: "/vendor/:vendor", name: "Vendor", component: Vendor },
   { path: "/brands", name: "Brands", component: Brand },
-  { path: "/brand/:brand", name: "Brand", component: Brand },
-  { path: "/blog", name: "Blog", component: Blog },
+  { path: "/brand/:brand", name: "Brand", component: BrandProductList },
+  { path: "/blog/:blog", name: "Blog", component: SingleBlog },
+  { path: "/blogs", name: "Blog", component: Blogs },
   { path: "/login", name: "LoginPage", component: Login},
   { path: "/contact", name: "Contact", component: Contact },
   { path: "/about", name: "About", component: About },

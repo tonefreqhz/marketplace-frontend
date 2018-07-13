@@ -112,7 +112,7 @@ class MegaFooter extends React.Component {
                 <ListItem style={{padding: "10px 0px"}}>
                 <ArrowForward />&nbsp;
                 <a
-                    href="/category/women-fashion"
+                    href="/category/0"
                     style={{color: "#3C4858", fontSize: "1.3em", display: "block", width: "100%"}}
                 >
                     Women Fashion
@@ -121,7 +121,7 @@ class MegaFooter extends React.Component {
                 <ListItem style={{padding: "10px 0px"}}>
                 <ArrowForward />&nbsp;
                 <a
-                    href="/category/men-fashion"
+                    href="/category/1"
                     style={{color: "#3C4858", fontSize: "1.3em", display: "block", width: "100%"}}
                 >
                     Men Fashion
