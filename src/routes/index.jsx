@@ -35,6 +35,8 @@ import ProductList from "../containers/ProductList.jsx";
 
 var indexRoutes = [
   { path: "/dashboard/messages", name: "Messages", component: Messages},
+  { path: "/dashboard/products/category", name: "Product Category", component: Products},
+  { path: "/dashboard/products/brand", name: "Product Brand", component: Products},
   { path: "/dashboard/products", name: "Products", component: Products},
   { path: "/dashboard/settings", name: "Settings", component: Shop},
   { path: "/dashboard/coupons", name: "Coupons", component: Coupons},

@@ -15,7 +15,8 @@ import Email from "@material-ui/icons/Email"
 import DashboardPage from "../containers/Dashboard.jsx";
 import UserProfile from "../containers/UserProfiles.jsx";
 import Orders from "../containers/Orders.jsx";
-import Products from "../containers/Products.jsx"
+import Products from "../containers/Product/Products.jsx";
+import ProductCategory from "../containers/Product/Category.jsx";
 import Coupons from "../containers/Coupons.jsx"
 import Shop from "../containers/Shops.jsx"
 import Support from "../containers/Supports.jsx"
@@ -45,7 +46,31 @@ const dashboardRoutes = [
     sidebarName: "Products",
     navbarName: "Products",
     icon: Store,
-    component: Products
+    component: Products,
+    subMenu: [
+      {
+        path: "/dashboard/products",
+        sidebarName: "Products",
+        navbarName: "Products",
+        icon: Store,
+        component: Products,
+        exact: true
+      },
+      {
+        path: "/dashboard/products/category",
+        sidebarName: "Product Category",
+        navbarName: "Product Category",
+        icon: Store,
+        component: ProductCategory,
+      },
+      {
+        path: "/dashboard/products/brand",
+        sidebarName: "Product Brand",
+        navbarName: "Product Brand",
+        icon: Store,
+        component: Coupons,
+      }
+    ]
   },
   {
     path: "/dashboard/orders",

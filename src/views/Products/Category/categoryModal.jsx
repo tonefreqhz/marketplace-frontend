@@ -1,59 +1,60 @@
-//@desc this is the modal that pops up when vendor clicks 'Add new product' in product.jsx
-//@author Sylvia Onwukwe
 import React from 'react';
-// material-ui components
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+//import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+//import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 import withStyles from "@material-ui/core/styles/withStyles";
-import Slide from "@material-ui/core/Slide";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
-// core components
-import Button from "../../components/CustomButtons/Button.jsx";
-import ProductStepper from "./stepper.jsx"
-import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
+
+import AddCategory from "./addCategory";
+
+import modalStyle from "../../../assets/jss/material-kit-react/modalStyle.jsx";
+
 function Transition(props) {
-  return <Slide direction="down" {...props} />;
+  return <Slide direction="up" {...props} />;
 }
 
-class AddNew extends React.Component{
-  constructor(props) {
+class CategoryModal extends React.Component {
+
+  constructor(props){
     super(props);
     this.state = {
-      modal: false
+      open: false,
     };
   }
 
   handleClickOpen = () => {
-    this.setState({
-      modal: true
-    });
-  }
+    this.setState({ open: true });
+  };
 
   handleClose = () => {
-    this.setState({
-      modal: false
-    });
-  }
+    this.setState({ open: false });
+  };
+
   render(){
     const { classes } = this.props;
     return (
       <div>
-        <Button
+         <Button
+         variant="contained"
           color="primary"
-          onClick={this.handleClickOpen}>
-          Add New Product
+          onClick={this.handleClickOpen}
+          style={{marginBottom: "10px"}}>
+          Add New Product Category
         </Button>
         <Dialog
-        fullScreen={true}
+        fullScreen={false}
         fullWidth={true}
           classes={{
             root: classes.center,
             paper: classes.modal
           }}
-          open={this.state.modal}
+          open={this.state.open}
           TransitionComponent={Transition}
           keepMounted
           onClose={this.handleClose}
@@ -76,12 +77,12 @@ class AddNew extends React.Component{
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-            <ProductStepper />
+            <AddCategory/>
           </DialogContent>
         </Dialog>
       </div>
     );
   }
-}
-
-export default withStyles(modalStyle)(AddNew);
+  }
+  
+  export default withStyles(modalStyle)(CategoryModal);

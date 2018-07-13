@@ -4,6 +4,8 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
 import GridItem from "../../components/Grid/GridItem.jsx";
@@ -12,34 +14,78 @@ import CardBody from "../../components/Card/CardBody.jsx";
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
+import { withStyles } from "@material-ui/core";
+
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    width: "100%",
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
+});
+
+const currencies = [
+  {
+    value: 'USD',
+    label: '$',
+  },
+  {
+    value: 'EUR',
+    label: '€',
+  },
+  {
+    value: 'BTC',
+    label: '฿',
+  },
+  {
+    value: 'JPY',
+    label: '¥',
+  },
+];
+
 
 class BusinessDetails extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimation: "cardHidden",
+      taxType: "",
+      discountType: "",
+      currency: "",
     };
   }
-  state = {
-    age: '',
-    name: 'hai',
+
+  handleChange = event => {
+    console.log(event.target.value);
+    this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
+    this.cardAnimationSetTimeout = setTimeout(
       function() {
-        this.setState({ cardAnimaton: "" });
+        this.setState({ cardAnimation: "" });
       }.bind(this),
       700
     );
   }
-  render(){
 
+  componentWillUnmount(){
+    clearTimeout(this.cardAnimationSetTimeout);
+  }
+
+
+  render(){
+    const {classes} = this.props;
+    const {discountType, taxType, currency} = this.state;
     return (
       <div>
           <div>
@@ -51,22 +97,26 @@ class BusinessDetails extends React.Component {
             <CardBody>
               <Grid container>
                 <GridItem xs={12} sm={12} md={4}>
+                <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="currency">Select Currency</InputLabel>
-          <Select
-            native
-            value={this.state.category}
-            onChange={this.handleChange('currency')}
-            inputProps={{
-              name: 'currency',
-              id: 'currency',
-            }}
-          >
-            <option value="" />
-            <option value={10}>Dollars</option>
-            <option value={20}>Euro</option>
-            <option value={30}>Pounds</option>
-          </Select>
-        
+                <Select
+                  value={currency}
+                  onChange={this.handleChange}
+                  inputProps={{
+                    name: 'currency',
+                    id: 'currency',
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {
+                    currencies.map( (currency, key) => {
+                      return <MenuItem value={currency.value} key={key}>{currency.label}</MenuItem>
+                    })
+                  }
+                </Select>
+                  </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
@@ -116,20 +166,25 @@ class BusinessDetails extends React.Component {
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                <InputLabel htmlFor="discount-type">Discount Type</InputLabel>
-          <Select
-            native
-            value={this.state.category}
-            onChange={this.handleChange('discount-type')}
-            inputProps={{
-              name: 'discount-type',
-              id: 'discount-type',
-            }}
-          >
-            <option value="" />
-            <option value={10}>Fixed</option>
-            <option value={20}>Percentage</option>
-          </Select>
+                <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="discount-type">Discount Type</InputLabel>
+                  <Select
+                    value={discountType}
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: 'discountType',
+                      id: 'discountType',
+                    }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {["Fixed", "Percentage"].map((discountType, key) => {
+                      return <MenuItem value={discountType.toLowerCase()} key={key}>{discountType}</MenuItem>
+                    })
+                    }
+                  </Select>
+                </FormControl>
                 </GridItem>
 
                 <GridItem xs={12} sm={12} md={4}>
@@ -145,22 +200,24 @@ class BusinessDetails extends React.Component {
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                <InputLabel htmlFor="tax-type">Tax Type</InputLabel>
-          <Select
-            native
-            value={this.state.category}
-            onChange={this.handleChange('ctax-type')}
-            inputProps={{
-              name: 'tax-type',
-              id: 'tax-type',
-            }}
-          >
-            <option value="" />
-            <option value={10}>Fixed</option>
-            <option value={20}>Percentage</option>
-          </Select>
-                </GridItem>
-    
+                  <FormControl className={classes.formControl}>
+                      <InputLabel htmlFor="taxType">Tax Type</InputLabel>
+                      <Select
+                        value={taxType}
+                        onChange={this.handleChange}
+                        inputProps={{
+                          name: 'taxType',
+                          id: 'taxType',
+                        }}
+                      >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={"fixed"}>Fixed</MenuItem>
+                          <MenuItem value={"percentage"}>Percentage</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </GridItem>
               </Grid>
             </CardBody>
             <CardFooter>
@@ -172,4 +229,4 @@ class BusinessDetails extends React.Component {
   }
 }
 
-export default BusinessDetails;
+export default withStyles(styles)(BusinessDetails);

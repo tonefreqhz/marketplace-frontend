@@ -1,23 +1,27 @@
-//@desc This is the 'create product' form where vendor uploads product images when creating a new product  
-//@require This form requires the stepper.jsx(A stepper). It is the first step in adding new products
+//@desc This is the 'product category' form a vendor fills when creating a new product category 
 //@author Sylvia Onwukwe
-
+//@author Odewale Ifeolwa
 import React from "react";
 import Grid from "@material-ui/core/Grid";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select2 from "react-select";
 import { withStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import 'react-select/dist/react-select.css';
 
 
-import GridItem from "../../components/Grid/GridItem.jsx";
-import Card from "../../components/Card/Card.jsx";
-import CardBody from "../../components/Card/CardBody.jsx";
-import CardHeader from "../../components/Card/CardHeader.jsx";
-import ImagePlaceholder from "./Category/ImagePlaceholder";
-import validator from "../../helpers/validator";
-import ImageCropModal from "./Category/imageCropperModal";
+import GridItem from "../../../components/Grid/GridItem.jsx";
+import Card from "../../../components/Card/Card.jsx";
+import CardBody from "../../../components/Card/CardBody.jsx";
+import CardHeader from "../../../components/Card/CardHeader.jsx";
+import CardFooter from "../../../components/Card/CardFooter.jsx";
+import CustomInput from "../../../components/CustomInput/CustomInput.jsx";
+import ImagePlaceholder from "./ImagePlaceholder";
+import validator from "../../../helpers/validator";
+import ImageCropModal from "./imageCropperModal";
 import Snackbar from '@material-ui/core/Snackbar';
-import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
+import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
 
 //The component Style
 const styles = theme => ({
@@ -41,29 +45,37 @@ const styles = theme => ({
   }
 });
 
-class ContainedButtons extends React.Component {
+class AddCategory extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
       categoryDetails: {
-        frontview: {},
+        name:"",
+        description: "",
+        kind: "",
         thumbnail: {},
+        banner: {},
       },
-      
-      selectedProductKind: null,
+      categoryDetailsError: {
+        name:false,
+        description: false,
+        kind: false,
+        thumbnail: false,
+        banner:false,
+      },
+      selectedCategoryKind: null,
       categoryKindSelect: "react-select-label-hidden",
+      srcImage: "http://localhost:3000/assets/img/the-smiths.png",
       srcImageThumb: "http://localhost:3000/assets/img/the-smiths.png",
-      srcFront: "http://localhost:3000/assets/img/the-smiths.png",
       snackBarOpen: true,
       snackBarMessage: "",
       imageCropped: {},
       imageCroppedThumbnail: {}
       
     };
-   
-    this.frontview = React.createRef();
+    this.fileInput = React.createRef();
     this.thumbnail = React.createRef();
   }
 
@@ -71,11 +83,20 @@ class ContainedButtons extends React.Component {
   inputErrorValidation(type, value, value2 = null){
     let output = false;
     switch(type){
+      case "name":
+          output = validator.minStrLen(value, 3);
+      break;
+      case "kind":
+          output = validator.isEmpty(value);
+      break;
+      case "description":
+          output = validator.minStrLen(value, 15);
+      break;
       case "srcImageThumb":
           output = validator.minHeight(value, 400) || validator.minWidth(value2, 400);
         break;
-      case "srcFront":
-          output = validator.minHeight(value, 400) || validator.minWidth(value2, 400);   
+      case "srcImage":
+          output = validator.minHeight(value, 1200) || validator.minWidth(value2, 1600);
         break;
       default:
         output = false;
@@ -112,14 +133,6 @@ class ContainedButtons extends React.Component {
   handleChange =  (event) => {
     this.setCategoryDetails(event.target.name, event.target.value);
   };
-  //Backview file upload
-  onchangeBack= (e) => {
-    this.readURL(this.backview.current, "srcBack", 500,500);
-  }
-  //FrontView File Upload
-  onChangeFront= (e) => {
-    this.readURL(this.frontview.current, "srcFront", 500,500);
-  }
 
   //Banner File Upload
   onChangeBanner = (e) => {
@@ -216,10 +229,12 @@ class ContainedButtons extends React.Component {
   }
   render(){
     const {classes} = this.props;
-    const {
+    const {categoryDetails,
+           categoryKindSelect,
+           selectedCategoryKind,
            srcImage,
            srcImageThumb,
-           srcFront,
+           categoryDetailsError,
            snackBarOpen,
            snackBarMessage
           } = this.state;
@@ -237,25 +252,77 @@ class ContainedButtons extends React.Component {
             </CardHeader>
             <CardBody>
               <Grid container>
+                <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                    labelText={categoryDetailsError.name === false? "Category Name" : "The length of Category must not be less than 3 characters"}
+                    id="name"
+                    error={categoryDetailsError.name}
+                    inputProps={{
+                      value: categoryDetails.name,
+                      name:"name",
+                      onChange: this.handleChange
+                    }}
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="selectedCategoryKind" className={categoryKindSelect}>Type or Select Category Kind</InputLabel>
+                    <Select2 
+                      id="selectedCategoryKind"
+                      name="selectedCategoryKind"
+                      value={selectedCategoryKind}
+                      placeholder="Type or Select Category Kind"
+                      onChange={this.handleCategoryKindChange}
+                      options={[
+                        {value: "digital", label: "Digital"},
+                        {value: "physical", label: "Physical"}
+                      ]}
+                      className={categoryDetailsError.kind === true ? "select-menu-error": ""}
+                      />
+                  </FormControl>
+                </GridItem>
+              </Grid>
+              <Grid container>
+                <GridItem xs={12}>
+
+                <CustomInput
+                    error={categoryDetailsError.description}
+                    labelText={categoryDetailsError.description === false ? "Description" : "The length of Category must not be less than 15 characters"}
+                    id="description"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      multiline: true,
+                      rows: 5,
+                      name: "description",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
 
                 <GridItem xs={12} md={6}>
                 <div style={{margin: "5px"}}>
                     <ImageCropModal 
                     imgSrc={srcImage} 
                     topMostParentImageLink={this.assignCroppedImage}
-                    minWidth={500} 
-                    minHeight={500}
-                    aspectWidth={1}
-                    aspectHeight={1}
+                    minWidth={1024} 
+                    minHeight={576}
+                    aspectWidth={16}
+                    aspectHeight={9}
                     cropInfoStorage="imageCropped"
                     />
                 </div>
                 <div>
-                <ImagePlaceholder srcImage={srcFront}/>
+                <ImagePlaceholder srcImage={srcImage}/>
                 </div>
                 <label htmlFor="contained-button-file">
                   <Button variant="contained" color="primary" component="span" className={classes.fluidButton} >
-                    Upload Product Front-View
+                    Upload Category Banner
                   </Button>
                 </label>
                 <input
@@ -263,11 +330,10 @@ class ContainedButtons extends React.Component {
                   className={classes.input}
                   id="contained-button-file"
                   type="file"
-                  onChange={this.onChangeFront}
-                  ref={this.frontview}
+                  onChange={this.onChangeBanner}
+                  ref={this.fileInput}
                 />
                 </GridItem>
-
                 
                 <GridItem xs={12} md={6}>
                   <div style={{margin: "5px"}}>
@@ -286,7 +352,7 @@ class ContainedButtons extends React.Component {
                 </div>
                 <label htmlFor="contained-button-thumbnail">
                   <Button variant="contained" color="primary" component="span" className={classes.fluidButton}>
-                    Upload Product Back-View
+                    Upload Category Thumbnail
                   </Button>
                 </label>
                 <input
@@ -301,6 +367,15 @@ class ContainedButtons extends React.Component {
                 
               </Grid>
             </CardBody>
+            <CardFooter>
+                    <Grid container>
+                      <GridItem xs={12}>
+                        <Button variant="contained" color="primary" component="span" className={classes.fluidButton}>
+                          Create Product Category
+                        </Button>
+                      </GridItem>
+                    </Grid>
+            </CardFooter>
           </Card>
           <Snackbar
             anchorOrigin={{vertical: "top", horizontal: "center"}}
@@ -318,4 +393,4 @@ class ContainedButtons extends React.Component {
   }
 }
 
-export default withStyles(styles)(ContainedButtons);
+export default withStyles(styles)(AddCategory);
