@@ -18,6 +18,21 @@ import Support from "../layouts/Dashboard/Dashboard.jsx";
 import UserProfile from "../layouts/Dashboard/Dashboard.jsx";
 import Blog from "../layouts/Dashboard/Dashboard.jsx";
 
+//Admin Router
+import Admin from "../Admin/LandingPage/layout.jsx";
+import AdminProductCategory from "../Admin/LandingPage/layout.jsx";
+import DiscountCoupon from "../Admin/LandingPage/layout.jsx";
+import AdminCustomers from "../Admin/LandingPage/layout.jsx";
+import AdminMessages from "../Admin/LandingPage/layout.jsx";
+import AdminProduct from "../Admin/LandingPage/layout.jsx";
+import AdminVendors from "../Admin/LandingPage/layout.jsx";
+import AdminProfile from "../Admin/LandingPage/layout.jsx";
+import AdminBrands from "../Admin/LandingPage/layout.jsx";
+import AdminOrder from "../Admin/LandingPage/layout.jsx";
+import AdminStore from "../Admin/LandingPage/layout.jsx";
+import AdminBlog from "../Admin/LandingPage/layout.jsx";
+import AdminSeo from "../Admin/LandingPage/layout.jsx";
+
 //User Router
 import Home from "../containers/Home.jsx";
 import Login from "../containers/Login.jsx";
@@ -47,6 +62,20 @@ var indexRoutes = [
   { path: "/dashboard/blog", name: "Blog", component: Blog},
   { path: "/dashboard/user", name: "Users", component: UserProfile},
   { path: "/dashboard", name:"Dashboard", component: Dashboard},
+
+  { path: "/admin/categories", name: "AdminProductCategory", component: AdminProductCategory},
+  { path: "/admin/customers", name: "Customers", component: AdminCustomers},
+  { path: "/admin/messages", name:"AdminMessages", component: AdminMessages},
+  { path: "/admin/settings", name: "AdminStore", component: AdminStore},
+  { path: "/admin/products", name: "AdminProducts", component: AdminProduct},
+  { path: "/admin/vendors", name: "AdminVendors", component: AdminVendors},
+  { path: "/admin/profile", name: "AdminProfile", component: AdminProfile},
+  { path: "/admin/coupons", name: "DiscountCoupons", component: DiscountCoupon},
+  { path: "/admin/orders", name: "AdminOrder", component:AdminOrder},
+  { path: "/admin/brands", name: "AdminBrands", component: AdminBrands},
+  { path: "/admin/blog", name: "AdminBlog", component: AdminBlog},
+  { path: "/admin/seo", name: "AdminSeo", component: AdminSeo},
+  { path: "/admin", name: "Dashboard", component: Admin},
 
   { path: "/categories", name: "Categories", component: Category },
   { path: "/category/:category", name: "CategoryProducts", component: CategoryProductList },
