@@ -19,12 +19,14 @@ import UserProfile from "../layouts/Dashboard/Dashboard.jsx";
 
 //User Router
 import Home from "../containers/Home.jsx";
+import Cart from "../containers/Cart.jsx";
 import Login from "../containers/Login.jsx";
 import Page404 from "../containers/Page404.jsx";
 import Category from "../containers/Category.jsx";
 import CategoryProductList from "../containers/CategoryProductList.jsx";
 import Brand from "../containers/Brand.jsx";
 import Vendor from "../containers/Vendor.jsx";
+import VendorProductList from "../containers/VendorProductList.jsx";
 import About from "../containers/AboutPage.jsx";
 import Blogs from "../containers/BlogPage.jsx";
 import BrandProductList from "../containers/BrandProductList.jsx";
@@ -52,13 +54,14 @@ var indexRoutes = [
   { path: "/products", name: "ProductList", component: ProductList },
   { path: "/product/:product", name: "Product", component: SingleProduct },
   { path: "/vendors", name: "Vendors", component: Vendor },
-  { path: "/vendor/:vendor", name: "Vendor", component: Vendor },
+  { path: "/vendor/:vendor", name: "Vendor", component: VendorProductList },
   { path: "/brands", name: "Brands", component: Brand },
   { path: "/brand/:brand", name: "Brand", component: BrandProductList },
   { path: "/blog/:blog", name: "Blog", component: SingleBlog },
+  { path: "/contact", name: "Contact", component: Contact },
+  { path: "/cart", name: "Cart", component: Cart },
   { path: "/blogs", name: "Blog", component: Blogs },
   { path: "/login", name: "LoginPage", component: Login},
-  { path: "/contact", name: "Contact", component: Contact },
   { path: "/about", name: "About", component: About },
   { path: "/", exact: true, name: "Home", component: Home },
   { path: "*", name: "Page404", component: Page404 },

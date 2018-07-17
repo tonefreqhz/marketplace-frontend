@@ -17,9 +17,28 @@ import headerLinksStyle from "../../assets/jss/material-kit-react/components/hea
 import Badge from '../../components/Badge/Badge.jsx';
 
 class LeftLinks extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      Cart: (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0
+    };
+
+    if(this.props.events){
+      this.props.events.on('add-to-cart', this.updateCart.bind(this));
+    }
+  }
+
+  updateCart() {
+    let cart = (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0;
+    this.setState(...this.state, {Cart: cart});
+  }
   
   render() {
     const { classes } = this.props;
+
+    if(this.props.timer) {
+      setInterval(this.getQuantity, 3000);
+    }
 
     return (
       <div>
@@ -79,7 +98,11 @@ class LeftLinks extends React.Component {
             <ListItem className={classes.listItem}>
               <Tooltip title="View Shopping Cart" placement="bottom" classes={{ tooltip: classes.tooltip }}>
                 <NavLink to="/cart" className={classes.navLink} color="transparent">
-                  <ShoppingCart /><Badge color="primary" className={classes.navLink}><big style={{fontSize: "1.3em"}}>0</big></Badge>
+                  <ShoppingCart /><Badge color="primary" className={classes.navLink}>
+                    <big style={{fontSize: "1.3em"}}>
+                      {this.state.Cart}
+                    </big>
+                  </Badge>
                 </NavLink>
               </Tooltip>
             </ListItem>

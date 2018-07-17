@@ -1,8 +1,8 @@
 /**
- * @description Brands page view.
+ * @description Vendors page view.
  * @author Mohammed Odunayo
- * @class Brands
- * @name Brands
+ * @class Vendors
+ * @name Vendors
  */
 
 import React from "react";
@@ -20,7 +20,7 @@ import {getCategories, getVendors, getBrands, getProducts} from "../../actions/a
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 const Events = require('events');
 
-class Brands extends React.Component {
+class Vendors extends React.Component {
 
   constructor(props) {
     super(props);
@@ -46,14 +46,14 @@ class Brands extends React.Component {
     dispatch(getProducts())
       .then(
         () => {
-          let productBrand = this.props.match.url.replace("/brand/", "");
+          let productVendor = this.props.match.url.replace("/vendor/", "");
           let products = {};
 
-          if(this.props.front.brands[productBrand]) {
-              products = this.props.front.products.filter(product => product.brandId === Number(productBrand));
+          if(this.props.front.vendors[productVendor]) {
+              products = this.props.front.products.filter(product => product.vendorId === Number(productVendor));
               this.setState(...this.state, {
-                pageTitle: this.props.front.brands[productBrand].name,
-                pageBanner: this.props.front.brands[productBrand].image,
+                pageTitle: this.props.front.vendors[productVendor].name,
+                pageBanner: this.props.front.vendors[productVendor].image,
                 products: products,
                 loader: "none"
               });
@@ -70,13 +70,13 @@ class Brands extends React.Component {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 
-    let productBrand = newProps.match.url.replace("/brand/", "");
+    let productVendor = newProps.match.url.replace("/vendor/", "");
     let products = {};
-    if(newProps.front.brands[productBrand]) {
-        products = newProps.front.products.filter(product => product.brandId === Number(productBrand));
+    if(newProps.front.vendors[productVendor]) {
+        products = newProps.front.products.filter(product => product.vendorId === Number(productVendor));
         this.setState(...this.state, {
-          pageTitle: newProps.front.brands[productBrand].name,
-          pageBanner: newProps.front.brands[productBrand].image,
+          pageTitle: newProps.front.vendors[productVendor].name,
+          pageBanner: newProps.front.vendors[productVendor].image,
           products: products,
           loader: "none"
         });
@@ -137,4 +137,4 @@ class Brands extends React.Component {
 }
 
 
-export default Brands;
+export default Vendors;

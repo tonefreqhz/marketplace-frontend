@@ -83,7 +83,7 @@ class VendorGrid extends React.Component {
             {params.map((vendor, index) => {
                 return(
                     <GridItem xs={12} sm={6} md={4} lg={3} key={index} className={classes.scene}>
-                        <Link to="/vendor/vendor" className={classes.card}>
+                        <Link to={"/vendor/" + index} className={classes.card}>
                             <Button simple="true" className={classes.cardButton}>
                                 <Card className={classes.cardCon}>
                                     <div className={classes.cardScreen} style={{backgroundImage: `url('${vendor.slide}')`}}></div>

@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Tooltip from "@material-ui/core/Tooltip";
-import {ShoppingCart, Visibility, Favorite, FavoriteBorder, CompareArrows} from "@material-ui/icons";
+import {ShoppingCart, Visibility, Favorite, ShoppingBasket, FavoriteBorder, CompareArrows} from "@material-ui/icons";
 import PropTypes from 'prop-types';
 // core components
 import Card from "../../components/Card/Card.jsx";
@@ -84,11 +84,35 @@ class ProductBox extends React.Component {
         
         this.state = {
             Product: this.props.product,
-            QuickViewModal: false
+            QuickViewModal: false,
+            Cart: (localStorage.cart)? JSON.parse(localStorage.cart) : {}
         };
 
         this.FavToggle = this.FavToggle.bind(this);
         this.QuickViewToggle = this.QuickViewToggle.bind(this);
+
+        this.cart = {
+            checkProduct: () => {
+                return (this.state.Cart[this.state.Product.id])? true : false;
+            },
+            addProduct: () => {
+                let cartData = (localStorage.cart)? JSON.parse(localStorage.cart) : {};
+                cartData[this.state.Product.id] = 1;
+                localStorage.cart = JSON.stringify(cartData);
+                this.setState(...this.state, {Cart: cartData});
+                this.props.data.events.emit('add-to-cart');
+            },
+            getQuantity: () => {
+                return (this.state.Cart[this.state.Product.id])? this.state.Cart[this.state.Product.id] : 1;
+            },
+            setQuantity: num => {
+                let cartData = (localStorage.cart)? JSON.parse(localStorage.cart) : {};
+                cartData[this.state.Product.id] = num;
+                localStorage.cart = JSON.stringify(cartData);
+                this.setState(...this.state, {Cart: cartData});
+                this.props.data.events.emit('add-to-cart');
+            }
+        };
     }
 
     FavToggle(){
@@ -144,7 +168,7 @@ class ProductBox extends React.Component {
 
       return (
         <div>
-            <QuickView param={QuickViewModal} favToggle={this.FavToggle} event={this.QuickViewToggle} data={data} product={Product} />
+            <QuickView param={QuickViewModal} cart={this.cart} favToggle={this.FavToggle} event={this.QuickViewToggle} data={data} product={Product} />
             <Card className={classes.productCon}>
             <Card className={classes.productHead}>
                 <img src={Product.images[0]} alt={Product.name} className={classes.productPix} />
@@ -205,9 +229,18 @@ class ProductBox extends React.Component {
                     {" "}
                     <span style={Typo.primaryText}><strong>{Product.sellingPrice}</strong></span>
                 </p>
-                <Button color="primary" fullWidth round className={classes.Cart}>
-                    <ShoppingCart /> Add To Cart
-                </Button>
+
+                {(this.cart.checkProduct())?
+                    <Link to="/cart">
+                        <Button color="primary" fullWidth round className={classes.Cart}>
+                            <ShoppingBasket /> Checkout
+                        </Button>
+                    </Link>
+                    :
+                    <Button color="primary" onClick={this.cart.addProduct} fullWidth round className={classes.Cart}>
+                        <ShoppingCart /> Add To Cart
+                    </Button>
+                }
             </CardBody>
             </Card>
         </div>

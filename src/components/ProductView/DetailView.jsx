@@ -6,12 +6,13 @@
  */
 
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Carousel from "react-slick";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
 import {Select, FormControl, MenuItem, InputLabel, Chip, Hidden} from "@material-ui/core";
 // @material-ui/icons
-import {ShoppingCart, CompareArrows, FavoriteBorder, Favorite} from "@material-ui/icons";
+import {ShoppingCart, CompareArrows, FavoriteBorder, Favorite, ShoppingBasket} from "@material-ui/icons";
 
 import Button from "../../components/CustomButtons/Button.jsx";
 import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx"
@@ -26,10 +27,34 @@ class DetailView extends React.Component{
 
         this.state = {
             quantity: 1,
-            product: this.props.product
+            product: this.props.product,
+            Cart: (localStorage.cart)? JSON.parse(localStorage.cart) : {}
         };
 
         this.FavToggle = this.FavToggle.bind(this);
+
+        this.cart = {
+            checkProduct: () => {
+                return (this.state.Cart[this.state.product.id])? true : false;
+            },
+            addProduct: () => {
+                let cartData = (localStorage.cart)? JSON.parse(localStorage.cart) : {};
+                cartData[this.state.product.id] = 1;
+                localStorage.cart = JSON.stringify(cartData);
+                this.setState(...this.state, {Cart: cartData});
+                this.props.data.events.emit('add-to-cart');
+            },
+            getQuantity: () => {
+                return (this.state.Cart[this.state.product.id])? this.state.Cart[this.state.product.id] : 1;
+            },
+            setQuantity: num => {
+                let cartData = (localStorage.cart)? JSON.parse(localStorage.cart) : {};
+                cartData[this.state.product.id] = num;
+                localStorage.cart = JSON.stringify(cartData);
+                this.setState(...this.state, {Cart: cartData});
+                this.props.data.events.emit('add-to-cart');
+            }
+        };
     }
 
     FavToggle(){
@@ -44,8 +69,14 @@ class DetailView extends React.Component{
     }
 
     quantityChange = event => {
+        this.cart.setQuantity(event.target.value);
         this.setState({ [event.target.name]: event.target.value });
     };
+
+    componentWillReceiveProps (newProps){
+        this.setState(...this.state, {quantity: this.cart.getQuantity()});
+        this.setState(...this.state, {product: newProps.product});
+    }
 
   render(){
     const { classes, product, vendor, brand } = this.props;
@@ -143,7 +174,17 @@ class DetailView extends React.Component{
                         </Select>
                     </FormControl>
                 </form>
-                <Button color="primary" round><ShoppingCart/> Add To Cart</Button>
+                {(this.cart.checkProduct())?
+                    <Link to="/cart">
+                        <Button color="primary" round className={classes.Cart}>
+                            <ShoppingBasket /> Checkout
+                        </Button>
+                    </Link>
+                    :
+                    <Button color="primary" onClick={this.cart.addProduct} round className={classes.Cart}>
+                        <ShoppingCart /> Add To Cart
+                    </Button>
+                }
                 <br/><br/>
                 <DetailInfo vendor={vendor} brand={brand} product={product} />
                 <h3>Product Tags</h3>
