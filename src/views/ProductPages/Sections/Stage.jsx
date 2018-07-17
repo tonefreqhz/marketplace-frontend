@@ -103,16 +103,18 @@ class Stage extends React.Component {
         <div style={styles.container}>
           <div>
             <GridContainer justify="center">
-                  <MinSearch location="stage"/>
                   {(data.singleProduct)?
                     <GridItem sm={12}>
                       <div style={styles.cols}>
-                        <DetailView product={data.product} vendor={data.vendor} brand={data.brand} />
+                        <MinSearch location="stage"/>
+                        <MinSearch location="sidebar"/>
+                        <DetailView data={data} product={data.product} vendor={data.vendor} brand={data.brand} />
                       </div>
                     </GridItem>
                     :
                     <GridItem xs={12} sm={12} md={9}>
                       <div style={styles.cols}>
+                        <MinSearch location="stage"/>
                         <ProductView products={data.products} range={this.state.priceRange} data={data} all={true} heading={data.heading}/>
                       </div>
                     </GridItem>

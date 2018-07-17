@@ -1,8 +1,8 @@
 /**
- * @description The single product page view.
+ * @description The cart page view.
  * @author Mohammed Odunayo
- * @class SingleProduct
- * @name SingleProduct
+ * @class Cart
+ * @name Cart
  */
 
 import React from "react";
@@ -13,22 +13,20 @@ import Footer from "../../components/Footer/Footer.jsx";
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 import LeftLinks from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
-import Parallax from "../../components/Parallax/Parallax.jsx";
+import {getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
+import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
-import {getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
-import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
+import Parallax from "../../components/Parallax/Parallax";
 const Events = require('events');
 
-class SingleProduct extends React.Component {
+class Cart extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       loader: "block",
-      product: {},
-      productId: this.props.location.pathname.replace("/product/", "")
+      products: {}
     };
     
     document.body.scrollTop = 0;
@@ -36,26 +34,23 @@ class SingleProduct extends React.Component {
     this.events = new Events();
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch } = this.props;
-    
     dispatch(getVendors());
     dispatch(getBrands());
-    dispatch(getCategories());
     dispatch(getProducts())
       .then(
         () => {
-          this.setState(...this.state, {loader: "none"});
-          const product = this.props.front.products.filter(product => product.id === this.state.productId);
-          this.setState(...this.state, {product: product[0]});
+          let cart = (localStorage.cart)? JSON.parse(localStorage.cart) : {};
+          let products = this.props.front.products.filter(product => cart.hasOwnProperty(product.id));
+          this.setState(...this.state, {loader: "none", products: products});
         }
       );
   }
 
   render() {
     const { classes, front, ...rest } = this.props;
-    const { product } = this.state;
-    document.title = (product)? product.name + " @ Bezop Store || Worlds First Decentralized Store" : null;
+    document.title = "Shopping Cart @ Bezop Store || Worlds First Decentralized Store";
 
     return (
       <div>
@@ -73,16 +68,16 @@ class SingleProduct extends React.Component {
           {...rest}
         />
 
-        <Parallax style={{height: "400px"}} image={(product.images)? product.images[0] : null}>
+        <Parallax style={{height: "400px"}} image="https://images.pexels.com/photos/953862/pexels-photo-953862.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
           <div style={{backgroundColor: "rgba(0, 0, 0, 0.5)", content: "", display: "block", height: "100%", left: 0, top: 0,
                   position: "absolute", width: "100%"}}></div>
           <div className={classes.container}>
               <GridContainer>
               <GridItem>
                   <div style={{textAlign: "center", color: "#ffffff"}}>
-                    <h1 className={classes.title}>{product.name}</h1>
+                    <h1 className={classes.title}>Shopping Cart</h1>
                     <h3>
-                      {product.brief}
+                    Complete your shopping with few clicks.
                     </h3>
                   </div>
               </GridItem>
@@ -92,13 +87,10 @@ class SingleProduct extends React.Component {
 
         <div className={classNames(classes.main, classes.mainRaised)}>
           <Stage
-            product={product}
-            singleProduct={true}
-            heading={product.name}
-            categories={front.categories}
-            vendor={front.vendors[product.vendorId]}
-            brand={front.brands[product.brandId]}
+            products={this.state.products}
             events={this.events}
+            vendors={front.vendors}
+            brands={front.brands}
           />
         </div>
         <Footer topFooter={true} />
@@ -108,4 +100,4 @@ class SingleProduct extends React.Component {
 }
 
 
-export default SingleProduct;
+export default Cart;

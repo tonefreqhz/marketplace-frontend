@@ -16,6 +16,7 @@ import Stage from "./Sections/Stage.jsx";
 import Slider from "../../components/Parallax/Slider.jsx";
 import {getSliders, getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
+const Events = require('events');
 
 class Home extends React.Component {
 
@@ -27,6 +28,7 @@ class Home extends React.Component {
     
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    this.events = new Events();
   }
 
   componentWillMount() {
@@ -52,8 +54,8 @@ class Home extends React.Component {
         <PageLoader display={this.state.loader} />
         <Header
           brand="Bezop Store"
-          rightLinks={<HeaderLinks />}
-          leftLinks={<LeftLinks />}
+          rightLinks={<HeaderLinks events={this.events} />}
+          leftLinks={<LeftLinks events={this.events} />}
           fixed
           color="transparent"
           changeColorOnScroll={{
@@ -66,7 +68,7 @@ class Home extends React.Component {
         <Slider classes={classes} slides={front.sliders} />
 
         <div className={classNames(classes.main, classes.mainRaised)}>
-          <Stage products={front.products} categories={front.categories} vendors={front.vendors} brands={front.brands} />
+          <Stage products={front.products} categories={front.categories} vendors={front.vendors} brands={front.brands} events={this.events}/>
         </div>
         <Footer topFooter={true} />
       </div>
