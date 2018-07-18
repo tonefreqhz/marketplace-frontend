@@ -7,7 +7,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from '@material-ui/core/styles';
-import Button from "@material-ui/core/Button";
 import 'react-select/dist/react-select.css';
 import _ from "lodash";
 
@@ -21,6 +20,7 @@ import CustomInput from "../../../components/CustomInput/CustomInput.jsx";
 import validator from "../../../helpers/validator";
 import Snackbar from '@material-ui/core/Snackbar';
 import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
+import Button from "../../../components/CustomButtons/Button.jsx";
 
 //The component Style
 const styles = theme => ({

@@ -54,7 +54,7 @@ class EnhancedTable extends React.Component {
         orderBy: this.props.orderBy,
         selected: [],
         page: 0,
-        rowsPerPage: 7,
+        rowsPerPage: 10,
         columnData: this.props.columnData,
         data: []
       };
@@ -154,7 +154,7 @@ class EnhancedTable extends React.Component {
                 {data
                   .sort(getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map(n => {
+                  .map((n, pkey) => {
                     const isSelected = this.isSelected(n._id);
                     return (
                       <TableRow
@@ -178,14 +178,13 @@ class EnhancedTable extends React.Component {
                                     <ImagePlaceholder 
                                       srcImage={n[property.name]} 
                                       label={property.name} 
-                                      fileInput={property.name}
+                                      fileInput={`${property.name}${pkey}`} 
                                       width={property.width}
                                       height={property} />
                                       :
                                       property.ucword ? n[property.name].replace(/^\w/, c => c.toUpperCase()) : n[property.name]
-
+                                     
                                     }
-                                    
                                     </TableCell>)
                         })}
                         {

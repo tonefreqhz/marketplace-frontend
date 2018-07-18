@@ -7,10 +7,9 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from '@material-ui/core/styles';
-import Button from "@material-ui/core/Button";
 import _ from "lodash";
 import 'react-select/dist/react-select.css';
-
+import Snackbar from '@material-ui/core/Snackbar';
 
 import GridItem from "../../../components/Grid/GridItem.jsx";
 import Card from "../../../components/Card/Card.jsx";
@@ -19,8 +18,8 @@ import CardHeader from "../../../components/Card/CardHeader.jsx";
 import CardFooter from "../../../components/Card/CardFooter.jsx";
 import CustomInput from "../../../components/CustomInput/CustomInput.jsx";
 import validator from "../../../helpers/validator";
-import Snackbar from '@material-ui/core/Snackbar';
 import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
+import Button from "../../../components/CustomButtons/Button.jsx";
 
 //The component Style
 const styles = theme => ({

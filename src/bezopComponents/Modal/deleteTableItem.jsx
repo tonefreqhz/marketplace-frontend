@@ -1,27 +1,20 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 //import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 //import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import withStyles from "@material-ui/core/styles/withStyles";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Tooltip from '@material-ui/core/Tooltip';
-import Card from "../../components/Card/Card.jsx";
-import CardBody from "../../components/Card/CardBody.jsx";
-import CardHeader from "../../components/Card/CardHeader.jsx";
-import CardFooter from "../../components/Card/CardFooter.jsx";
-import GridItem from "../../components/Grid/GridItem.jsx";
 import DeleteIcon from '@material-ui/icons/Delete';
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
 
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
-
+import Button from "../../components/CustomButtons/Button.jsx";
 
 
 function Transition(props) {
@@ -55,8 +48,6 @@ class DeleteTableItemModal extends React.Component {
             </IconButton>
         </Tooltip>
         <Dialog
-        fullScreen={false}
-        fullWidth={true}
           classes={{
             root: classes.center,
             paper: classes.modal
@@ -79,37 +70,27 @@ class DeleteTableItemModal extends React.Component {
               onClick={this.handleClose}>
               <Close className={classes.modalClose} />
             </IconButton>
-
+            <h4 className={classes.modalTitle}>Delete {numberOfItems === 1 ? itemName.single : itemName.plural}</h4>
           </DialogTitle>
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-            <Card>
-                <CardHeader color="danger">
-                <div>
-                <Typography variant="display2" gutterBottom color="textSecondary">Delete {numberOfItems === 1 ? itemName.single : itemName.plural}</Typography>
-                </div>
-                </CardHeader>
-                <CardBody>
-                <Grid container>
-                    <GridItem xs={12}>
-                      <Typography variant="display1" gutterBottom>
-                        You are about to delete {numberOfItems} {numberOfItems === 1 ? itemName.single : itemName.plural}
-                    </Typography>
-                    </GridItem> 
-                </Grid>
-                </CardBody>
-                <CardFooter>
-                    <Grid container>
-                      <GridItem xs={12}>
-                        <Button variant="contained" color="secondary" component="span" className={classes.fluidButton} onClick={onDeleteItem}>
-                          Delete {numberOfItems} {numberOfItems === 1 ? itemName.single : itemName.plural}
-                        </Button>
-                      </GridItem>
-                    </Grid>
-            </CardFooter>
-            </Card>
+            <h5>You are about to delete {numberOfItems} {numberOfItems === 1 ? itemName.single : itemName.plural}</h5>
+            
           </DialogContent>
+          <DialogActions
+            className={classes.modalFooter +" " +classes.modalFooterCenter}>
+            <Button color="primary"
+              onClick={this.handleClose}
+            >
+              Cancel
+            </Button>
+            <Button color="danger"
+              onClick={onDeleteItem}
+              >
+              Delete {numberOfItems} {numberOfItems === 1 ? itemName.single : itemName.plural}
+            </Button>
+          </DialogActions>
         </Dialog>
       </div>
     );
