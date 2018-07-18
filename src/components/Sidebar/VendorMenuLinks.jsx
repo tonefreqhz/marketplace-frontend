@@ -25,6 +25,38 @@ import sidebarStyle from "./sidebarStyle.jsx";
 
 class Sidebar extends React.Component{
 
+  constructor(props){
+    super(props);
+    this.state = {
+      dropdowns: this.props.dropdowns,
+    }
+  }
+
+    //The Submenu Toggle
+    handleClick = (menu) => {
+      this.setDropDownState(menu);
+    };
+
+    //
+    componentDidMount(){
+      let name;
+      if(this.props.match.url.search("product") > 0){
+        name = "product";
+      }else if(this.props.match.url.search("blog") > 0){
+        name = "product";
+      }
+      this.setDropDownState(name);
+    }
+
+    //Setting dropdown state
+    setDropDownState = (menu) => {
+      let newDropdowns = JSON.parse(JSON.stringify(this.state.dropdowns));
+      newDropdowns[menu] = !this.state.dropdowns[menu]
+      this.setState({
+          dropdowns: newDropdowns
+      })
+    }
+
   render(){
   const { classes, color, routes } = this.props;
 //To check parent main 
@@ -69,11 +101,11 @@ class Sidebar extends React.Component{
             </ListItem>
           </NavLink>
         );
-      }else{//If prop has submenu the create a submenu
+      }else{//If prop has submenu then create a submenu
         subMenuActiveClass = classNames({ [" " + classes[color]]: this.props.activeRoute(prop.path) });
         return (
         <div key={key}>
-          <ListItem button className={classes.itemLink + activeClass} onClick={this.props.handleClick} key={key}>
+          <ListItem button className={classes.itemLink + activeClass} onClick={() => this.handleClick(prop.dropdown)} key={key}>
             <ListItemIcon className={classes.itemIcon + whiteFontClasses}>
               <prop.icon />
             </ListItemIcon>
@@ -83,15 +115,15 @@ class Sidebar extends React.Component{
               className={classes.itemText + whiteFontClasses}
               disableTypography={true}
             />
-            {(this.props.open) ?
+            {(this.state.dropdowns[prop.dropdown]) ?
                 <ExpandLess className="expand"/>
                 :
                 <ExpandMore className="expand"/>
             }
           </ListItem>
-          <Collapse in={this.props.open} timeout="auto" unmountOnExit style={{margin: "10px"}}>
+          <Collapse in={this.state.dropdowns[prop.dropdown]} timeout="auto" unmountOnExit style={{margin: "10px"}}>
           {
-            //Do the create the submenu
+            //Loop the current menu' submenu
           }
           {prop.subMenu.map((submenu, subkey) => {
             subMenuActiveClass = classNames({ [" " + classes[color]]: this.props.activeRoute(submenu.path) });

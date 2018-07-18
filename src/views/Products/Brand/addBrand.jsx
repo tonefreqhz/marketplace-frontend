@@ -6,9 +6,6 @@
  */
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Select2 from "react-select";
 import { withStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 import _ from "lodash";
@@ -47,26 +44,25 @@ const styles = theme => ({
   }
 });
 
-class AddCategory extends React.Component {
+class AddBrand extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      categoryDetails: {
+      brandDetails: {
         name:"",
         description: "",
         kind: "",
       },
-      categoryDetailsError: {
+      brandDetailsError: {
         name:false,
         description: false,
         kind: false,
       },
-      selectedCategoryKind: null,
-      categoryKindSelect: "react-select-label-hidden",
+      selectedBrandKind: null,
+      brandKindSelect: "react-select-label-hidden",
       snackBarOpen: true,
-      snackBarOpenSuccess: false,
       snackBarMessage: "",
       submitButtonDeactive: false
       
@@ -79,9 +75,6 @@ class AddCategory extends React.Component {
     switch(type){
       case "name":
           output = validator.minStrLen(value, 3);
-      break;
-      case "kind":
-          output = validator.isEmpty(value) || validator.contained(value, ['physical', 'digital']);
       break;
       case "description":
           output = validator.minStrLen(value, 15);
@@ -98,38 +91,34 @@ class AddCategory extends React.Component {
     this.setState({ snackBarOpen: false });
   }
 
-  onCloseHandlerSuccess = () => {
-    this.setState({ snackBarOpenSuccess: false });
-  }
-
   //Setting the state of all input feilds
-  setCategoryDetails = (type, value) => {
-    let newcategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
-    newcategoryDetails[type] = value;
+  setBrandDetails = (type, value) => {
+    let newbrandDetails = JSON.parse(JSON.stringify(this.state.brandDetails));
+    newbrandDetails[type] = value;
     this.setState({
-        categoryDetails: newcategoryDetails,
+        brandDetails: newbrandDetails,
     });
 
-    this.setCategoryDetailsSpecialError(type, value);
+    this.setBrandDetailsSpecialError(type, value);
   }
 
 
   //Setting the state every fields that have error
-  setCategoryDetailsSpecialError(type, value){
+  setBrandDetailsSpecialError(type, value){
     let newValue = value === null ? "" : value;
-    let newCategoryDetailsError = JSON.parse(JSON.stringify(this.state.categoryDetailsError));
-    newCategoryDetailsError[type] = this.inputErrorValidation(type, newValue);
+    let newBrandDetailsError = JSON.parse(JSON.stringify(this.state.brandDetailsError));
+    newBrandDetailsError[type] = this.inputErrorValidation(type, newValue);
     this.setState({
-        categoryDetailsError: newCategoryDetailsError
+        brandDetailsError: newBrandDetailsError
     });
     this.changeSubmitButton();
   }
 
   changeSubmitButton(){
-    let newCategoryDetailsError = JSON.parse(JSON.stringify(this.state.categoryDetailsError));
-    let newCategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
-    if(!newCategoryDetailsError.name && !newCategoryDetailsError.description && !newCategoryDetailsError.kind){
-        if(!validator.isEmpty(newCategoryDetails.name) && !validator.isEmpty(newCategoryDetails.description) && !validator.isEmpty(newCategoryDetails.kind)){
+    let newBrandDetailsError = JSON.parse(JSON.stringify(this.state.brandDetailsError));
+    let newBrandDetails = JSON.parse(JSON.stringify(this.state.brandDetails));
+    if(!newBrandDetailsError.name && !newBrandDetailsError.description){
+        if(!validator.isEmpty(newBrandDetails.name) && !validator.isEmpty(newBrandDetails.description)){
           this.setState({
             submitButtonDeactive: true
           })
@@ -146,31 +135,15 @@ class AddCategory extends React.Component {
   }
   //Get the value of Input Element
   handleChange =  (event) => {
-    this.setCategoryDetails(event.target.name, event.target.value);
+    this.setBrandDetails(event.target.name, event.target.value);
     
   };
-  //This handles the country select element
-  handleCategoryKindChange = (selectedCategoryKind) => {
-    this.setState({ selectedCategoryKind });
-    if(selectedCategoryKind !== null){
-      this.setCategoryDetails("kind", selectedCategoryKind.value);
-      this.setState({
-        categoryKindSelect: "react-select-label-visible"
-      })
-    }else{
-      this.setState({
-        categoryKindSelect: "react-select-label-hidden",
-      })
-      this.setCategoryDetails("kind", "")
-      this.setCategoryDetailsSpecialError("kind", null);
-    }
-  }
 
-  //Create new Category
-  createNewCategory = () => {
-    let newCategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
-    if(!validator.minStrLen(newCategoryDetails.name, 3) && !validator.minStrLen(newCategoryDetails.description, 15) && !validator.isEmpty(newCategoryDetails.kind) && !validator.contained(newCategoryDetails.kind, ['physical', 'digital'])){
-      this.props.addProductCategory(this.state.categoryDetails);
+  //Create new Brand
+  createNewBrand = () => {
+    let newBrandDetails = JSON.parse(JSON.stringify(this.state.brandDetails));
+    if(!validator.minStrLen(newBrandDetails.name, 3) && !validator.minStrLen(newBrandDetails.description, 15) ){
+      this.props.addProductBrand(this.state.brandDetails);
     }else{
       this.setState({
         snackBarMessage: "All fields are required",
@@ -182,17 +155,14 @@ class AddCategory extends React.Component {
 
 
   componentWillReceiveProps(newProps){
-    if(newProps.productCategory.hasOwnProperty("addCategory") && (_.isEqual(this.props.productCategory.addCategory, newProps.productCategory.addCategory) === false)){
+    if(newProps.productBrand.hasOwnProperty("addBrand") && (_.isEqual(this.props.productBrand.addBrand, newProps.productBrand.addBrand) === false)){
         this.setState({
-          categoryDetails: {
+          brandDetails: {
             name:"",
             description: "",
-            kind: "",
           },
-          snackBarOpenSuccess: true,
-          selectedCategoryKind: null,
+          snackBarOpen: false,
         });
-
         this.props.onHandleModalClose();
     }
   }
@@ -211,10 +181,8 @@ class AddCategory extends React.Component {
   }
   render(){
     const {classes} = this.props;
-    const {categoryDetails,
-           categoryKindSelect,
-           selectedCategoryKind,
-           categoryDetailsError,
+    const {brandDetails,
+           brandDetailsError,
            snackBarOpen,
            snackBarMessage,
            submitButtonDeactive
@@ -227,21 +195,21 @@ class AddCategory extends React.Component {
         <Card>
             <CardHeader color="primary">
               <div>
-                <h4>Add New Product Category</h4>
+                <h4>Add New Product Brand</h4>
               </div>
               <div>
-                <p>Product Category Details</p>
+                <p>Product Brand Details</p>
               </div>
             </CardHeader>
             <CardBody>
               <Grid container>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
-                    labelText={categoryDetailsError.name === false? "Category Name" : "The length of Category must not be less than 3 characters"}
+                    labelText={brandDetailsError.name === false? "Brand Name" : "The length of Brand must not be less than 3 characters"}
                     id="name"
-                    error={categoryDetailsError.name}
+                    error={brandDetailsError.name}
                     inputProps={{
-                      value: categoryDetails.name,
+                      value: brandDetails.name,
                       name:"name",
                       onChange: this.handleChange
                     }}
@@ -251,30 +219,13 @@ class AddCategory extends React.Component {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="selectedCategoryKind" className={categoryKindSelect}>Type or Select Category Kind</InputLabel>
-                    <Select2 
-                      id="selectedCategoryKind"
-                      name="selectedCategoryKind"
-                      value={selectedCategoryKind}
-                      placeholder="Type or Select Category Kind"
-                      onChange={this.handleCategoryKindChange}
-                      options={[
-                        {value: "digital", label: "Digital"},
-                        {value: "physical", label: "Physical"}
-                      ]}
-                      className={categoryDetailsError.kind === true ? "select-menu-error": ""}
-                      />
-                  </FormControl>
-                </GridItem>
               </Grid>
               <Grid container>
                 <GridItem xs={12}>
 
                 <CustomInput
-                    error={categoryDetailsError.description}
-                    labelText={categoryDetailsError.description === false ? "Description" : "The length of Category must not be less than 15 characters"}
+                    error={brandDetailsError.description}
+                    labelText={brandDetailsError.description === false ? "Description" : "The length of Brand must not be less than 15 characters"}
                     id="description"
                     formControlProps={{
                       fullWidth: true
@@ -284,7 +235,7 @@ class AddCategory extends React.Component {
                       rows: 5,
                       name: "description",
                       onChange: this.handleChange,
-                      value: categoryDetails.description,
+                      value: brandDetails.description,
                     }}
                   />
                 </GridItem>
@@ -294,8 +245,8 @@ class AddCategory extends React.Component {
             <CardFooter>
                     <Grid container>
                       <GridItem xs={12}>
-                        <Button variant="contained" color="primary" component="span" disabled={!submitButtonDeactive} className={classes.fluidButton} onClick={this.createNewCategory}>
-                          Create Product Category
+                        <Button variant="contained" color="primary" component="span" disabled={!submitButtonDeactive} className={classes.fluidButton} onClick={this.createNewBrand}>
+                          Create Product Brand
                         </Button>
                       </GridItem>
                     </Grid>
@@ -317,4 +268,4 @@ class AddCategory extends React.Component {
   }
 }
 
-export default withStyles(styles)(AddCategory);
+export default withStyles(styles)(AddBrand);

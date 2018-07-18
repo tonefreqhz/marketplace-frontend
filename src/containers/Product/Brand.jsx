@@ -4,16 +4,16 @@
 */
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
-import ProductCategoryComponent from '../../views/Products/Category/category';
+import ProductBrandComponent from '../../views/Products/Brand/brand';
 import { 
-postProductCategoryDetails,
-fetchProductCategories,
-putProductCategoryDetails,
-deleteProductCategory } from "../../actions/actions_product_category"
+postProductBrandDetails,
+fetchProductBrands,
+putProductBrandDetails,
+deleteProductBrand } from "../../actions/actions_product_brand"
 
 
-const ProductCategoryStyle = {
-  cardCategoryWhite: {
+const ProductBrandStyle = {
+  cardBrandWhite: {
     "&,& a,& a:hover,& a:focus": {
       color: "white",
       margin: "0",
@@ -42,30 +42,30 @@ const ProductCategoryStyle = {
   }
 };
 const mapStateToProps = state => ({
-  productCategory: state.productCategory
+  productBrand: state.productBrand
 });
 
 
 const mapDispatchToProps = (dispatch, newProps) => {
   return {
-    postProductCategoryDetails : (categoryDetails) => {
-      dispatch(postProductCategoryDetails(categoryDetails));
+    postProductBrandDetails : (brandDetails) => {
+      dispatch(postProductBrandDetails(brandDetails));
     },
-    fetchProductCategories: () => {
-      dispatch(fetchProductCategories());
+    fetchProductBrands: () => {
+      dispatch(fetchProductBrands());
     },
-    putProductCategoryDetails: (categoryDetails, categoryID) => {
-      dispatch(putProductCategoryDetails(categoryDetails, categoryID));
+    putProductBrandDetails: (brandDetails, brandID) => {
+      dispatch(putProductBrandDetails(brandDetails, brandID));
     },
-    deleteProductCategory: (categoryID) => {
-      dispatch(deleteProductCategory(categoryID));
+    deleteProductBrand: (brandID) => {
+      dispatch(deleteProductBrand(brandID));
     }
   }
 }
 
-const ProductCategory = connect(
+const ProductBrand = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProductCategoryComponent);
+)(ProductBrandComponent);
 
-export default withStyles(ProductCategoryStyle)(ProductCategory)
+export default withStyles(ProductBrandStyle)(ProductBrand)

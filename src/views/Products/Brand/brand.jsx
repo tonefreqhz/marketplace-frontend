@@ -16,7 +16,7 @@ import GridItem from "../../../components/Grid/GridItem.jsx";
 import Card from "../../../components/Card/Card.jsx";
 import CardHeader from "../../../components/Card/CardHeader.jsx";
 import CardBody from "../../../components/Card/CardBody.jsx";
-import AddNewProductCategory from "./categoryModal";
+import AddNewProductBrand from "./brandModal";
 import TableCell from '@material-ui/core/TableCell';
 import Snackbar from '@material-ui/core/Snackbar';
 import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
@@ -26,76 +26,75 @@ import EnhancedTable from "../../../bezopComponents/Table/EnhancedTable";
 
 
 const columnData = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Product Category' },
-  { id: 'kind', numeric: false, disablePadding: true, label: 'Category Kind' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'Product Brand' },
   { id: 'description', numeric: false, disablePadding: true,  label: 'Description' },
   { id: 'icon', numeric: false, disablePadding: true,  label: 'Thumbnail' },
   { id: 'banner',  numeric: false, disablePadding: true,  label: 'Banner' },
 ];
 
 const properties = [{name: "name", component: true, padding: true, numeric: false, img: false},
-{name: "kind", component: false, padding: false, numeric: false, img: false, ucword: true},
 {name: "description", component: false, padding: false, numeric: false, img: false},
 {name: "icon", component: false, padding: false, numeric: false, img: true, width: 500, height: 500},
 {name: "banner", component: false, padding: false, numeric: false, img: true, width: 1024, height: 576}];
 
 
-class Category extends React.Component{
+class Brand extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
-        categories: [],
+        brands: [],
         data: [],
         snackBarOpenSuccess: false,
         snackBarMessageSuccess: "Yet to decide the action",
-        deletedCategory: 0,
+        deletedBrand: 0,
     }
   }
 
   componentDidMount(){
-    this.props.fetchProductCategories();
+    this.props.fetchProductBrands();
   }
 
   editButtonDisplay = (n) =>{
     return (<TableCell>
-    {<AddNewProductCategory type="edit" eachData={n} productCategory={this.props.productCategory} specialMethod={this.props.putProductCategoryDetails}/>}
+    {<AddNewProductBrand type="edit" eachData={n} productBrand={this.props.productBrand} specialMethod={this.props.putProductBrandDetails}/>}
 </TableCell>)
   }
 
   componentDidUpdate(prevProps){
-    if(this.props.productCategory.hasOwnProperty("categories") && (_.isEqual(this.props.productCategory.categories, prevProps.productCategory.categories) === false)){
+    if(this.props.productBrand.hasOwnProperty("brands") && (_.isEqual(this.props.productBrand.brands, prevProps.productBrand.brands) === false)){
         this.setState({
-          data: this.props.productCategory.categories
+          data: this.props.productBrand.brands
         })
     }
 
-    if(this.props.productCategory.hasOwnProperty("addCategory") && (_.isEqual(this.props.productCategory.addCategory, prevProps.productCategory.addCategory) === false)){
-      let newCategories = JSON.parse(JSON.stringify(this.state.data));
-      newCategories.unshift(this.props.productCategory.addCategory);
+    if(this.props.productBrand.hasOwnProperty("addBrand") && (_.isEqual(this.props.productBrand.addBrand, prevProps.productBrand.addBrand) === false)){
+      let newBrands = JSON.parse(JSON.stringify(this.state.data));
+      newBrands.unshift(this.props.productBrand.addBrand);
 
       this.setState({
-        data: newCategories,
+        data: newBrands,
         snackBarOpenSuccess: true,
-        snackBarMessageSuccess: "You have successfully created product category",
+        snackBarMessageSuccess: "You have successfully created product brand"
       });
     }
 
-    if(this.props.productCategory.hasOwnProperty("updateCategory") && (_.isEqual(this.props.productCategory.updateCategory, prevProps.productCategory.updateCategory) === false)){
-      let newCategories = JSON.parse(JSON.stringify(this.state.data));
-      let updateCategories;
-      updateCategories = newCategories.map( category => {
-                if(this.props.productCategory.updateCategory._id === category._id){
-                  return this.props.productCategory.updateCategory;
+    if(this.props.productBrand.hasOwnProperty("updateBrand") && (_.isEqual(this.props.productBrand.updateBrand, prevProps.productBrand.updateBrand) === false)){
+      let newBrands = JSON.parse(JSON.stringify(this.state.data));
+      let updateBrands;
+      updateBrands = newBrands.map( brand => {
+                if(this.props.productBrand.updateBrand._id === brand._id){
+                  return this.props.productBrand.updateBrand;
                 }else{
-                  return category;
+                  return brand;
                 }
             });
 
       this.setState({
-        data: updateCategories,
+        data: updateBrands,
         snackBarOpenSuccess: true,
-        snackBarMessageSuccess: "You have successfully updated product category",
+        snackBarMessageSuccess: "You have successfully updated product brand"
+
       });
     }
   }
@@ -107,49 +106,50 @@ class Category extends React.Component{
   }
 
 
-  handleDeleteClick = (categoryIDs) => {
+  handleDeleteClick = (brandIDs) => {
     let counter = 0;
-    for(const categoryID of categoryIDs){
-      this.props.deleteProductCategory(categoryID);
+    for(const brandID of brandIDs){
+      this.props.deleteProductBrand(brandID);
       counter++;
-      if(counter === categoryIDs.length){
-        let newData = this.state.data.filter( datum =>  categoryIDs.indexOf(datum._id)  === -1) 
+      if(counter === brandIDs.length){
+        let newData = this.state.data.filter( datum =>  brandIDs.indexOf(datum._id)  === -1) 
         this.setState({
           data: newData,
           snackBarOpenSuccess: true,
-          snackBarMessageSuccess: `You have successfully deleted ${counter} product ${counter === 1 ? "category" : "categories"}`,
+          snackBarMessageSuccess: `You have successfully deleted ${counter} product ${counter === 1 ? "brand" : "brands"}`
         })
       }
     }
   }
 
   render(){
-  const { classes, postProductCategoryDetails, productCategory} = this.props;
+  const { classes, postProductBrandDetails, productBrand} = this.props;
   const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
+
   return (
     <Grid container>
     <GridItem xs={12} md={10}>
     </GridItem>
     <GridItem xs={6} md={2}>
-    <AddNewProductCategory productCategory={productCategory} addProductCategory={postProductCategoryDetails} type="add"/>
+    <AddNewProductBrand productBrand={productBrand} addProductBrand={postProductBrandDetails} type="add"/>
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>All Category</h4>
-              <p className={classes.cardCategoryWhite}>List of All Categories</p>
+              <h4 className={classes.cardTitleWhite}>All Brand</h4>
+              <p className={classes.cardBrandWhite}>List of All Brands</p>
           </CardHeader>
           <CardBody>
           <EnhancedTable
               orderBy="name"
               columnData={columnData}
               data={data}
-              tableTitle="All Product Category"
+              tableTitle="All Product Brand"
               properties={properties}
               editButton={this.editButtonDisplay}
               onDeleteClickSpec={this.handleDeleteClick}
               currentSelected = {[]}
-              itemName={{single : "Product Category", plural: "Product Categories"}}
+              itemName={{single : "Product Brand", plural: "Product Brands"}}
             />
           </CardBody>
         </Card>
@@ -170,4 +170,4 @@ class Category extends React.Component{
 }
 }
 
-export default Category;
+export default Brand;

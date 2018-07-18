@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+//import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-
 //import DialogContentText from '@material-ui/core/DialogContentText';
 import Edit from "@material-ui/icons/Edit";
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -12,8 +12,8 @@ import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
 
-import AddCategory from "./addCategory";
-import EditCategory from "./editCategory";
+import AddBrand from "./addBrand";
+import EditBrand from "./editBrand";
 
 
 import modalStyle from "../../../assets/jss/material-kit-react/modalStyle.jsx";
@@ -24,7 +24,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class CategoryModal extends React.Component {
+class BrandModal extends React.Component {
 
   constructor(props){
     super(props);
@@ -47,21 +47,21 @@ class CategoryModal extends React.Component {
     let modalTitle;
     switch(type){
       case "add": 
-          modalContent  = <AddCategory onHandleModalClose={this.handleClose} addProductCategory={this.props.addProductCategory} productCategory={this.props.productCategory}/>
+          modalContent  = <AddBrand onHandleModalClose={this.handleClose} addProductBrand={this.props.addProductBrand} productBrand={this.props.productBrand}/>
           modalTitle = (<Button
                           variant="contained"
                           color="primary"
                           onClick={this.handleClickOpen}
                           style={{marginBottom: "10px"}}>
-                            Add New Product Category
+                            Add New Product Brand
                           </Button>);
         break;
       case "edit":
-          modalContent = <EditCategory onHandleModalClose={this.handleClose} eachData={this.props.eachData} specialMethod={this.props.specialMethod} productCategory={this.props.productCategory}/>;
+          modalContent = <EditBrand eachData={this.props.eachData} onHandleModalClose={this.handleClose} specialMethod={this.props.specialMethod} productBrand={this.props.productBrand}/>;
           modalTitle = <Edit onClick={this.handleClickOpen} />;
         break;
       default:
-          modalContent = "Sorry pnale not available";
+          modalContent = "Sorry not available";
           modalTitle = "..Thinking"
         break
     }
@@ -107,4 +107,4 @@ class CategoryModal extends React.Component {
   }
   }
   
-  export default withStyles(modalStyle)(CategoryModal);
+  export default withStyles(modalStyle)(BrandModal);
