@@ -11,6 +11,8 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Email from "@material-ui/icons/Email"
+import Language from "@material-ui/icons/Language"
+
 // core components/views
 import DashboardPage from "../containers/Dashboard.jsx";
 import UserProfile from "../containers/UserProfiles.jsx";
@@ -23,7 +25,8 @@ import Shop from "../containers/Shops.jsx"
 import Support from "../containers/Supports.jsx"
 import UpgradeToPro from "../containers/UpgradeToPro.jsx";
 import Banners from "../containers/Banners.jsx";
-import Messages from "../containers/Messages.jsx"
+import Messages from "../containers/Messages.jsx";
+import Blog from "../containers/Blog/blog"
 
 export const dashboardRoutes = [
   {
@@ -87,6 +90,13 @@ export const dashboardRoutes = [
     navbarName: "Discount Coupons",
     icon: Loyalty,
     component: Coupons
+  },
+  {
+    path: "/dashboard/blog",
+    sidebarName: "Blog",
+    navbarName: "Blog",
+    icon: Language,
+    component: Blog,
   },
   {
     path: "/dashboard/banner",

@@ -15,7 +15,6 @@ import CardBody from "../../components/Card/CardBody.jsx";
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import ImagePlaceholder from "./Category/ImagePlaceholder";
 import validator from "../../helpers/validator";
-import ImageCropModal from "./Category/imageCropperModal";
 import Snackbar from '@material-ui/core/Snackbar';
 import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
 
@@ -56,7 +55,7 @@ class ContainedButtons extends React.Component {
       categoryKindSelect: "react-select-label-hidden",
       srcImageThumb: "http://localhost:3000/assets/img/the-smiths.png",
       srcFront: "http://localhost:3000/assets/img/the-smiths.png",
-      snackBarOpen: true,
+      snackBarOpen: false,
       snackBarMessage: "",
       imageCropped: {},
       imageCroppedThumbnail: {}
@@ -217,7 +216,6 @@ class ContainedButtons extends React.Component {
   render(){
     const {classes} = this.props;
     const {
-           srcImage,
            srcImageThumb,
            srcFront,
            snackBarOpen,
@@ -239,20 +237,7 @@ class ContainedButtons extends React.Component {
               <Grid container>
 
                 <GridItem xs={12} md={6}>
-                <div style={{margin: "5px"}}>
-                    <ImageCropModal 
-                    imgSrc={srcImage} 
-                    topMostParentImageLink={this.assignCroppedImage}
-                    minWidth={500} 
-                    minHeight={500}
-                    aspectWidth={1}
-                    aspectHeight={1}
-                    cropInfoStorage="imageCropped"
-                    />
-                </div>
-                <div>
                 <ImagePlaceholder srcImage={srcFront}/>
-                </div>
                 <label htmlFor="contained-button-file">
                   <Button variant="contained" color="primary" component="span" className={classes.fluidButton} >
                     Upload Product Front-View
@@ -270,17 +255,6 @@ class ContainedButtons extends React.Component {
 
                 
                 <GridItem xs={12} md={6}>
-                  <div style={{margin: "5px"}}>
-                    <ImageCropModal 
-                    imgSrc={srcImageThumb} 
-                    topMostParentImageLink={this.assignCroppedImage}
-                    minWidth={500} 
-                    minHeight={500}
-                    aspectWidth={1}
-                    aspectHeight={1}
-                    cropInfoStorage="imageCroppedThumbnail"
-                    />
-                </div>
                 <div>
                 <ImagePlaceholder srcImage={srcImageThumb}/>
                 </div>

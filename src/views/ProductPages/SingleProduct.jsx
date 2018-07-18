@@ -18,6 +18,7 @@ import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import {getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
+const Events = require('events');
 
 class SingleProduct extends React.Component {
 
@@ -32,6 +33,7 @@ class SingleProduct extends React.Component {
     
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    this.events = new Events();
   }
 
   componentDidMount() {
@@ -60,8 +62,8 @@ class SingleProduct extends React.Component {
         <PageLoader display={this.state.loader} />
         <Header
           brand="Bezop Store"
-          rightLinks={<HeaderLinks />}
-          leftLinks={<LeftLinks />}
+          rightLinks={<HeaderLinks events={this.events} />}
+          leftLinks={<LeftLinks events={this.events} />}
           fixed
           color="transparent"
           changeColorOnScroll={{
@@ -96,6 +98,7 @@ class SingleProduct extends React.Component {
             categories={front.categories}
             vendor={front.vendors[product.vendorId]}
             brand={front.brands[product.brandId]}
+            events={this.events}
           />
         </div>
         <Footer topFooter={true} />

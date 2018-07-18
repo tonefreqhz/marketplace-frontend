@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {Select, IconButton, FormControl, MenuItem, InputLabel, Chip, DialogActions, DialogContent, DialogTitle, Slide, Dialog} from "@material-ui/core";
 // @material-ui/icons
-import {Close, ShoppingCart, Pageview, CompareArrows, FavoriteBorder, Favorite} from "@material-ui/icons";
+import {Close, ShoppingCart, Pageview, CompareArrows, FavoriteBorder, Favorite, ShoppingBasket} from "@material-ui/icons";
 
 import Button from "../../components/CustomButtons/Button.jsx";
 import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx"
@@ -32,14 +32,21 @@ class QuickView extends React.Component{
         this.state = {
             quantity: 1
         };
+
+        this.quantityChange = this.quantityChange.bind(this);
     }
 
     quantityChange = event => {
+        this.props.cart.setQuantity(event.target.value);
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    componentDidMount (){
+        this.setState(...this.state, {quantity: this.props.cart.getQuantity()});
+    }
+
   render(){
-    const { classes, param, event, favToggle, product, data } = this.props;
+    const { classes, param, event, favToggle, product, data, cart } = this.props;
     const settings = {
         dots: true,
         infinite: true,
@@ -118,7 +125,13 @@ class QuickView extends React.Component{
                         </Select>
                     </FormControl>
                 </form>
-                <Button onClick={event} color="primary" round><ShoppingCart/> Add To Cart</Button>
+                {(cart.checkProduct()) ?
+                    <Link to="/cart">
+                        <Button onClick={event} color="primary" round><ShoppingBasket/> Checkout</Button>
+                    </Link>
+                    :
+                    <Button color="primary" onClick={cart.addProduct} round><ShoppingCart/> Add To Cart</Button>
+                }
                 <br/><br/>
                 <ProductInfo data={data} product={product} />
                 <h3>Product Tags</h3>

@@ -17,7 +17,22 @@ import Badge from '../../components/Badge/Badge.jsx';
 
 class HeaderLinks extends React.Component {
 
-  state = { open: false };
+  constructor(props) {
+    super(props);
+    this.state = { 
+      open: false,
+      Cart: (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0
+    };
+
+    if(this.props.events){
+      this.props.events.on('add-to-cart', this.updateCart.bind(this));
+    }
+  }
+
+  updateCart() {
+    let cart = (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0;
+    this.setState(...this.state, {Cart: cart});
+  }
 
   handleClick = () => {
     this.setState(state => ({ open: !state.open }));
@@ -31,7 +46,11 @@ class HeaderLinks extends React.Component {
         <List className={classes.list}>
           <ListItem className={classes.listItem}>
             <Link to="/cart" className={classes.navLink} color="transparent">
-              <ShoppingCart />&nbsp;Shopping Cart&nbsp;<Badge color="primary" className={classes.navLink}><big style={{fontSize: "1.3em"}}>0</big></Badge>
+              <ShoppingCart />&nbsp;Shopping Cart&nbsp;<Badge color="primary" className={classes.navLink}>
+                <big style={{fontSize: "1.3em"}}>
+                  {this.state.Cart}
+                </big>
+              </Badge>
             </Link>
           </ListItem>
           <ListItem className={classes.listItem}>
