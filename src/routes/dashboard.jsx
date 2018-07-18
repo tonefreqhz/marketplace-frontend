@@ -17,6 +17,7 @@ import UserProfile from "../containers/UserProfiles.jsx";
 import Orders from "../containers/Orders.jsx";
 import Products from "../containers/Product/Products.jsx";
 import ProductCategory from "../containers/Product/Category.jsx";
+import ProductBrand from "../containers/Product/Brand.jsx";
 import Coupons from "../containers/Coupons.jsx"
 import Shop from "../containers/Shops.jsx"
 import Support from "../containers/Supports.jsx"
@@ -69,7 +70,7 @@ export const dashboardRoutes = [
         sidebarName: "Product Brand",
         navbarName: "Product Brand",
         icon: Store,
-        component: Coupons,
+        component: ProductBrand,
       }
     ]
   },

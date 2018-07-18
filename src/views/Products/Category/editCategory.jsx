@@ -11,8 +11,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select2 from "react-select";
 import { withStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
-import _ from "lodash";
 import 'react-select/dist/react-select.css';
+import _ from "lodash";
 
 
 import GridItem from "../../../components/Grid/GridItem.jsx";
@@ -47,30 +47,31 @@ const styles = theme => ({
   }
 });
 
-class AddCategory extends React.Component {
+class EditCategory extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
       categoryDetails: {
-        name:"",
-        description: "",
-        kind: "",
+        name: this.props.eachData.name,
+        description: this.props.eachData.description,
+        kind: this.props.eachData.kind,
       },
       categoryDetailsError: {
         name:false,
         description: false,
         kind: false,
       },
-      selectedCategoryKind: null,
+      selectedCategoryKind: {value: this.props.eachData.kind, label: this.props.eachData.kind.replace(/^\w/, c => c.toUpperCase())},
       categoryKindSelect: "react-select-label-hidden",
       snackBarOpen: true,
-      snackBarOpenSuccess: false,
       snackBarMessage: "",
-      submitButtonDeactive: false
+      snackBarOpenSuccess: false,
       
     };
+    this.fileInput = React.createRef();
+    this.thumbnail = React.createRef();
   }
 
   //Check the imput Error
@@ -81,7 +82,7 @@ class AddCategory extends React.Component {
           output = validator.minStrLen(value, 3);
       break;
       case "kind":
-          output = validator.isEmpty(value) || validator.contained(value, ['physical', 'digital']);
+          output = validator.isEmpty(value);
       break;
       case "description":
           output = validator.minStrLen(value, 15);
@@ -98,10 +99,6 @@ class AddCategory extends React.Component {
     this.setState({ snackBarOpen: false });
   }
 
-  onCloseHandlerSuccess = () => {
-    this.setState({ snackBarOpenSuccess: false });
-  }
-
   //Setting the state of all input feilds
   setCategoryDetails = (type, value) => {
     let newcategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
@@ -109,48 +106,30 @@ class AddCategory extends React.Component {
     this.setState({
         categoryDetails: newcategoryDetails,
     });
-
     this.setCategoryDetailsSpecialError(type, value);
+  }
+
+  onCloseHandlerSuccess = () => {
+    this.setState({ snackBarOpenSuccess: false });
   }
 
 
   //Setting the state every fields that have error
-  setCategoryDetailsSpecialError(type, value){
-    let newValue = value === null ? "" : value;
+  setCategoryDetailsSpecialError(type, value, value1 = null){
     let newCategoryDetailsError = JSON.parse(JSON.stringify(this.state.categoryDetailsError));
-    newCategoryDetailsError[type] = this.inputErrorValidation(type, newValue);
+    newCategoryDetailsError[type] = this.inputErrorValidation(type, value, value1);
     this.setState({
         categoryDetailsError: newCategoryDetailsError
-    });
-    this.changeSubmitButton();
-  }
-
-  changeSubmitButton(){
-    let newCategoryDetailsError = JSON.parse(JSON.stringify(this.state.categoryDetailsError));
-    let newCategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
-    if(!newCategoryDetailsError.name && !newCategoryDetailsError.description && !newCategoryDetailsError.kind){
-        if(!validator.isEmpty(newCategoryDetails.name) && !validator.isEmpty(newCategoryDetails.description) && !validator.isEmpty(newCategoryDetails.kind)){
-          this.setState({
-            submitButtonDeactive: true
-          })
-        }else{
-          this.setState({
-            submitButtonDeactive: false
-          })
-        }
-    }else{
-      this.setState({
-        submitButtonDeactive: false
-      })
-    }
+    })
   }
   //Get the value of Input Element
   handleChange =  (event) => {
     this.setCategoryDetails(event.target.name, event.target.value);
-    
   };
+
   //This handles the country select element
   handleCategoryKindChange = (selectedCategoryKind) => {
+
     this.setState({ selectedCategoryKind });
     if(selectedCategoryKind !== null){
       this.setCategoryDetails("kind", selectedCategoryKind.value);
@@ -159,40 +138,19 @@ class AddCategory extends React.Component {
       })
     }else{
       this.setState({
-        categoryKindSelect: "react-select-label-hidden",
+        categoryKindSelect: "react-select-label-hidden"
       })
-      this.setCategoryDetails("kind", "")
-      this.setCategoryDetailsSpecialError("kind", null);
+      this.setCategoryDetailsSpecialError("kind", "");
     }
   }
 
   //Create new Category
-  createNewCategory = () => {
-    let newCategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
-    if(!validator.minStrLen(newCategoryDetails.name, 3) && !validator.minStrLen(newCategoryDetails.description, 15) && !validator.isEmpty(newCategoryDetails.kind) && !validator.contained(newCategoryDetails.kind, ['physical', 'digital'])){
-      this.props.addProductCategory(this.state.categoryDetails);
-    }else{
-      this.setState({
-        snackBarMessage: "All fields are required",
-        snackBarOpen: true
-      })
-    }
-    
+  updateCategory = () => {
+    this.props.specialMethod(this.state.categoryDetails, this.props.eachData._id);
   }
 
-
   componentWillReceiveProps(newProps){
-    if(newProps.productCategory.hasOwnProperty("addCategory") && (_.isEqual(this.props.productCategory.addCategory, newProps.productCategory.addCategory) === false)){
-        this.setState({
-          categoryDetails: {
-            name:"",
-            description: "",
-            kind: "",
-          },
-          snackBarOpenSuccess: true,
-          selectedCategoryKind: null,
-        });
-
+    if(newProps.productCategory.hasOwnProperty("updateCategory") && (_.isEqual(this.props.productCategory.updateCategory, newProps.productCategory.updateCategory) === false)){
         this.props.onHandleModalClose();
     }
   }
@@ -203,7 +161,6 @@ class AddCategory extends React.Component {
         this.setState({ cardAnimaton: "" }),
       700
     );
-
   }
   //Clear the slider when moving to another page
   componentWillUnmount(){
@@ -217,17 +174,15 @@ class AddCategory extends React.Component {
            categoryDetailsError,
            snackBarOpen,
            snackBarMessage,
-           submitButtonDeactive
           } = this.state;
-        
-          
+
     return (
       <div>
         
         <Card>
-            <CardHeader color="primary">
+            <CardHeader color="info">
               <div>
-                <h4>Add New Product Category</h4>
+                <h4>Edit Product Category</h4>
               </div>
               <div>
                 <p>Product Category Details</p>
@@ -283,8 +238,8 @@ class AddCategory extends React.Component {
                       multiline: true,
                       rows: 5,
                       name: "description",
-                      onChange: this.handleChange,
                       value: categoryDetails.description,
+                      onChange: this.handleChange
                     }}
                   />
                 </GridItem>
@@ -294,8 +249,8 @@ class AddCategory extends React.Component {
             <CardFooter>
                     <Grid container>
                       <GridItem xs={12}>
-                        <Button variant="contained" color="primary" component="span" disabled={!submitButtonDeactive} className={classes.fluidButton} onClick={this.createNewCategory}>
-                          Create Product Category
+                        <Button variant="contained" color="primary" component="span" className={classes.fluidButton} onClick={this.updateCategory}>
+                          Update Product Category
                         </Button>
                       </GridItem>
                     </Grid>
@@ -317,4 +272,4 @@ class AddCategory extends React.Component {
   }
 }
 
-export default withStyles(styles)(AddCategory);
+export default withStyles(styles)(EditCategory);
