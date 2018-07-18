@@ -128,9 +128,9 @@ class Category extends React.Component{
   const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
   return (
     <Grid container>
-    <GridItem xs={12} md={10}>
+    <GridItem xs={12} md={9}>
     </GridItem>
-    <GridItem xs={6} md={2}>
+    <GridItem xs={6} md={3}>
     <AddNewProductCategory productCategory={productCategory} addProductCategory={postProductCategoryDetails} type="add"/>
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 //import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -17,6 +16,7 @@ import EditBrand from "./editBrand";
 
 
 import modalStyle from "../../../assets/jss/material-kit-react/modalStyle.jsx";
+import Button from "../../../components/CustomButtons/Button.jsx";
 
 
 

@@ -39,13 +39,18 @@ class Sidebar extends React.Component{
 
     //
     componentDidMount(){
-      let name;
-      if(this.props.match.url.search("product") > 0){
-        name = "product";
-      }else if(this.props.match.url.search("blog") > 0){
-        name = "product";
+      //Prevent this code from running
+      //when admin page is called
+      if(this.props.match.url.search("admin") < 0){
+        let name;
+        if(this.props.match.url.search("product") > 0){
+          name = "product";
+        }else if(this.props.match.url.search("blog") > 0){
+          name = "product";
+        }
+        this.setDropDownState(name);
+
       }
-      this.setDropDownState(name);
     }
 
     //Setting dropdown state

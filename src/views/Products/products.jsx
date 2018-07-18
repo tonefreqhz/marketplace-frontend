@@ -16,6 +16,18 @@ import AddNew from "./modal";
 import AddStock from "./addstock.jsx"
 
 
+const columnData = [
+  { id: 'name', numeric: false, disablePadding: true, label: 'Product Brand' },
+  { id: 'short_description', numeric: false, disablePadding: true,  label: 'Short Description' },
+  { id: 'category_id', numeric: false, disablePadding: true,  label: 'Category' },
+  { id: 'images',  numeric: false, disablePadding: true,  label: 'Product Images' },
+];
+
+const properties = [{name: "name", component: true, padding: true, numeric: false, img: false},
+{name: "short_description", component: false, padding: false, numeric: false, img: false},
+{name: "category_id", component: false, padding: false, numeric: false, img:false},
+{name: "banner", component: false, padding: false, numeric: false, img: true, imgModal: true, width: 1024, height: 576}];
+
 class  Products extends React.Component{
   
   render(){

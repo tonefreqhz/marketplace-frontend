@@ -1,10 +1,10 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-import Button from "@material-ui/core/Button";
 import validator from "../../../helpers/validator";
 import Snackbar from '@material-ui/core/Snackbar';
 import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
 
+import Button from "../../../components/CustomButtons/Button.jsx";
 
 const styles = theme => ({
     input:{
@@ -125,27 +125,39 @@ class ImagePlaceholder extends React.Component{
         return (
             <div>
                 <div>
-                    <label htmlFor={label}>
-                        <Button variant="contained" color="primary" component="span" className={classes.fluidButton} >
-                        Choose File
-                        </Button>
-                    </label>
-                    <input
-                        accept="image/*"
-                        className={classes.input}
-                        id={label}
-                        type="file"
-                        onChange={this.onChangeFile}
-                        ref={this[this.props.fileInput]}
-                    />
                     <div>
-                    <img src={this.state[this.props.fileInput]} alt="" style={style}/>
+                        <img src={this.state[this.props.fileInput]} alt="" style={style}/>
                     </div>
+                    
+                    {
+                    this.state[this.props.fileInput] !== undefined && this.state[this.props.fileInput].startsWith("data")
+                    ?
+                    (
                     <div>
                         <Button variant="contained" color="primary" component="span" className={classes.sizeButton} >
                             Upload {label}
                         </Button>
                     </div>
+                    )
+                    :
+                    (
+                    <div>
+                        <label htmlFor={label}>
+                            <Button variant="contained" component="span" className={classes.fluidButton} >
+                            Choose File
+                            </Button>
+                        </label>
+                        <input
+                            accept="image/*"
+                            className={classes.input}
+                            id={label}
+                            type="file"
+                            onChange={this.onChangeFile}
+                            ref={this[this.props.fileInput]}
+                        />
+                    </div>
+                    )
+                    }
                     
                 </div>
                 <Snackbar

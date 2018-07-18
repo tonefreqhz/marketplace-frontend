@@ -1,10 +1,9 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-import Button from "@material-ui/core/Button";
 import validator from "../../../helpers/validator";
 import Snackbar from '@material-ui/core/Snackbar';
 import BezopSnackBar from "../../../assets/jss/bezop-mkr/BezopSnackBar";
-
+import Button from "../../../components/CustomButtons/Button.jsx";
 
 const styles = theme => ({
     input:{
