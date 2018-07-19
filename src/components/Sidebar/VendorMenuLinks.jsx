@@ -72,7 +72,7 @@ class Sidebar extends React.Component{
   return (
     <List className={classes.list}>
       {routes.map((prop, key) => {
-        //Check if prop has resirect property if so return null
+        //Check if prop has redirect property if so return null
         
         if (prop.redirect) return null;
 

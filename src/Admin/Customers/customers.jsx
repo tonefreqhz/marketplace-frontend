@@ -15,6 +15,7 @@ import CardBody from "../../components/Card/CardBody.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import MessagePages from "../../views/Messages/Pagination.jsx"
 import BanVendor from "../Vendors/banButton";
+import DeleteVendor from "../Vendors/deleteButton.jsx"
 
 class AdminCustomers extends React.Component{
   render (){
@@ -49,18 +50,19 @@ class AdminCustomers extends React.Component{
               tableHeaderColor="primary"
               tableHead={["Customer Name","Customer Email Address", "Contact Number", "Contact Address","Total Purchase", "Action"]}
               tableData={[
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$12,000", <BanVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$13,000", <BanVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$500", <BanVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road","$10,000", <BanVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$1,500", <BanVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$700", <BanVendor />],
-              ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$500", <BanVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$1,300", <BanVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$2,800", <BanVendor />]
+                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$12,000", <BanVendor />, <DeleteVendor />],
+                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$13,000", <BanVendor />, <DeleteVendor />],
+              ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$500", <BanVendor />, <DeleteVendor />],
+              ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road","$10,000", <BanVendor />, <DeleteVendor />],
+                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$1,500", <BanVendor />, <DeleteVendor />],
+                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$700", <BanVendor />,<DeleteVendor /> ],
+              ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$500", <BanVendor />, <DeleteVendor />],
+                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$1,300", <BanVendor />, <DeleteVendor />],
+                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$2,800", <BanVendor />, <DeleteVendor />]
               ]}
             />
           </CardBody>
+          
         </Card>
       </GridItem>
       <MessagePages />

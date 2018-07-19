@@ -24,6 +24,7 @@ import AdminProductCategory from "../Admin/LandingPage/layout.jsx";
 import DiscountCoupon from "../Admin/LandingPage/layout.jsx";
 import AdminCustomers from "../Admin/LandingPage/layout.jsx";
 import AdminMessages from "../Admin/LandingPage/layout.jsx";
+import EmailTemplate from "../Admin/LandingPage/layout.jsx";
 import AdminProduct from "../Admin/LandingPage/layout.jsx";
 import AdminVendors from "../Admin/LandingPage/layout.jsx";
 import AdminProfile from "../Admin/LandingPage/layout.jsx";
@@ -32,6 +33,8 @@ import AdminOrder from "../Admin/LandingPage/layout.jsx";
 import AdminStore from "../Admin/LandingPage/layout.jsx";
 import AdminBlog from "../Admin/LandingPage/layout.jsx";
 import AdminSeo from "../Admin/LandingPage/layout.jsx";
+import Currency from "../Admin/LandingPage/layout.jsx";
+import Language from "../Admin/LandingPage/layout.jsx";
 
 //User Router
 import Home from "../containers/Home.jsx";
@@ -66,10 +69,13 @@ var indexRoutes = [
   { path: "/dashboard", name:"Dashboard", component: Dashboard},
 
   { path: "/admin/categories", name: "AdminProductCategory", component: AdminProductCategory},
+  { path: "/admin/templates", name: "EmailTemplate", component: EmailTemplate},
   { path: "/admin/customers", name: "Customers", component: AdminCustomers},
   { path: "/admin/messages", name:"AdminMessages", component: AdminMessages},
+  { path: "/admin/language", name: "Language", component: Language},
   { path: "/admin/settings", name: "AdminStore", component: AdminStore},
   { path: "/admin/products", name: "AdminProducts", component: AdminProduct},
+  { path: "/admin/currency", name: "Currency", component: Currency},
   { path: "/admin/vendors", name: "AdminVendors", component: AdminVendors},
   { path: "/admin/profile", name: "AdminProfile", component: AdminProfile},
   { path: "/admin/coupons", name: "DiscountCoupons", component: DiscountCoupon},
