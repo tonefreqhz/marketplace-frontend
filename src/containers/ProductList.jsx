@@ -16,6 +16,8 @@ const mapStateToProps = state => ({
   front: state.front
 });
 
+
+
 const ProductList = connect(
   mapStateToProps,
 )(ProductListComponent);

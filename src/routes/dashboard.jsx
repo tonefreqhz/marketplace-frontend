@@ -92,13 +92,6 @@ export const dashboardRoutes = [
     component: Coupons
   },
   {
-    path: "/dashboard/blog",
-    sidebarName: "Blog",
-    navbarName: "Blog",
-    icon: Language,
-    component: Blog,
-  },
-  {
     path: "/dashboard/banner",
     sidebarName: "Banners",
     navbarName: "Banners",
@@ -113,34 +106,27 @@ export const dashboardRoutes = [
     component: Shop
   },
   {
-    path: "/dashboard/products",
+    path: "/dashboard/blog",
     sidebarName: "Blog",
     navbarName: "Blog",
     icon: Store,
-    component: Products,
+    component: Blog,
     dropdown: "blog",
     subMenu: [
       {
-        path: "/dashboard/products",
+        path: "/dashboard/blog",
         sidebarName: "Blog",
         navbarName: "Blog",
-        icon: Store,
-        component: Products,
+        icon: Language,
+        component: Blog,
         exact: true
       },
       {
-        path: "/dashboard/products/category",
+        path: "/dashboard/blog/category",
         sidebarName: "Blog Category",
         navbarName: "Blog Category",
-        icon: Store,
+        icon: Language,
         component: ProductCategory,
-      },
-      {
-        path: "/dashboard/products/brand",
-        sidebarName: "Blog Brand",
-        navbarName: "Blog Brand",
-        icon: Store,
-        component: Coupons,
       }
     ]
   },

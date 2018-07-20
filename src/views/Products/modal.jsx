@@ -38,7 +38,7 @@ class AddNew extends React.Component{
     });
   }
   render(){
-    const { classes } = this.props;
+    const { classes, fetchProductBrands, fetchProductCategories, product } = this.props;
     return (
       <div>
         <Button
@@ -76,7 +76,9 @@ class AddNew extends React.Component{
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-            <ProductStepper />
+            <ProductStepper fetchProductBrands={fetchProductBrands} fetchProductCategories={fetchProductCategories}
+            product={product}
+            />
           </DialogContent>
         </Dialog>
       </div>

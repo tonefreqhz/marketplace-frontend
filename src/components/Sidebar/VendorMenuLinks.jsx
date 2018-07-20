@@ -46,7 +46,7 @@ class Sidebar extends React.Component{
         if(this.props.match.url.search("product") > 0){
           name = "product";
         }else if(this.props.match.url.search("blog") > 0){
-          name = "product";
+          name = "blog";
         }
         this.setDropDownState(name);
 
@@ -128,16 +128,17 @@ class Sidebar extends React.Component{
           </ListItem>
           <Collapse in={this.state.dropdowns[prop.dropdown]} timeout="auto" unmountOnExit style={{margin: "10px"}}>
           {
-            //Loop the current menu' submenu
+            //Loop the current menu's submenu
           }
           {prop.subMenu.map((submenu, subkey) => {
             subMenuActiveClass = classNames({ [" " + classes[color]]: this.props.activeRoute(submenu.path) });
+            
             return (
               
               <NavLink
             to={submenu.path}
             className={classes.item}
-            activeClassName="active"
+           // activeClassName="active"
             key={key + "." + (subkey+1)}
           >
                 <List component="div" disablePadding>

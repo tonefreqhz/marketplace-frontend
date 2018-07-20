@@ -61,7 +61,8 @@ var indexRoutes = [
   { path: "/dashboard/support", name: "Support", component: Support},
   { path: "/dashboard/banner", name: "banners", component: Banner},
   { path: "/dashboard/orders", name: "Orders", component: Orders},
-  { path: "/dashboard/blog", name: "Blog", component: Blog},
+  { path: "/dashboard/blog/category", name: "Blog Category", component: Blog},
+  { path: "/dashboard/blog", exact: true, name: "Blog", component: Blog},
   { path: "/dashboard/user", name: "Users", component: UserProfile},
   { path: "/dashboard", name:"Dashboard", component: Dashboard},
 

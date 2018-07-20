@@ -5,8 +5,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import Select2 from "react-select";
 
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Card from "../../components/Card/Card.jsx";
@@ -31,36 +30,52 @@ const styles = theme => ({
   },
 });
 
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
-
 
 class BusinessDetails extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
+      productDetail: {
+
+      },
       cardAnimation: "cardHidden",
-      taxType: "",
+      taxSelect: "react-select-label-hidden",
+      discountSelect: "react-select-label-hidden",
+      selectedDiscount: null,
+      selectedTax: null,
       discountType: "",
-      currency: "",
     };
+  }
+
+  //This handles the discount select element
+  handleDiscountChange = (selectedDiscount) => {
+    this.setState({ selectedDiscount });
+    if(selectedDiscount !== null){
+      this.setProductDetails("discount", selectedDiscount.value);
+      this.setState({
+        discountSelect: "react-select-label-visible"
+      })
+    }else{
+      this.setState({
+        discountSelect: "react-select-label-hidden"
+      })
+    }
+  }
+
+  //This handles the tax select element
+  handleTaxChange = (selectedTax) => {
+    this.setState({ selectedTax });
+    if(selectedTax !== null){
+      this.setProductDetails("tax", selectedTax.value);
+      this.setState({
+        taxSelect: "react-select-label-visible"
+      })
+    }else{
+      this.setState({
+        taxSelect: "react-select-label-hidden"
+      })
+    }
   }
 
   handleChange = event => {
@@ -85,7 +100,12 @@ class BusinessDetails extends React.Component {
 
   render(){
     const {classes} = this.props;
-    const {discountType, taxType, currency} = this.state;
+    const {
+      selectedDiscount,
+      selectedTax,
+      taxSelect,
+      discountSelect
+    } = this.state;
     return (
       <div>
           <div>
@@ -96,28 +116,6 @@ class BusinessDetails extends React.Component {
             </CardHeader>
             <CardBody>
               <Grid container>
-                <GridItem xs={12} sm={12} md={4}>
-                <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="currency">Select Currency</InputLabel>
-                <Select
-                  value={currency}
-                  onChange={this.handleChange}
-                  inputProps={{
-                    name: 'currency',
-                    id: 'currency',
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {
-                    currencies.map( (currency, key) => {
-                      return <MenuItem value={currency.value} key={key}>{currency.label}</MenuItem>
-                    })
-                  }
-                </Select>
-                  </FormControl>
-                </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Cost Price"
@@ -156,68 +154,37 @@ class BusinessDetails extends React.Component {
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Discount"
-                    id="discount"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{type:"number"}}
-                  />
+                <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="selectedDiscount" className={discountSelect}>Type or Select Product Discount</InputLabel>
+                    <Select2 
+                      id="selectedDiscount"
+                      name="selectedDiscount"
+                      value={selectedDiscount}
+                      placeholder="Type or Select Discount"
+                      onChange={this.handleDiscountChange}
+                      options={['Fixed', 'Percent'].map((discount, key) => {
+                          return {value: discount.toLowerCase(), label: discount}
+                      })
+                    }
+                      />
+                    </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                 <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="discount-type">Discount Type</InputLabel>
-                  <Select
-                    value={discountType}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: 'discountType',
-                      id: 'discountType',
-                    }}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    {["Fixed", "Percentage"].map((discountType, key) => {
-                      return <MenuItem value={discountType.toLowerCase()} key={key}>{discountType}</MenuItem>
-                    })
+                    <InputLabel htmlFor="selectedTax" className={taxSelect}>Type or Select Product Tax</InputLabel>
+                    <Select2 
+                      id="selectedTax"
+                      name="selectedTax"
+                      value={selectedTax}
+                      placeholder="Type or Select Tax"
+                      onChange={this.handleTaxChange}
+                      options={['Fixed', 'Percent'].map((tax, key) => {
+                          return {value: tax.toLowerCase(), label: tax}
+                      })
                     }
-                  </Select>
-                </FormControl>
-                </GridItem>
-
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Tax"
-                    id="tax"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps ={{
-                      type: "number"
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <FormControl className={classes.formControl}>
-                      <InputLabel htmlFor="taxType">Tax Type</InputLabel>
-                      <Select
-                        value={taxType}
-                        onChange={this.handleChange}
-                        inputProps={{
-                          name: 'taxType',
-                          id: 'taxType',
-                        }}
-                      >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          <MenuItem value={"fixed"}>Fixed</MenuItem>
-                          <MenuItem value={"percentage"}>Percentage</MenuItem>
-                      </Select>
+                      />
                     </FormControl>
-                  </GridItem>
+                </GridItem>
               </Grid>
             </CardBody>
             <CardFooter>

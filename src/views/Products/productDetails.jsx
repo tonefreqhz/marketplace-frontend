@@ -5,12 +5,10 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select2, {Creatable} from "react-select";
 import { withStyles } from '@material-ui/core/styles';
-import countries from "country-list";
+import _ from "lodash";
 
 import 'react-select/dist/react-select.css';
 import GridItem from "../../components/Grid/GridItem.jsx";
@@ -41,21 +39,14 @@ class AddPage extends React.Component {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      productDetails: {
-        category:'',
-        name: "",
-        tags: [],
-        sku: "",
-        color: "#7843ba",
-        weight: "",
-        height: "",
-        width: "",
-        length: "",
-        country: ""
-      },
+      productDetails: this.props.productDetails,
+      categories: [],
+      brands: [],
       selectedOption: [],
-      selectedCountry: null,
-      countrySelect: "react-select-label-hidden",
+      selectedBrand: null,
+      selectedCategory: null,
+      brandSelect: "react-select-label-hidden",
+      categorySelect: "react-select-label-hidden",
       tagsSelect: "react-select-label-hidden"
     };
   }
@@ -70,17 +61,34 @@ class AddPage extends React.Component {
     this.filterSelectedOption("tags",selectedOption);
   }
 
-  //This handles the country select element
-  handleCountryChange = (selectedCountry) => {
-    this.setState({ selectedCountry });
-    if(selectedCountry !== null){
-      this.setProductDetails("country", selectedCountry.value);
+  
+
+  //This handles the brand select element
+  handleBrandChange = (selectedBrand) => {
+    this.setState({ selectedBrand });
+    if(selectedBrand !== null){
+      this.setProductDetails("brand_id", selectedBrand.value);
       this.setState({
-        countrySelect: "react-select-label-visible"
+        brandSelect: "react-select-label-visible"
       })
     }else{
       this.setState({
-        countrySelect: "react-select-label-hidden"
+        brandSelect: "react-select-label-hidden"
+      })
+    }
+  }
+
+  //This handles the category select element
+  handleCategoryChange = (selectedCategory) => {
+    this.setState({ selectedCategory });
+    if(selectedCategory !== null){
+      this.setProductDetails("category_id", selectedCategory.value);
+      this.setState({
+        categorySelect: "react-select-label-visible"
+      })
+    }else{
+      this.setState({
+        categorySelect: "react-select-label-hidden"
       })
     }
   }
@@ -101,6 +109,8 @@ class AddPage extends React.Component {
     this.setState({
         productDetails: newProductDetails
     })
+    
+    this.props.setParentProductDetails(newProductDetails);
   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
@@ -108,18 +118,46 @@ class AddPage extends React.Component {
         this.setState({ cardAnimaton: "" }),
       700
     );
+
+    this.props.fetchProductBrands();
+    this.props.fetchProductCategories();
+  }
+
+  componentWillReceiveProps(newProps){
+    if(newProps.product.hasOwnProperty('productCategories') && _.isEqual(this.props.product.productCategories, newProps.product.productCategories) === false){
+      this.setState({
+        categories: newProps.product.productCategories
+      })
+    }
+
+    if(newProps.product.hasOwnProperty('productBrands') && _.isEqual(this.props.product.productBrands, newProps.product.productBrands) === false){
+      this.setState({
+        brands: newProps.product.productBrands
+      })
+    }
   }
 
   componentWillUnmount(){
     clearTimeout(this.cardAnimationSetTimeout);
+    this.props.product.productCategories = {};
+    this.props.product.productBrands = {};
+
   }
   render(){
+    console.log(this.state);
+
     const {classes} = this.props;
-    const {selectedOption,
-           productDetails,
-           selectedCountry,
-           tagsSelect,
-           countrySelect} = this.state;
+    const {
+          selectedOption,
+          productDetails,
+          selectedBrand,
+          tagsSelect,
+          brandSelect,
+          categorySelect,
+          selectedCategory,
+          brands,
+          categories
+        } = this.state;
     return (
       <div>
           <div>
@@ -164,8 +202,36 @@ class AddPage extends React.Component {
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="UPC"
+                    id="upc"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      value: productDetails.upc,
+                      name:"upc",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Product Code"
+                    id="code"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      value: productDetails.code,
+                      name:"code",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
                   <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="selectedCountry" className={tagsSelect}>Type or Select Product Tags</InputLabel>
+                    <InputLabel htmlFor="selectedTags" className={tagsSelect}>Type or Select Product Tags</InputLabel>
                       <Creatable 
                         id="selectedOption"
                         name="selectedOption"
@@ -173,10 +239,7 @@ class AddPage extends React.Component {
                         multi={true}
                         placeholder="Type or Select Product Tags"
                         onChange={this.handleTagChange}
-                        options={[
-                              { value: 'one', label: 'One' },
-                            { value: 'two', label: 'Two' },
-                        ]}
+                        options={[]}
                         />
                   </FormControl>
                 </GridItem>
@@ -184,16 +247,48 @@ class AddPage extends React.Component {
               <Grid container>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Quantity"
-                    id="quantity"
+                    labelText="Unit Cost"
+                    id="unit_cost"
                     formControlProps={{
                       fullWidth: true,
                       required: true
                     }}
                     inputProps={{
                       type:"number",
-                      value: productDetails.quantity,
-                      name: "quantity",
+                      value: productDetails.unit_cost,
+                      name: "unit_cost",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Unit Price"
+                    id="unit_price"
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                    inputProps={{
+                      type:"number",
+                      value: productDetails.unit_price,
+                      name: "unit_price",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Alt Price"
+                    id="alt_price"
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                    inputProps={{
+                      type:"number",
+                      value: productDetails.alt_price,
+                      name: "alt_price",
                       onChange: this.handleChange
                     }}
                   />
@@ -206,7 +301,7 @@ class AddPage extends React.Component {
                       fullWidth: true
                     }}
                     inputProps={{
-                      type:"number",
+                      type:"text",
                       value: productDetails.length,
                       name: "length",
                       onChange: this.handleChange
@@ -221,7 +316,7 @@ class AddPage extends React.Component {
                       fullWidth: true
                     }}
                     inputProps={{
-                      type: "number",
+                      type: "text",
                       value: productDetails.width,
                       name: "width",
                       onChange: this.handleChange
@@ -230,15 +325,15 @@ class AddPage extends React.Component {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Weight (KG)"
-                    id="weight"
+                    labelText="Height (Inches)"
+                    id="height"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps ={{
-                      type: "number",
-                      value: productDetails.weight,
-                      name: "weight",
+                      type: "text",
+                      value: productDetails.height,
+                      name: "height",
                       onChange: this.handleChange
                     }}
                   />
@@ -258,97 +353,68 @@ class AddPage extends React.Component {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Width"
-                    id="width"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps ={{
-                      type: "number"
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Length"
-                    id="country"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps ={{
-                      type: "dropdown"
-                    }}
-                  />
-                </GridItem>
+                
                 <GridItem xs={12} sm={12} md={4}>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="selectedCountry" className={countrySelect}>Type or Select Country</InputLabel>
+                    <InputLabel htmlFor="selectedBrand" className={brandSelect}>Type or Select Product Brand</InputLabel>
                     <Select2 
-                      id="selectedCountry"
-                      name="selectedCountry"
-                      value={selectedCountry}
-                      placeholder="Type or Select Country"
-                      onChange={this.handleCountryChange}
-                      options={countries().getNames().map((country, key) => {
-                          return {value: country.toLowerCase(), label: country}
+                      id="selectedBrand"
+                      name="selectedBrand"
+                      value={selectedBrand}
+                      placeholder="Type or Select Product Brand"
+                      onChange={this.handleBrandChange}
+                      options={brands.map((brand, key) => {
+                          return {value: brand._id, label: brand.name}
                       })
                     }
                       />
                     </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Length"
-                    id="country"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps ={{
-                      type: "number"
-            
-                    }}
-                  />
-                </GridItem>
-          
-              
-    
-                <GridItem xs={12} sm={12} md={6}>
-                    <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="product-category">Select Product Category</InputLabel>
-                    <Select
-                      onChange={this.handleChange}
-                      inputProps={{
-                        name: 'category',
-                        id: 'product-category',
-                        value: productDetails.category
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="selectedCategory" className={categorySelect}>Type or Select Product Category</InputLabel>
+                    <Select2 
+                      id="selectedCategory"
+                      name="selectedCategory"
+                      value={selectedCategory}
+                      placeholder="Type or Select Product Category"
+                      onChange={this.handleCategoryChange}
+                      options={categories.map((category, key) => {
+                          return {value: category._id, label: category.name}
+                      })
+                    }
+                      />
                     </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Short Description"
+                    id="short_description"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      multiline: true,
+                      rows: 3,
+                      onChange: this.handleChange,
+                    }}
+                  />
+                </GridItem>
+
+                <GridItem xs={12} sm={12}>
+                  <CustomInput
+                    labelText="Description"
                     id="product-description"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       multiline: true,
-                      rows: 3
+                      rows: 3,
+                      onChange: this.handleChange,
                     }}
                   />
                 </GridItem>
-               
-  
               </Grid>
             </CardBody>
             <CardFooter>
