@@ -23,7 +23,8 @@ render(
     <Router history={hist}>
       <Switch>
         {indexRoutes.map((prop, key) => {
-          return <Route path={prop.path} exact={prop.exact} key={key} component={prop.component} />;
+          const { path, exact, Component } = prop;
+          return <Route path={path} exact={exact} key={key} render={(props) => <Component {...props} />} />;
         })}
       </Switch>
     </Router>

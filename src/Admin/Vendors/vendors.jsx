@@ -16,6 +16,7 @@ import Button from "../../components/CustomButtons/Button.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import MessagePages from "../../views/Messages/Pagination.jsx";
 import BanVendor from "./banButton.jsx"
+import DeleteVendor from "./deleteButton";
 
 class Vendors extends React.Component {
   render () {
@@ -49,26 +50,26 @@ class Vendors extends React.Component {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Vendor Name","Vendor Email Address", "Contact Number", "Contact Address", "Action", "Active"]}
+              tableHead={["Vendor Name","Vendor Email Address", "Contact Number", "Contact Address", "Visit", "Suspend", "Delete"]}
               tableData={[
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", <Button color="primary">
-                Visit Vendor </Button>, <BanVendor />],
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />],
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road",<Button color="primary">
-                Visit Vendor </Button>, <BanVendor />],
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />],
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", <Button color="primary">
-                Visit Vendor </Button>, <BanVendor />],
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />],
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", <Button color="primary">
-                Visit Vendor </Button>, <BanVendor />],
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />],
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road",<Button color="primary">
-                Visit Vendor </Button>, <BanVendor />],
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />],
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", <Button color="primary">
-                Visit Vendor </Button>, <BanVendor />],
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />],
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", <Button color="primary">
-                Visit Vendor </Button>, <BanVendor />],
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />],
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", <Button color="primary">
-                Visit Vendor </Button>, <BanVendor />],
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />],
                 ["Bezop Store","research@bezop.io","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", <Button color="primary">
-                Visit Vendor </Button>, <BanVendor />]
+                Visit Vendor </Button>, <BanVendor />, <DeleteVendor />]
               ]}
             />
           </CardBody>

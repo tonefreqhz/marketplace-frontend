@@ -13,6 +13,7 @@ import Loyalty from "@material-ui/icons/Loyalty"
 import Language from "@material-ui/icons/Language"
 import Settings from "@material-ui/icons/Settings"
 import Email from "@material-ui/icons/Email"
+import AttachMoney from "@material-ui/icons/AttachMoney"
 // core components/admin
 import Admin from "../containers/Admin/Dashboard";
 import AdminProfile from "../containers/Admin/AdminProfile.jsx";
@@ -27,7 +28,9 @@ import AdminBrands from "../containers/Admin/ProductBrands.jsx";
 import AdminSeo from "../containers/Admin/SEO.jsx"
 import DiscountCoupon from "../containers/Admin/Coupon.jsx";
 import AdminBlog from "../containers/Admin/Blog.jsx";
-//import EmailTemplate from "../Admin/EmailTemplates/emailTemplates.jsx";
+import Currency from "../containers/Admin/Currency.jsx";
+import AdminLanguage from "../containers/Admin/Language.jsx";
+import EmailTemplate from "../containers/Admin/EmailTemplates.jsx";
 
 const adminRoutes = [
   {
@@ -88,6 +91,20 @@ const adminRoutes = [
     component: AdminBrands
   },
   {
+    path: "/admin/currency",
+    sidebarName: "Currency",
+    navbarName: "Currency",
+    icon: AttachMoney,
+    component: Currency
+  },
+  {
+    path: "/admin/language",
+    sidebarName: "Language",
+    navbarName: "Language",
+    icon: Language,
+    component: AdminLanguage
+  },
+  {
     path: "/admin/seo",
     sidebarName: "SEO",
     navbarName: "SEO",
@@ -107,6 +124,13 @@ const adminRoutes = [
     navbarName: "Blog",
     icon: Language,
     component: AdminBlog
+  },
+  {
+    path: "/admin/templates",
+    sidebarName: "Email Template",
+    navbarName: "Email Template",
+    icon: Language,
+    component: EmailTemplate
   },
   {
     path: "/admin/profile",
