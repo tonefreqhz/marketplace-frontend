@@ -21,7 +21,7 @@ class Sidebar extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      open: false
+      open: false,
     }
 
   }
@@ -35,17 +35,15 @@ class Sidebar extends React.Component{
   }
 
 
-  //The Submenu Toggle
-  handleClick = () => {
-    this.setState(state => ({ open: !this.state.open }));
-  };
+
 
   render(){
-  const { classes, color, logo, image, logoText, routes } = this.props;
+  const { classes, color, logo, image, logoText, routes, dropdowns } = this.props;
 //To check parent main 
   
   let links = <VendorMenuLinks
                 activeRoute={this.activeRoute}
+                dropdowns = {dropdowns}
                 activeParentMenu={this.activeParentMenu}
                 handleClick={this.handleClick}
                 open={this.state.open}

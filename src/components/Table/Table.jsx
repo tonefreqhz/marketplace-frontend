@@ -13,8 +13,10 @@ import TableCell from "@material-ui/core/TableCell";
 // core components
 import tableStyle from "../../assets/jss/material-kit-react/components/tableStyle";
 
-function CustomTable({ ...props }) {
-  const { classes, tableHead, tableData, tableHeaderColor } = props;
+class CustomTable extends React.Component {
+
+  render(){
+  const { classes, tableHead, tableData, tableHeaderColor } = this.props;
   return (
     <div className={classes.tableResponsive}>
       <Table className={classes.table}>
@@ -45,13 +47,16 @@ function CustomTable({ ...props }) {
                     </TableCell>
                   );
                 })}
+                
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
     </div>
+   
   );
+}
 }
 
 CustomTable.defaultProps = {

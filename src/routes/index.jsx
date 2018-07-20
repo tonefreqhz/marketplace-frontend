@@ -20,6 +20,25 @@ import Banner from "../layouts/Dashboard/Dashboard.jsx";
 import Shop from "../layouts/Dashboard/Dashboard.jsx";
 import Support from "../layouts/Dashboard/Dashboard.jsx";
 import UserProfile from "../layouts/Dashboard/Dashboard.jsx";
+import Blog from "../layouts/Dashboard/Dashboard.jsx";
+
+//Admin Router
+import Admin from "../Admin/LandingPage/layout.jsx";
+import AdminProductCategory from "../Admin/LandingPage/layout.jsx";
+import DiscountCoupon from "../Admin/LandingPage/layout.jsx";
+import AdminCustomers from "../Admin/LandingPage/layout.jsx";
+import AdminMessages from "../Admin/LandingPage/layout.jsx";
+import EmailTemplate from "../Admin/LandingPage/layout.jsx";
+import AdminProduct from "../Admin/LandingPage/layout.jsx";
+import AdminVendors from "../Admin/LandingPage/layout.jsx";
+import AdminProfile from "../Admin/LandingPage/layout.jsx";
+import AdminBrands from "../Admin/LandingPage/layout.jsx";
+import AdminOrder from "../Admin/LandingPage/layout.jsx";
+import AdminStore from "../Admin/LandingPage/layout.jsx";
+import AdminBlog from "../Admin/LandingPage/layout.jsx";
+import AdminSeo from "../Admin/LandingPage/layout.jsx";
+import Currency from "../Admin/LandingPage/layout.jsx";
+import Language from "../Admin/LandingPage/layout.jsx";
 
 //Customer Router
 import Home from "../containers/Home.jsx";

@@ -11,20 +11,24 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Email from "@material-ui/icons/Email"
+import Language from "@material-ui/icons/Language"
+
 // core components/views
 import DashboardPage from "../containers/Dashboard.jsx";
 import UserProfile from "../containers/UserProfiles.jsx";
 import Orders from "../containers/Orders.jsx";
 import Products from "../containers/Product/Products.jsx";
 import ProductCategory from "../containers/Product/Category.jsx";
+import ProductBrand from "../containers/Product/Brand.jsx";
 import Coupons from "../containers/Coupons.jsx"
 import Shop from "../containers/Shops.jsx"
 import Support from "../containers/Supports.jsx"
 import UpgradeToPro from "../containers/UpgradeToPro.jsx";
 import Banners from "../containers/Banners.jsx";
-import Messages from "../containers/Messages.jsx"
+import Messages from "../containers/Messages.jsx";
+import Blog from "../containers/Blog/blog"
 
-const dashboardRoutes = [
+export const dashboardRoutes = [
   {
     path: "/dashboard",
     sidebarName: "Dashboard",
@@ -47,6 +51,7 @@ const dashboardRoutes = [
     navbarName: "Products",
     icon: Store,
     component: Products,
+    dropdown : "product",
     subMenu: [
       {
         path: "/dashboard/products",
@@ -68,7 +73,7 @@ const dashboardRoutes = [
         sidebarName: "Product Brand",
         navbarName: "Product Brand",
         icon: Store,
-        component: Coupons,
+        component: ProductBrand,
       }
     ]
   },
@@ -87,6 +92,13 @@ const dashboardRoutes = [
     component: Coupons
   },
   {
+    path: "/dashboard/blog",
+    sidebarName: "Blog",
+    navbarName: "Blog",
+    icon: Language,
+    component: Blog,
+  },
+  {
     path: "/dashboard/banner",
     sidebarName: "Banners",
     navbarName: "Banners",
@@ -99,6 +111,38 @@ const dashboardRoutes = [
     navbarName: "Store Settings",
     icon: Notifications,
     component: Shop
+  },
+  {
+    path: "/dashboard/products",
+    sidebarName: "Blog",
+    navbarName: "Blog",
+    icon: Store,
+    component: Products,
+    dropdown: "blog",
+    subMenu: [
+      {
+        path: "/dashboard/products",
+        sidebarName: "Blog",
+        navbarName: "Blog",
+        icon: Store,
+        component: Products,
+        exact: true
+      },
+      {
+        path: "/dashboard/products/category",
+        sidebarName: "Blog Category",
+        navbarName: "Blog Category",
+        icon: Store,
+        component: ProductCategory,
+      },
+      {
+        path: "/dashboard/products/brand",
+        sidebarName: "Blog Brand",
+        navbarName: "Blog Brand",
+        icon: Store,
+        component: Coupons,
+      }
+    ]
   },
   {
     path: "/dashboard/support",
@@ -124,4 +168,7 @@ const dashboardRoutes = [
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
 
-export default dashboardRoutes;
+export const dropdowns = {
+  product: false,
+  blog: false
+}

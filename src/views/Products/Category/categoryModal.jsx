@@ -1,9 +1,9 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-//import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+
 //import DialogContentText from '@material-ui/core/DialogContentText';
+import Edit from "@material-ui/icons/Edit";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -12,8 +12,13 @@ import IconButton from "@material-ui/core/IconButton";
 import Close from "@material-ui/icons/Close";
 
 import AddCategory from "./addCategory";
+import EditCategory from "./editCategory";
+
 
 import modalStyle from "../../../assets/jss/material-kit-react/modalStyle.jsx";
+import Button from "../../../components/CustomButtons/Button.jsx";
+
+
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -37,16 +42,33 @@ class CategoryModal extends React.Component {
   };
 
   render(){
-    const { classes } = this.props;
+    const { classes, type } = this.props;
+    let modalContent;
+    let modalTitle;
+    switch(type){
+      case "add": 
+          modalContent  = <AddCategory onHandleModalClose={this.handleClose} addProductCategory={this.props.addProductCategory} productCategory={this.props.productCategory}/>
+          modalTitle = (<Button
+                          variant="contained"
+                          color="primary"
+                          onClick={this.handleClickOpen}
+                          style={{marginBottom: "10px"}}>
+                            Add New Product Category
+                          </Button>);
+        break;
+      case "edit":
+          modalContent = <EditCategory onHandleModalClose={this.handleClose} eachData={this.props.eachData} specialMethod={this.props.specialMethod} productCategory={this.props.productCategory}/>;
+          modalTitle = <Edit onClick={this.handleClickOpen} />;
+        break;
+      default:
+          modalContent = "Sorry pnale not available";
+          modalTitle = "..Thinking"
+        break
+    }
     return (
       <div>
-         <Button
-         variant="contained"
-          color="primary"
-          onClick={this.handleClickOpen}
-          style={{marginBottom: "10px"}}>
-          Add New Product Category
-        </Button>
+
+        {modalTitle}
         <Dialog
         fullScreen={false}
         fullWidth={true}
@@ -77,7 +99,7 @@ class CategoryModal extends React.Component {
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-            <AddCategory/>
+            {modalContent}
           </DialogContent>
         </Dialog>
       </div>

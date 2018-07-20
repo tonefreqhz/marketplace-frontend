@@ -1,3 +1,10 @@
+.no-bar::-webkit-scrollbar {
+  display: none;
+}
+.no-bar::-webkit-scrollbar-button {
+  display: none;
+}
+
 .react-select-label-hidden{
     margin-top: 0px;
     font-size: 1rem !important;

@@ -16,7 +16,7 @@ import Header from "../../components/Header/VendorHeader.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
-import dashboardRoutes from "../../routes/dashboard.jsx";
+import {dashboardRoutes, dropdowns} from "../../routes/dashboard.jsx";
 
 import dashboardStyle from "../../assets/jss/material-kit-react/layouts/dashboardStyle.jsx";
 
@@ -79,6 +79,7 @@ class App extends React.Component {
     const { classes, ...rest } = this.props;
     const sideMenu = <Sidebar
       routes={dashboardRoutes}
+      dropdowns={dropdowns}
       logoText="Bezop&nbsp;Store"
       logo={logo}
       image={image}
@@ -89,6 +90,7 @@ class App extends React.Component {
     />;
     const mobileSidebar = <MobileSidebar
       routes={dashboardRoutes}
+      dropdowns = {dropdowns}
       logoText="Bezop&nbsp;Store"
       logo={logo}
       image={image}
