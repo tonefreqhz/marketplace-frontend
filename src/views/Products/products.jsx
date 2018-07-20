@@ -5,6 +5,7 @@
 import React from "react";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
+import _ from "lodash";
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Table from "../../components/Table/Table.jsx";
@@ -16,29 +17,70 @@ import AddNew from "./modal";
 import AddStock from "./addstock.jsx"
 
 
+import EnhancedTable from "../../bezopComponents/Table/EnhancedTable";
+
+
 const columnData = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Product Brand' },
   { id: 'short_description', numeric: false, disablePadding: true,  label: 'Short Description' },
   { id: 'category_id', numeric: false, disablePadding: true,  label: 'Category' },
+  { id: 'brand_id', numeric: false, disablePadding: true,  label: 'Brand' },
   { id: 'images',  numeric: false, disablePadding: true,  label: 'Product Images' },
 ];
 
 const properties = [{name: "name", component: true, padding: true, numeric: false, img: false},
 {name: "short_description", component: false, padding: false, numeric: false, img: false},
 {name: "category_id", component: false, padding: false, numeric: false, img:false},
-{name: "banner", component: false, padding: false, numeric: false, img: true, imgModal: true, width: 1024, height: 576}];
+{name: "brand_id", component: false, padding: false, numeric: false, img: false},
+{name: "images", component: false, padding: false, numeric: false, img: false, imgPanel: true},
+]
 
 class  Products extends React.Component{
   
+  constructor(props){
+    super(props);
+    this.state = {
+          product: [],
+          data: [],
+          categories: [],
+          brands: [],
+          snackBarOpenSuccess: false,
+          snackBarMessageSuccess: "Yet to decide the action",
+          deletedCategory: 0,
+      }
+  }
+
+  componentDidMount(){
+    this.props.fetchProducts();
+  }
+
+  componentWillReceiveProps(newProps){
+
+    if(newProps.product.hasOwnProperty('getAll') && _.isEqual(this.props.product.getAll, newProps.product.getAll) === false){
+      this.setState({
+        data: newProps.product.getAll
+      })
+    }
+
+  }
+
+
+  componentWillUnmount(){
+    this.props.product.getAll = {};
+  }
+
   render(){
-  const { classes } = this.props;
+  const { classes, fetchProductBrands, fetchProductCategories, product } = this.props;
+  const {data} = this.state;
+
   return (
     <Grid container>
     <GridItem xs={12} md={10}>
     <Filter />
     </GridItem>
     <GridItem xs={6} md={2}>
-    <AddNew/>
+    <AddNew fetchProductBrands={fetchProductBrands} fetchProductCategories={fetchProductCategories}
+    product={product}/>
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -47,12 +89,16 @@ class  Products extends React.Component{
               <p className={classes.cardCategoryWhite}>List of All Products</p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["ID","Image", "Name", "Quantity", "Price", "Status"]}
-              tableData={[
-                ["0001","An Image", "Black Jean", "30", "$36,738","Suspended"]
-              ]}
+            <EnhancedTable
+              orderBy="name"
+              columnData={columnData}
+              data={data}
+              tableTitle="All Products"
+              properties={properties}
+              editButton={this.editButtonDisplay}
+              onDeleteClickSpec={this.handleDeleteClick}
+              currentSelected = {[]}
+              itemName={{single : "Product", plural: "Products"}}
             />
           </CardBody>
         </Card>

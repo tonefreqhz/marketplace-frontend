@@ -264,7 +264,7 @@ class AddCategory extends React.Component {
                         {value: "digital", label: "Digital"},
                         {value: "physical", label: "Physical"}
                       ]}
-                      className={categoryDetailsError.kind === true ? "select-menu-error": ""}
+                      className={categoryDetailsError.kind === true ? "select-menu-error": null}
                       />
                   </FormControl>
                 </GridItem>

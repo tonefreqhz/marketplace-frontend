@@ -35,6 +35,34 @@ class ProductStepper extends React.Component {
     this.state = {
       activeStep: 0,
       skipped: new Set(),
+      productDetails: {
+        name: "",
+        cose: "",
+        upc: "",
+        sku: "",
+        tag: [],
+        category_id: "",
+        brand_id: "",
+        description: "",
+        short_description: "",
+        unit_cost: "",
+        unit_price: "",
+        alt_price: "",
+        shopping_cost: "",
+        unit: "",
+        length: "",
+        height: "",
+        color: "#3d28ac",
+        discount: 0.0,
+        discount_type: "",
+        tax: 0.0,
+        tax_type: "",
+        download: false,
+        download_name: "",
+        deal: false,
+        valuation: "",
+        featured: false,
+      }
     };
   }
 
@@ -43,11 +71,15 @@ class ProductStepper extends React.Component {
   }
 
   getStepContent(step) {
+    const {fetchProductBrands, fetchProductCategories, product} = this.props;
+    const {productDetails} = this.state;
+
     switch (step) {
       case 0:
-        return <AddPage />;
+        return <AddPage fetchProductBrands={fetchProductBrands} fetchProductCategories={fetchProductCategories}
+        product={product} productDetails={productDetails} setParentProductDetails={this.setParentProductDetails}/>;
       case 1:
-        return <BusinessDetails />;
+        return <BusinessDetails productDetails={productDetails}setParentProductDetails={this.setParentProductDetails}/>;
       case 2:
         return <CreateProduct/>;
       default:
@@ -107,7 +139,14 @@ class ProductStepper extends React.Component {
     return this.state.skipped.has(step);
   }
 
+  setParentProductDetails = (productDetails) => {
+    this.setState({
+      productDetails: productDetails
+    })
+  }
+
   render() {
+    console.log(this.state.productDetails);
     const { classes } = this.props;
     const steps = this.getSteps();
     const { activeStep } = this.state;
