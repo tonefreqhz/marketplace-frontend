@@ -6,7 +6,11 @@
  * @name index
  */
 
-//Dashboard Router
+import React from "react";
+import { Redirect } from 'react-router'
+import { userIs } from "../components/Auth/CheckUsers";
+
+//Vendor Router
 import Dashboard from "../layouts/Dashboard/Dashboard.jsx";
 import Messages from "../layouts/Dashboard/Dashboard.jsx";
 import Products from "../layouts/Dashboard/Dashboard.jsx";
@@ -36,7 +40,7 @@ import AdminSeo from "../Admin/LandingPage/layout.jsx";
 import Currency from "../Admin/LandingPage/layout.jsx";
 import Language from "../Admin/LandingPage/layout.jsx";
 
-//User Router
+//Customer Router
 import Home from "../containers/Home.jsx";
 import Cart from "../containers/Cart.jsx";
 import Login from "../containers/Login.jsx";
@@ -53,55 +57,76 @@ import SingleBlog from "../containers/SingleBlogPage.jsx";
 import Contact from "../containers/ContactPage.jsx";
 import SingleProduct from "../containers/SingleProduct.jsx";
 import ProductList from "../containers/ProductList.jsx";
+import Profile from "../containers/ProfilePage.jsx";
 
 var indexRoutes = [
-  { path: "/dashboard/messages", name: "Messages", component: Messages},
-  { path: "/dashboard/products/category", name: "Product Category", component: Products},
-  { path: "/dashboard/products/brand", name: "Product Brand", component: Products},
-  { path: "/dashboard/products", name: "Products", component: Products},
-  { path: "/dashboard/settings", name: "Settings", component: Shop},
-  { path: "/dashboard/coupons", name: "Coupons", component: Coupons},
-  { path: "/dashboard/support", name: "Support", component: Support},
-  { path: "/dashboard/banner", name: "banners", component: Banner},
-  { path: "/dashboard/orders", name: "Orders", component: Orders},
-  { path: "/dashboard/blog", name: "Blog", component: Blog},
-  { path: "/dashboard/user", name: "Users", component: UserProfile},
-  { path: "/dashboard", name:"Dashboard", component: Dashboard},
+  { 
+    path: "/dashboard/messages", name: "Messages",
+    Component: (props) => userIs(["vendor"])? <Messages {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/products/category", name: "Product Category",
+    Component: (props) => userIs(["vendor"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/products/brand", name: "Product Brand",
+    Component: (props) => userIs(["vendor"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/products", name: "Products",
+    Component: (props) => userIs(["vendor"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/settings", name: "Settings",
+    Component: (props) => userIs(["vendor"])? <Shop {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/coupons", name: "Coupons",
+    Component: (props) => userIs(["vendor"])? <Coupons {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/support", name: "Support",
+    Component: (props) => userIs(["vendor"])? <Support {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/banner", name: "banners",
+    Component: (props) => userIs(["vendor"])? <Banner {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/orders", name: "Orders",
+    Component: (props) => userIs(["vendor"])? <Orders {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/user", name: "Users",
+    Component: (props) => userIs(["vendor"])? <UserProfile {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard", name:"Dashboard",
+    Component: (props) => userIs(["vendor"])? <Dashboard {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
 
-  { path: "/admin/categories", name: "AdminProductCategory", component: AdminProductCategory},
-  { path: "/admin/templates", name: "EmailTemplate", component: EmailTemplate},
-  { path: "/admin/customers", name: "Customers", component: AdminCustomers},
-  { path: "/admin/messages", name:"AdminMessages", component: AdminMessages},
-  { path: "/admin/language", name: "Language", component: Language},
-  { path: "/admin/settings", name: "AdminStore", component: AdminStore},
-  { path: "/admin/products", name: "AdminProducts", component: AdminProduct},
-  { path: "/admin/currency", name: "Currency", component: Currency},
-  { path: "/admin/vendors", name: "AdminVendors", component: AdminVendors},
-  { path: "/admin/profile", name: "AdminProfile", component: AdminProfile},
-  { path: "/admin/coupons", name: "DiscountCoupons", component: DiscountCoupon},
-  { path: "/admin/orders", name: "AdminOrder", component:AdminOrder},
-  { path: "/admin/brands", name: "AdminBrands", component: AdminBrands},
-  { path: "/admin/blog", name: "AdminBlog", component: AdminBlog},
-  { path: "/admin/seo", name: "AdminSeo", component: AdminSeo},
-  { path: "/admin", name: "Dashboard", component: Admin},
-
-  { path: "/categories", name: "Categories", component: Category },
-  { path: "/category/:category", name: "CategoryProducts", component: CategoryProductList },
-  { path: "/products/:products", name: "ProductList", component: ProductList },
-  { path: "/products", name: "ProductList", component: ProductList },
-  { path: "/product/:product", name: "Product", component: SingleProduct },
-  { path: "/vendors", name: "Vendors", component: Vendor },
-  { path: "/vendor/:vendor", name: "Vendor", component: VendorProductList },
-  { path: "/brands", name: "Brands", component: Brand },
-  { path: "/brand/:brand", name: "Brand", component: BrandProductList },
-  { path: "/blog/:blog", name: "Blog", component: SingleBlog },
-  { path: "/contact", name: "Contact", component: Contact },
-  { path: "/cart", name: "Cart", component: Cart },
-  { path: "/blogs", name: "Blog", component: Blogs },
-  { path: "/login", name: "LoginPage", component: Login},
-  { path: "/about", name: "About", component: About },
-  { path: "/", exact: true, name: "Home", component: Home },
-  { path: "*", name: "Page404", component: Page404 },
+  { path: "/categories", name: "Categories", Component: (props) => <Category {...props} /> },
+  { path: "/category/:category", name: "CategoryProducts", Component: (props) => <CategoryProductList {...props} /> },
+  { path: "/products/:products", name: "ProductList", Component: (props) => <ProductList {...props} /> },
+  { path: "/products", name: "ProductList", Component: (props) => <ProductList {...props} /> },
+  { path: "/product/:product", name: "Product", Component: (props) => <SingleProduct {...props} /> },
+  { path: "/vendors", name: "Vendors", Component: (props) => <Vendor {...props} /> },
+  { path: "/vendor/:vendor", name: "Vendor", Component: (props) => <VendorProductList {...props} /> },
+  { path: "/brands", name: "Brands", Component: (props) => <Brand {...props} />},
+  { path: "/brand/:brand", name: "Brand", Component: (props) => <BrandProductList {...props} /> },
+  { path: "/blog/:blog", name: "Blog", Component: (props) => <SingleBlog {...props} /> },
+  { path: "/contact", name: "Contact", Component: (props) => <Contact {...props} /> },
+  { 
+    path: "/profile", name: "CustomerProfile",
+    Component: (props) => userIs(["customer"])? <Profile {...props} /> : <Redirect to={{ pathname: "/login/customer", state: { from: props.location } }} />
+  },
+  { path: "/cart", name: "Cart", Component: (props) => <Cart {...props} /> },
+  { path: "/blogs", name: "Blog", Component: (props) => <Blogs {...props} /> },
+  { path: "/login/customer", exact: true, name: "CustomerLoginPage", Component: (props) => <Login {...props} /> },
+  { path: "/login/vendor", exact: true, name: "VendorLoginPage", Component: (props) => <Login {...props} /> },
+  { path: "/about", name: "About", Component: (props) => <About {...props} /> },
+  { path: "/", exact: true, name: "Home", Component: (props) => <Home {...props} /> },
+  { path: "*", name: "Page404", Component: (props) => <Page404 {...props} /> },
 ];
 
 export default indexRoutes;
