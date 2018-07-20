@@ -15,6 +15,9 @@ import {ShoppingCart, CompareArrows} from '@material-ui/icons';
 import CustomDropdown from "../../components/CustomDropdown/CustomDropdown.jsx";
 import headerLinksStyle from "../../assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 import Badge from '../../components/Badge/Badge.jsx';
+import UsersAuth from "../Auth/UsersAuth.jsx";
+import {userIs} from "../Auth/CheckUsers.jsx";
+import Events from "events";
 
 class LeftLinks extends React.Component {
   constructor(props){
@@ -26,6 +29,8 @@ class LeftLinks extends React.Component {
     if(this.props.events){
       this.props.events.on('add-to-cart', this.updateCart.bind(this));
     }
+
+    this.events = new Events();
   }
 
   updateCart() {
@@ -42,6 +47,7 @@ class LeftLinks extends React.Component {
 
     return (
       <div>
+          <UsersAuth events={this.events} />
           <List className={classes.list}>
             <ListItem className={classes.listItem}>
               <CustomDropdown buttonText="Products" dropdownHeader="Products"
@@ -78,16 +84,64 @@ class LeftLinks extends React.Component {
                 Blogs
               </NavLink>
             </ListItem>
-            <ListItem className={classes.listItem}>
-              <NavLink to="/login" className={classes.navLink} color="transparent">
-                Login
-              </NavLink>
-            </ListItem>
-            <ListItem className={classes.listItem}>
-              <NavLink to="/register" className={classes.navLink} color="primary">
-                Sign Up
-              </NavLink>
-            </ListItem>
+            {(!userIs(["customer"]))?
+              <span>
+                <ListItem className={classes.listItem}>
+                  <CustomDropdown buttonText="Login" dropdownHeader="Login as"
+                    buttonProps={{
+                      className: classes.navLink,
+                      color: "transparent"
+                    }}
+                    dropdownList={[
+                      <a
+                        onClick={() => {
+                          this.events.emit("usersLogin", "Customer");
+                        }}
+                        className={classes.dropdownLink}
+                      >
+                        Customer Login
+                      </a>,
+                      <a
+                        onClick={() => {
+                          this.events.emit("usersLogin", "Vendor");
+                        }}
+                        className={classes.dropdownLink}
+                      >
+                        Vendor Login
+                      </a>,
+                    ]}
+                  />
+                </ListItem>
+                <ListItem className={classes.listItem}>
+                  <CustomDropdown buttonText="Sign Up" dropdownHeader="Sign Up as"
+                    buttonProps={{
+                      className: classes.navLink,
+                      color: "transparent"
+                    }}
+                    dropdownList={[
+                      <a
+                        onClick={() => {
+                          this.events.emit("usersSignUp", "Customer");
+                        }}
+                        className={classes.dropdownLink}
+                      >
+                        Customer Sign Up
+                      </a>,
+                      <a
+                        onClick={() => {
+                          this.events.emit("usersSignUp", "Vendor");
+                        }}
+                        className={classes.dropdownLink}
+                      >
+                        Vendor Sign Up
+                      </a>,
+                    ]}
+                  />
+                </ListItem>
+              </span>
+            :
+              null
+            }
             <ListItem className={classes.listItem}>
               <Tooltip title="Compare Products" placement="bottom" classes={{ tooltip: classes.tooltip }}>
                 <NavLink to="/compare" className={classes.navLink} color="transparent">
