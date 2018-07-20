@@ -64,6 +64,7 @@ class Category extends React.Component{
   }
 
   componentDidUpdate(prevProps){
+
     if(this.props.productCategory.hasOwnProperty("categories") && (_.isEqual(this.props.productCategory.categories, prevProps.productCategory.categories) === false)){
         this.setState({
           data: this.props.productCategory.categories
@@ -121,6 +122,11 @@ class Category extends React.Component{
         })
       }
     }
+  }
+
+  componentWillUnmount(){
+    //Unmount the props that was mount by component
+    this.props.productCategory.categories = {};
   }
 
   render(){

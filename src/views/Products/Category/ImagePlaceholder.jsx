@@ -21,8 +21,26 @@ const styles = theme => ({
         ...theme.button,
         width: "100%",
         fontSize: "11px"
-    }
-  });
+    },
+    imgWrapper:{
+        position: "relative",
+    },
+    imgClose:{
+        position: "absolute",
+        color: "#ffffff",
+        zIndex: "10",
+        right:"-10px",
+        top: "-5px",
+        fontSize: "12px",
+        fontWeight: "bolder",
+        cursor: "pointer",
+        background: "#f43b3b",
+        padding: "1px 10px",
+        borderRadius: "50%",
+        "&:hover":{
+            boxShadow: "0px 2px 4px #444444"
+        },
+}});
 
 class ImagePlaceholder extends React.Component{
     constructor(props){
@@ -117,6 +135,12 @@ class ImagePlaceholder extends React.Component{
         }
     }
 
+    handleImageRemoval = imgSrc => {
+        this.setState({
+            [imgSrc] : this.props.srcImage
+        })
+    }
+
 
     render(){
         const {snackBarMessage, snackBarOpen} = this.state;
@@ -124,7 +148,7 @@ class ImagePlaceholder extends React.Component{
         const {classes, label} = this.props;
         return (
             <div>
-                <div>
+                <div className={classes.imgWrapper}>
                     <div>
                         <img src={this.state[this.props.fileInput]} alt="" style={style}/>
                     </div>
@@ -133,7 +157,8 @@ class ImagePlaceholder extends React.Component{
                     this.state[this.props.fileInput] !== undefined && this.state[this.props.fileInput].startsWith("data")
                     ?
                     (
-                    <div>
+                        <div>
+                        <span className={`${classes.imgClose} not-selectable`} onClick={() => this.handleImageRemoval(this.props.fileInput)}>X</span>
                         <Button variant="contained" color="primary" component="span" className={classes.sizeButton} >
                             Upload {label}
                         </Button>
@@ -141,19 +166,30 @@ class ImagePlaceholder extends React.Component{
                     )
                     :
                     (
+                      
                     <div>
-                        <label htmlFor={label}>
-                            <Button variant="contained" component="span" className={classes.fluidButton} >
+                        {
+                            /**
+                             * The htmlFor attribute of the label element
+                             * need to be the same with id attribute of input
+                             * but must be unique for every time this component
+                             * is initiated on the same page
+                             */
+                        }
+                        <div className="img-size-display">{`${this.props.width} X ${this.props.height}`}</div>
+                        <label htmlFor={this.props.fileInput}>
+                            <Button variant="contained" component="span" className={classes.fluidButton}>
                             Choose File
                             </Button>
                         </label>
                         <input
                             accept="image/*"
                             className={classes.input}
-                            id={label}
+                            id={this.props.fileInput}
                             type="file"
                             onChange={this.onChangeFile}
                             ref={this[this.props.fileInput]}
+                            name={this.props.fileInput}
                         />
                     </div>
                     )

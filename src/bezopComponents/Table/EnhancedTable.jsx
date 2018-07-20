@@ -180,7 +180,9 @@ class EnhancedTable extends React.Component {
                                       label={property.name} 
                                       fileInput={`${property.name}${pkey}`} 
                                       width={property.width}
-                                      height={property} />
+                                      height={property.height}
+                                      
+                                      />
                                       :
                                       property.ucword ? n[property.name].replace(/^\w/, c => c.toUpperCase()) : n[property.name]
                                      

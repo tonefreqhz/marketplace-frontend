@@ -60,6 +60,20 @@ import ProductList from "../containers/ProductList.jsx";
 import Profile from "../containers/ProfilePage.jsx";
 
 var indexRoutes = [
+  { path: "/admin/categories", name: "AdminProductCategory", component: AdminProductCategory},
+  { path: "/admin/customers", name: "Customers", component: AdminCustomers},
+  { path: "/admin/messages", name:"AdminMessages", component: AdminMessages},
+  { path: "/admin/settings", name: "AdminStore", component: AdminStore},
+  { path: "/admin/products", name: "AdminProducts", component: AdminProduct},
+  { path: "/admin/vendors", name: "AdminVendors", component: AdminVendors},
+  { path: "/admin/profile", name: "AdminProfile", component: AdminProfile},
+  { path: "/admin/coupons", name: "DiscountCoupons", component: DiscountCoupon},
+  { path: "/admin/orders", name: "AdminOrder", component:AdminOrder},
+  { path: "/admin/brands", name: "AdminBrands", component: AdminBrands},
+  { path: "/admin/blog", name: "AdminBlog", component: AdminBlog},
+  { path: "/admin/seo", name: "AdminSeo", component: AdminSeo},
+  { path: "/admin", name: "Dashboard", component: Admin},
+
   { 
     path: "/dashboard/messages", name: "Messages",
     Component: (props) => userIs(["vendor"])? <Messages {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />

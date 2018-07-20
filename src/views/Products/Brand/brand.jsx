@@ -122,6 +122,11 @@ class Brand extends React.Component{
     }
   }
 
+  componentWillUnmount(){
+    //Unmount the props that was mount by component
+    this.props.productBrand.brands = {};
+  }
+
   render(){
   const { classes, postProductBrandDetails, productBrand} = this.props;
   const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;

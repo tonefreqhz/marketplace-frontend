@@ -20,6 +20,9 @@
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
+    box-shadow: none !important;
+    border-color: #d2d2d2 !important;
+    border-radius: 0px;
   }
   .Select.is-clearable.is-searchable{
     margin-top: 15px
@@ -40,4 +43,22 @@
   }
   .Select.select-menu-error  .Select-placeholder{
       color:red;
+  }
+
+  .not-selectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  #root .img-size-display{
+    padding: 5px;
+    background: #cccccc;
+    color: #444444;
+    font-size: 23px;
+    text-align: center;
+    font-weight: bolder;
   }
