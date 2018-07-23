@@ -6,7 +6,6 @@ import Select2 from "react-select";
 import FormControl from "@material-ui/core/FormControl";
 import countries from "country-list";
 import Snackbar from '@material-ui/core/Snackbar';
-import _ from "lodash";
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
@@ -140,15 +139,11 @@ class UserProfile extends React.Component{
     this.props.updatedVendorProfile(this.state.userProfile, this.state.vendorID)
   }
 
-  componentWillReceiveProps(nextProps){
-    
-  }
+  componentWillReceiveProps(newProps){
 
-  componentDidUpdate(prevProps){
+    if(newProps.vendorProfile.hasOwnProperty('updateProfile')){
 
-    if(this.props.vendorProfile.hasOwnProperty('updateProfile') && !_.isEqual(prevProps.vendorProfile.updateProfile, this.props.vendorProfile.updateProfile)){
-
-      let newUserProfile = Object.assign({}, this.state.userProfile, this.props.vendorProfile.updateProfile)
+      let newUserProfile = Object.assign({}, this.state.userProfile, newProps.vendorProfile.updateProfile)
       this.setState({
         userProfile: newUserProfile,
         snackBarOpenSuccess: true,
@@ -157,8 +152,8 @@ class UserProfile extends React.Component{
       
     }
 
-    if(this.props.vendorProfile.hasOwnProperty('getProfile') && !_.isEqual(prevProps.vendorProfile.getProfile, this.props.vendorProfile.getProfile)){
-        let newUserProfile = Object.assign({}, this.state.userProfile, this.props.vendorProfile.getProfile)
+    if(newProps.vendorProfile.hasOwnProperty('getProfile')){
+        let newUserProfile = Object.assign({}, this.state.userProfile, newProps.vendorProfile.getProfile)
         
         this.setState({
           userProfile: newUserProfile,
@@ -171,12 +166,6 @@ class UserProfile extends React.Component{
     this.setState({
       snackBarOpenSuccess: false
     })
-  }
-
-
-  componentWillUnmount(){
-    //Destroy the props that was set by componentDIdMount
-    this.props.vendorProfile.getProfile = {};
   }
 
 

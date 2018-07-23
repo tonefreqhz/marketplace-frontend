@@ -1,0 +1,62 @@
+import React from "react";
+import ImagePlaceholder from "./Category/ImagePlaceholder";
+import { withStyles } from '@material-ui/core/styles';
+import Grid from "@material-ui/core/Grid";
+// core components
+import GridItem from "../../components/Grid/GridItem.jsx";
+
+import Card from "../../components/Card/Card.jsx";
+import CardBody from "../../components/Card/CardBody.jsx";
+
+import cardImagesStyles from "../../assets/jss/material-kit-react/cardImagesStyles";
+
+
+
+class ImagePanel extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            imgObj: this.props.imgObj,
+            eachData: this.props.eachData
+        }
+    }
+    
+    render(){
+        const {imgObj, eachData} = this.state;
+        const {postImage, collection} = this.props;
+        console.log(this.props)
+        return (
+            <div>
+                <Card >
+                <CardBody>
+                <Grid container>
+                {imgObj.map(img => {
+                    return (
+                        <GridItem xs={12} md={4} key={img.label}>
+                            <ImagePlaceholder 
+                            srcImage={eachData[img.label]} 
+                            label={img.label}
+                            eachData={eachData} 
+                            fileInput={img.label}
+                            fullwidth={img.fullWidth} 
+                            width={img.width}
+                            height={img.height}
+                            postImage={postImage}
+                            collection={collection}
+                            />
+                            
+                                <h4 style={{fontWeight:"bolder", textAlign: "center"}}>{img.imgType}</h4>
+                        </GridItem>
+                    )
+                })}
+                    </Grid>
+                    </CardBody>
+                </Card>
+            </div>
+        )
+    }
+}
+
+
+export default withStyles(cardImagesStyles)(ImagePanel);

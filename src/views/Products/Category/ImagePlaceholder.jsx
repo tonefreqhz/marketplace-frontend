@@ -48,7 +48,12 @@ class ImagePlaceholder extends React.Component{
         this.state = {
             [this.props.fileInput]: this.props.srcImage,
             snackBarOpen: false,
-            snackBarMessage: ""
+            snackBarMessage: "",
+            imageDetail : {
+                collection : this.props.collection,
+                src: "",
+            },
+            collectionId: this.props.eachData._id
 
         }
         this[this.props.fileInput] = React.createRef();
@@ -102,8 +107,11 @@ class ImagePlaceholder extends React.Component{
 
     //Setting the state of the image preview
     newImageState = (imageProp, src) => {
+        let newImageDetails = JSON.parse(JSON.stringify(this.state.imageDetail));
+        newImageDetails.src = src
         this.setState({
-        [imageProp]: src
+            [imageProp]: src,
+            imageDetail: newImageDetails
         });
     }
 
@@ -116,7 +124,6 @@ class ImagePlaceholder extends React.Component{
     onCloseHandler = () => {
         this.setState({ snackBarOpen: false });
     }
-
 
     componentWillReceiveProps(newProps){
         if(this.props[this.props.fileInput] !== newProps[this.props.fileInput]){
@@ -141,10 +148,16 @@ class ImagePlaceholder extends React.Component{
         })
     }
 
+    uploadImage = () => {
+        this.props.postImage(this.state.imageDetail, this.state.collectionId )
+    }
+
 
     render(){
+        console.log(this.state.imageDetail);
         const {snackBarMessage, snackBarOpen} = this.state;
-        const style = {width: "150px", marginBottom: "10px", marginTop: "10px"};
+        const {fullwidth} = this.props;
+        const style = {width: fullwidth ? "100%" : "150px", marginBottom: "10px", marginTop: "10px"};
         const {classes, label} = this.props;
         return (
             <div>
@@ -176,7 +189,7 @@ class ImagePlaceholder extends React.Component{
                              * is initiated on the same page
                              */
                         }
-                        <div className="img-size-display">{`${this.props.width} X ${this.props.height}`}</div>
+                        <div style={{padding: "5px",background: "#cccccc", color: "#444444", fontSize: "23px", textAlign: "center", fontWeight: "bolder"}}>{`${this.props.width} X ${this.props.height}`}</div>
                         <label htmlFor={this.props.fileInput}>
                             <Button variant="contained" component="span" className={classes.fluidButton}>
                             Choose File

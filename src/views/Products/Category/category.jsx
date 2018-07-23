@@ -6,11 +6,6 @@
 import React from "react";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
-
-/**
- * @requires lodash
- */
-import _ from "lodash";
 // core components
 import GridItem from "../../../components/Grid/GridItem.jsx";
 import Card from "../../../components/Card/Card.jsx";
@@ -55,6 +50,7 @@ class Category extends React.Component{
 
   componentDidMount(){
     this.props.fetchProductCategories();
+    //console.log("working")
   }
 
   editButtonDisplay = (n) =>{
@@ -63,17 +59,16 @@ class Category extends React.Component{
 </TableCell>)
   }
 
-  componentDidUpdate(prevProps){
-
-    if(this.props.productCategory.hasOwnProperty("categories") && (_.isEqual(this.props.productCategory.categories, prevProps.productCategory.categories) === false)){
+  componentWillReceiveProps(newProps){
+    if(newProps.productCategory.hasOwnProperty("categories")){
         this.setState({
-          data: this.props.productCategory.categories
+          data: newProps.productCategory.categories
         })
     }
 
-    if(this.props.productCategory.hasOwnProperty("addCategory") && (_.isEqual(this.props.productCategory.addCategory, prevProps.productCategory.addCategory) === false)){
+    if(newProps.productCategory.hasOwnProperty("addCategory")){
       let newCategories = JSON.parse(JSON.stringify(this.state.data));
-      newCategories.unshift(this.props.productCategory.addCategory);
+      newCategories.unshift(newProps.productCategory.addCategory);
 
       this.setState({
         data: newCategories,
@@ -82,12 +77,12 @@ class Category extends React.Component{
       });
     }
 
-    if(this.props.productCategory.hasOwnProperty("updateCategory") && (_.isEqual(this.props.productCategory.updateCategory, prevProps.productCategory.updateCategory) === false)){
+    if(newProps.productCategory.hasOwnProperty("updateCategory")){
       let newCategories = JSON.parse(JSON.stringify(this.state.data));
       let updateCategories;
       updateCategories = newCategories.map( category => {
-                if(this.props.productCategory.updateCategory._id === category._id){
-                  return this.props.productCategory.updateCategory;
+                if(newProps.productCategory.updateCategory._id === category._id){
+                  return newProps.productCategory.updateCategory;
                 }else{
                   return category;
                 }
@@ -124,10 +119,6 @@ class Category extends React.Component{
     }
   }
 
-  componentWillUnmount(){
-    //Unmount the props that was mount by component
-    this.props.productCategory.categories = {};
-  }
 
   render(){
   const { classes, postProductCategoryDetails, productCategory} = this.props;
@@ -137,7 +128,9 @@ class Category extends React.Component{
     <GridItem xs={12} md={9}>
     </GridItem>
     <GridItem xs={6} md={3}>
-    <AddNewProductCategory productCategory={productCategory} addProductCategory={postProductCategoryDetails} type="add"/>
+    <AddNewProductCategory 
+    productCategory={productCategory}
+    addProductCategory={postProductCategoryDetails} type="add"/>
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>

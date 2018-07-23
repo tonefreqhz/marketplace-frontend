@@ -78,7 +78,6 @@ export function loadDeleteProduct(results){
 }
 
 export function deleteProduct(productID) {
-  console.log(productID);
   return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products/${productID}`, {
     method: 'DELETE',
     headers: {

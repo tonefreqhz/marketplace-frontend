@@ -6,11 +6,6 @@
 import React from "react";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
-
-/**
- * @requires lodash
- */
-import _ from "lodash";
 // core components
 import GridItem from "../../../components/Grid/GridItem.jsx";
 import Card from "../../../components/Card/Card.jsx";
@@ -61,16 +56,16 @@ class Brand extends React.Component{
 </TableCell>)
   }
 
-  componentDidUpdate(prevProps){
-    if(this.props.productBrand.hasOwnProperty("brands") && (_.isEqual(this.props.productBrand.brands, prevProps.productBrand.brands) === false)){
+  componentWillReceiveProps(newProps){
+    if(newProps.productBrand.hasOwnProperty("brands")){
         this.setState({
-          data: this.props.productBrand.brands
+          data: newProps.productBrand.brands
         })
     }
 
-    if(this.props.productBrand.hasOwnProperty("addBrand") && (_.isEqual(this.props.productBrand.addBrand, prevProps.productBrand.addBrand) === false)){
+    if(newProps.productBrand.hasOwnProperty("addBrand")){
       let newBrands = JSON.parse(JSON.stringify(this.state.data));
-      newBrands.unshift(this.props.productBrand.addBrand);
+      newBrands.unshift(newProps.productBrand.addBrand);
 
       this.setState({
         data: newBrands,
@@ -79,12 +74,12 @@ class Brand extends React.Component{
       });
     }
 
-    if(this.props.productBrand.hasOwnProperty("updateBrand") && (_.isEqual(this.props.productBrand.updateBrand, prevProps.productBrand.updateBrand) === false)){
+    if(newProps.productBrand.hasOwnProperty("updateBrand")){
       let newBrands = JSON.parse(JSON.stringify(this.state.data));
       let updateBrands;
       updateBrands = newBrands.map( brand => {
-                if(this.props.productBrand.updateBrand._id === brand._id){
-                  return this.props.productBrand.updateBrand;
+                if(newProps.productBrand.updateBrand._id === brand._id){
+                  return newProps.productBrand.updateBrand;
                 }else{
                   return brand;
                 }
@@ -120,11 +115,6 @@ class Brand extends React.Component{
         })
       }
     }
-  }
-
-  componentWillUnmount(){
-    //Unmount the props that was mount by component
-    this.props.productBrand.brands = {};
   }
 
   render(){
