@@ -36,11 +36,12 @@ class MobileSidebar extends React.Component {
   };
 
   render() {
-    const { classes, color, logo, image, logoText, routes } = this.props;
+    const { classes, color, logo, image, logoText, routes, dropdowns } = this.props;
 
       let links = <VendorMenuLinks
                     activeRoute={this.activeRoute}
                     activeParentMenu={this.activeParentMenu}
+                    dropdowns={dropdowns}
                     handleClick={this.handleClick}
                     open={this.state.open}
                     color={color}

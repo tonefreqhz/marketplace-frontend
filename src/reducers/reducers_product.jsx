@@ -12,6 +12,10 @@ import {
 import {
     FETCH_PRODUCT_CATEGORIES
 } from "../actions/actions_product_category";
+
+import {
+    PUT_IMAGE
+} from "../actions/actions_imageupload";
     
     const product = (state = {}, action) => {
         let output;
@@ -33,6 +37,9 @@ import {
             break;
             case FETCH_PRODUCT_CATEGORIES:
                 output = {productCategories: action.payload}
+            break;
+            case PUT_IMAGE:
+                output = {updateImage: action.payload}
             break;
             default:
                 output = state;

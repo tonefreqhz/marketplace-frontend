@@ -21,7 +21,7 @@ import EnhancedTableToolbar from "./EnhancedTableToolbar";
 
 
 import ImagePlaceholder from "../../views/Products/Category/ImagePlaceholder";
-import ImageModal from "../../views/Products/modal";
+
 
 const styles = theme => ({
     root: {
@@ -133,7 +133,8 @@ class EnhancedTable extends React.Component {
   
   
     render() {
-      const {  data, classes, tableTitle, properties, editButton, onDeleteClickSpec, itemName,postImage, collection } = this.props;
+      const {  data, classes, tableTitle, properties, editButton, imagePanelDisplay,
+               onDeleteClickSpec, itemName,postImage, collection, product } = this.props;
       const { order, orderBy, selected, rowsPerPage, page, columnData } = this.state;
       const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
       
@@ -182,18 +183,12 @@ class EnhancedTable extends React.Component {
                                       fileInput={`${property.name}${pkey}`} 
                                       width={property.width}
                                       height={property.height}
-                                      
+                                      postImage={postImage}
+                                      collection={collection}
+                                      eachData = {n}
                                       />
                                       :
                                       property.ucword ? n[property.name].replace(/^\w/, c => c.toUpperCase()) :
-                                      property.imgPanel ?
-                                      <ImageModal
-                                        type="imageUpload"
-                                        imgObj = {property.imgObj}
-                                        eachData = {n}
-                                        postImage={postImage}
-                                        collection={collection}
-                                      /> :
                                       property.brandMap ? this.props.brands.filter(brand => {
                                         return (brand._id === n[property.name])
                                       }).map(brand => brand.name).join(""):
@@ -205,6 +200,9 @@ class EnhancedTable extends React.Component {
                                     }
                                     </TableCell>)
                         })}
+                        {
+                          imagePanelDisplay ? imagePanelDisplay(n) : null
+                        }
                         {
                           editButton ? editButton(n) : null
                         }

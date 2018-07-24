@@ -1,9 +1,9 @@
 import 'whatwg-fetch';
-export const POST_IMAGE = 'POST_IMAGE';
+export const PUT_IMAGE = 'PUT_IMAGE';
 
 export function loadImageUpload(results) {
     return {
-      type: POST_IMAGE,
+      type: PUT_IMAGE,
       payload: results,
     };
   }
@@ -11,7 +11,7 @@ export function loadImageUpload(results) {
   
   export function postImage(imageDetail, collectionId) {
     return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/image/${collectionId}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

@@ -12,33 +12,43 @@ import cardImagesStyles from "../../assets/jss/material-kit-react/cardImagesStyl
 
 
 
+
 class ImagePanel extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
             imgObj: this.props.imgObj,
-            eachData: this.props.eachData
+            eachData: this.props.eachData,
+        }
+    }
+
+    componentWillReceiveProps(newProps){
+        if(newProps.product.hasOwnProperty("updateImage")){
+            let newEachData = JSON.parse(JSON.stringify(newProps.product.updateImage));
+            this.setState({
+                eachData: newEachData
+            })
         }
     }
     
     render(){
+        //console.log(this.props.eachData);
         const {imgObj, eachData} = this.state;
         const {postImage, collection} = this.props;
-        console.log(this.props)
         return (
             <div>
                 <Card >
                 <CardBody>
                 <Grid container>
-                {imgObj.map(img => {
+                {imgObj.map((img, key) => {
                     return (
-                        <GridItem xs={12} md={4} key={img.label}>
+                        <GridItem xs={12} md={4} key={`${img.label}${key}`}>
                             <ImagePlaceholder 
                             srcImage={eachData[img.label]} 
                             label={img.label}
                             eachData={eachData} 
-                            fileInput={img.label}
+                            fileInput={`${img.label}${eachData._id}`}
                             fullwidth={img.fullWidth} 
                             width={img.width}
                             height={img.height}

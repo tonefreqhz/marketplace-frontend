@@ -32,7 +32,8 @@ const properties = [{name: "name", component: true, padding: true, numeric: fals
 {name: "kind", component: false, padding: false, numeric: false, img: false, ucword: true},
 {name: "description", component: false, padding: false, numeric: false, img: false},
 {name: "icon", component: false, padding: false, numeric: false, img: true, width: 500, height: 500},
-{name: "banner", component: false, padding: false, numeric: false, img: true, width: 1024, height: 576}];
+{name: "banner", component: false, padding: false, numeric: false, img: true, width: 1024, height: 576}
+];
 
 
 class Category extends React.Component{
@@ -94,6 +95,19 @@ class Category extends React.Component{
         snackBarMessageSuccess: "You have successfully updated product category",
       });
     }
+
+    if(newProps.productCategory.hasOwnProperty("updateImage")){
+        let newData = this.state.data.map(datum => {
+          if(datum._id === newProps.productCategory.updateImage._id){
+            return newProps.productCategory.updateImage
+          }else{
+            return datum
+          }
+        })
+        this.setState({
+            data: newData
+        })
+    }
   }
 
   onCloseHandlerSuccess = () => {
@@ -121,7 +135,7 @@ class Category extends React.Component{
 
 
   render(){
-  const { classes, postProductCategoryDetails, productCategory} = this.props;
+  const { classes, postProductCategoryDetails, productCategory, postImage} = this.props;
   const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
   return (
     <Grid container>
@@ -148,6 +162,8 @@ class Category extends React.Component{
               editButton={this.editButtonDisplay}
               onDeleteClickSpec={this.handleDeleteClick}
               currentSelected = {[]}
+              postImage={postImage}
+              collection="category"
               itemName={{single : "Product Category", plural: "Product Categories"}}
             />
           </CardBody>

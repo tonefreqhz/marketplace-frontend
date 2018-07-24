@@ -92,6 +92,21 @@ class Brand extends React.Component{
 
       });
     }
+
+    if(newProps.productBrand.hasOwnProperty("updateImage")){
+      let newData = this.state.data.map(datum => {
+        if(datum._id === newProps.productBrand.updateImage._id){
+          return newProps.productBrand.updateImage
+        }else{
+          return datum
+        }
+      })
+      this.setState({
+          data: newData
+      })
+  }
+
+
   }
 
   onCloseHandlerSuccess = () => {
@@ -118,7 +133,7 @@ class Brand extends React.Component{
   }
 
   render(){
-  const { classes, postProductBrandDetails, productBrand} = this.props;
+  const { classes, postProductBrandDetails, productBrand, postImage} = this.props;
   const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
 
   return (
@@ -144,6 +159,8 @@ class Brand extends React.Component{
               editButton={this.editButtonDisplay}
               onDeleteClickSpec={this.handleDeleteClick}
               currentSelected = {[]}
+              collection="brand"
+              postImage={postImage}
               itemName={{single : "Product Brand", plural: "Product Brands"}}
             />
           </CardBody>

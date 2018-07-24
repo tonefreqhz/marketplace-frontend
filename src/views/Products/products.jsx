@@ -22,6 +22,7 @@ import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
 
 
 import EnhancedTable from "../../bezopComponents/Table/EnhancedTable";
+import ImageModal from "./modal";
 
 
 const columnData = [
@@ -36,57 +37,61 @@ const properties = [{name: "name", component: true, padding: true, numeric: fals
 {name: "short_description", component: false, padding: false, numeric: false, img: false},
 {name: "category_id", component: false, padding: false, numeric: false, img:false, catMap: true},
 {name: "brand_id", component: false, padding: false, numeric: false, img: false, brandMap: true},
-{name: "images", component: false, padding: false, numeric: false, img: false, imgPanel: true, imgObj: [ {
-                label:"image_sm",
-                imgType: "Product Small Image",
-                fullWidth: true,
-                width: 500,
-                height:500
-              }, {label:"image_md", 
-              imgType: "Product Medium Image",
-                fullWidth: true,
-                width: 700,
-                height:700
-              }, {label:"image_lg",
-              imgType: "Product Large Image",
-                fullWidth: true, 
-                  width: 900,
-                  height:900
-                },{label:"image_front", 
-                imgType: "Product Front Image",
-                fullWidth: true,
-                width: 900,
-                height:900
-              }, {label:"image_back",
-              imgType: "Product Back Image",
-                fullWidth: true, 
-                  width: 900,
-                  height:900
-                }, {label:"image_top",
-                imgType: "Product Top Image",
-                fullWidth: true, 
-                width: 900,
-                height:900
-              }, {label:"image_bottom",
-              imgType: "Product Bottom Image",
-                fullWidth: true, 
-              width: 900,
-              height:900
-            }, {label:"image_right",
-              imgType: "Product Right Image",
-                fullWidth: true, 
-            width: 900,
-            height:900
-          }, {
-          label:"image_left",
-          imgType: "Product Left Image",
-          fullWidth: true, 
-          width: 900,
-          height:900
-        }]
-      },
+{name: "images", component: false, padding: false, numeric: false, img: false, imgPanel: true}]
 
-]
+const imagePanelView = [ 
+  // {
+  //   label:"image_sm",
+  //   imgType: "Product Small Image",
+  //   fullWidth: true,
+  //   width: 500,
+  //   height:500
+  // }, {label:"image_md", 
+  // imgType: "Product Medium Image",
+  //   fullWidth: true,
+  //   width: 700,
+  //   height:700
+  // },
+   {label:"image_lg",
+  imgType: "Product Large Image",
+    fullWidth: true, 
+      width: 1000,
+      height:1000
+    },
+    {
+      label:"image_front", 
+    imgType: "Product Front Image",
+    fullWidth: true,
+    width: 1000,
+    height:1000
+    }, 
+    {label:"image_back",
+  imgType: "Product Back Image",
+    fullWidth: true, 
+      width: 1000,
+      height:1000
+    }, {label:"image_top",
+    imgType: "Product Top Image",
+    fullWidth: true, 
+    width: 1000,
+    height:1000
+  }, {label:"image_bottom",
+  imgType: "Product Bottom Image",
+    fullWidth: true, 
+  width: 1000,
+  height:1000
+}, {label:"image_right",
+  imgType: "Product Right Image",
+    fullWidth: true, 
+width: 1000,
+height:1000
+}, {
+label:"image_left",
+imgType: "Product Left Image",
+fullWidth: true, 
+width: 1000,
+height:1000
+}]
 
 class  Products extends React.Component{
   
@@ -172,6 +177,19 @@ class  Products extends React.Component{
 </TableCell>)
   }
 
+  imagePanelDisplay = (n) => {
+      return (<TableCell>
+                <ImageModal
+                type="imageUpload"
+                imgObj = {imagePanelView}
+                eachData = {n}
+                postImage={this.props.postImage}
+                collection="product"
+                product={this.props.product}
+              />
+              </TableCell> )
+  }
+
   onCloseHandlerSuccess = () => {
     this.setState({
       snackBarOpenSuccess: false
@@ -203,7 +221,6 @@ class  Products extends React.Component{
     product,
     fetchProducts,
     postProductDetails,
-    postImage
   } = this.props;
   const {
           data,
@@ -246,8 +263,8 @@ class  Products extends React.Component{
               editButton={this.editButtonDisplay}
               onDeleteClickSpec={this.handleDeleteClick}
               currentSelected = {[]}
-              postImage={postImage}
-              collection="product"
+              imagePanelDisplay={this.imagePanelDisplay}
+              product ={product}
               itemName={{single : "Product", plural: "Products"}}
             />
           </CardBody>

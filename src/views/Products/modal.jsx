@@ -89,10 +89,14 @@ class AddNew extends React.Component{
             onClick={this.handleClickOpen}>
             Upload Product Images
           </Button>)
-          modalContent = ( 
+          modalContent = (
+            
           <ImagePanel
             imgObj = {this.props.imgObj}
             eachData={this.props.eachData}
+            collection={this.props.collection}
+            postImage={this.props.postImage}
+            product={this.props.product}
             />)
       break;
       default:
