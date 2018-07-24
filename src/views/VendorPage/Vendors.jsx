@@ -30,6 +30,7 @@ class Vendors extends React.Component {
       products: {},
       pageTitle: "",
       pageBanner: "",
+      id: this.props.match.url.replace("/vendor/", ""),
     };
     
     document.body.scrollTop = 0;
@@ -127,6 +128,7 @@ class Vendors extends React.Component {
             categories={front.categories}
             vendors={front.vendors}
             brands={front.brands}
+            vendorId={this.state.id}
             events={this.events}
           />
         </div>

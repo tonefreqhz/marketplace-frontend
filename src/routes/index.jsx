@@ -8,7 +8,7 @@
 
 import React from "react";
 import { Redirect } from 'react-router'
-import { userIs } from "../components/Auth/CheckUsers";
+import { userIs } from "../components/Auth/AccessControl.jsx";
 
 //Vendor Router
 import Dashboard from "../layouts/Dashboard/Dashboard.jsx";
@@ -20,7 +20,7 @@ import Banner from "../layouts/Dashboard/Dashboard.jsx";
 import Shop from "../layouts/Dashboard/Dashboard.jsx";
 import Support from "../layouts/Dashboard/Dashboard.jsx";
 import UserProfile from "../layouts/Dashboard/Dashboard.jsx";
-import Blog from "../layouts/Dashboard/Dashboard.jsx";
+// import Blog from "../layouts/Dashboard/Dashboard.jsx";
 
 //Admin Router
 import Admin from "../Admin/LandingPage/layout.jsx";
@@ -28,7 +28,7 @@ import AdminProductCategory from "../Admin/LandingPage/layout.jsx";
 import DiscountCoupon from "../Admin/LandingPage/layout.jsx";
 import AdminCustomers from "../Admin/LandingPage/layout.jsx";
 import AdminMessages from "../Admin/LandingPage/layout.jsx";
-import EmailTemplate from "../Admin/LandingPage/layout.jsx";
+// import EmailTemplate from "../Admin/LandingPage/layout.jsx";
 import AdminProduct from "../Admin/LandingPage/layout.jsx";
 import AdminVendors from "../Admin/LandingPage/layout.jsx";
 import AdminProfile from "../Admin/LandingPage/layout.jsx";
@@ -37,8 +37,8 @@ import AdminOrder from "../Admin/LandingPage/layout.jsx";
 import AdminStore from "../Admin/LandingPage/layout.jsx";
 import AdminBlog from "../Admin/LandingPage/layout.jsx";
 import AdminSeo from "../Admin/LandingPage/layout.jsx";
-import Currency from "../Admin/LandingPage/layout.jsx";
-import Language from "../Admin/LandingPage/layout.jsx";
+// import Currency from "../Admin/LandingPage/layout.jsx";
+// import Language from "../Admin/LandingPage/layout.jsx";
 
 //Customer Router
 import Home from "../containers/Home.jsx";
@@ -76,47 +76,47 @@ var indexRoutes = [
 
   { 
     path: "/dashboard/messages", name: "Messages",
-    Component: (props) => userIs(["vendor"])? <Messages {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Messages {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/products/category", name: "Product Category",
-    Component: (props) => userIs(["vendor"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/products/brand", name: "Product Brand",
-    Component: (props) => userIs(["vendor"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/products", name: "Products",
-    Component: (props) => userIs(["vendor"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Products {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/settings", name: "Settings",
-    Component: (props) => userIs(["vendor"])? <Shop {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Shop {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/coupons", name: "Coupons",
-    Component: (props) => userIs(["vendor"])? <Coupons {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Coupons {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/support", name: "Support",
-    Component: (props) => userIs(["vendor"])? <Support {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Support {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/banner", name: "banners",
-    Component: (props) => userIs(["vendor"])? <Banner {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Banner {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/orders", name: "Orders",
-    Component: (props) => userIs(["vendor"])? <Orders {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Orders {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard/user", name: "Users",
-    Component: (props) => userIs(["vendor"])? <UserProfile {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <UserProfile {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
   { 
     path: "/dashboard", name:"Dashboard",
-    Component: (props) => userIs(["vendor"])? <Dashboard {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+    Component: (props) => userIs(["vendor","admin"])? <Dashboard {...props} /> : <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },
 
   { path: "/categories", name: "Categories", Component: (props) => <Category {...props} /> },

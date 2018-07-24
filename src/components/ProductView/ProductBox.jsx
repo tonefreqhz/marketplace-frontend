@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Tooltip from "@material-ui/core/Tooltip";
-import {ShoppingCart, Visibility, Favorite, ShoppingBasket, FavoriteBorder, CompareArrows} from "@material-ui/icons";
+import {ShoppingCart, Visibility, Favorite, ShoppingBasket, FavoriteBorder, Compare} from "@material-ui/icons";
 import PropTypes from 'prop-types';
 // core components
 import Card from "../../components/Card/Card.jsx";
@@ -38,6 +38,36 @@ const styles = theme => ({
             position: "absolute",
             left: "0px",
             top: "0px"
+        },
+        OutOfStock: {
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            backgroundImage: `url('${require("../../assets/img/SoldOut.png")}')`,
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "50% 50%",
+            opacity: "0.6",
+            left: "0px",
+            top: "0px"
+        },
+        discountSticker: {
+            width: "55px",
+            height: "55px",
+            position: "absolute",
+            left: "0px",
+            bottom: "0px",
+            color: "#fff",
+            backgroundImage: `url('${require("../../assets/img/Discount.png")}')`,
+            borderRadius: "55px",
+            textAlign: "center",
+            fontWeight: "bold",
+            margin: "0px",
+            lineHeight: "14px",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            paddingTop: "14px",
         },
         productHead: {
             padding: "0px",
@@ -85,11 +115,32 @@ class ProductBox extends React.Component {
         this.state = {
             Product: this.props.product,
             QuickViewModal: false,
-            Cart: (localStorage.cart)? JSON.parse(localStorage.cart) : {}
+            Cart: (localStorage.getItem("cart"))? JSON.parse(localStorage.getItem("cart")) : {},
+            Compare: (localStorage.getItem("compare"))? JSON.parse(localStorage.getItem("compare")) : []
         };
 
         this.FavToggle = this.FavToggle.bind(this);
         this.QuickViewToggle = this.QuickViewToggle.bind(this);
+
+        this.compare = {
+            addCompare: () => {
+                let compareData = (localStorage.compare)? JSON.parse(localStorage.compare) : [];
+                compareData.push(this.state.Product.id);
+                localStorage.compare = JSON.stringify(compareData);
+                this.setState(...this.state, {Compare: compareData});
+                this.props.data.events.emit('add-to-compare');
+            },
+            checkCompare: () => {
+                return (this.state.Compare.indexOf(this.state.Product.id) > -1)? true : false;
+            },
+            removeCompare: () => {
+                let compareData = (localStorage.compare)? JSON.parse(localStorage.compare) : [];
+                compareData.splice(compareData.indexOf(this.state.Product.id), 1);
+                localStorage.compare = JSON.stringify(compareData);
+                this.setState(...this.state, {Compare: compareData});
+                this.props.data.events.emit('add-to-compare');
+            }
+        };
 
         this.cart = {
             checkProduct: () => {
@@ -115,7 +166,7 @@ class ProductBox extends React.Component {
         };
     }
 
-    FavToggle(){
+    FavToggle = () => {
         let pro = this.state.Product;
         if(pro.favorite){
             pro.favorite = false;
@@ -124,7 +175,16 @@ class ProductBox extends React.Component {
             pro.favorite = true;
             this.setState(...this.state, {Product: pro});
         }
-    }
+    };
+
+    CompToggle = () => {
+        if(this.compare.checkCompare()) {
+            this.compare.removeCompare();
+        }
+        else {
+            this.compare.addCompare();
+        }
+    };
 
     componentWillReceiveProps(newProps) {
         this.setState(...this.state, {Product: newProps.product})
@@ -143,8 +203,11 @@ class ProductBox extends React.Component {
       const {Product, QuickViewModal} = this.state;
       
       let Fav = {};
+      let Comp = {};
       let LatestSticker;
       let FeaturedSticker;
+      let DiscountSticker;
+      let OutOfStock;
       
       if(Product.favorite){
         Fav.icon = <Favorite />;
@@ -154,6 +217,14 @@ class ProductBox extends React.Component {
         Fav.tooltip = "Add To Wishlist";
       }
 
+      if(this.compare.checkCompare()){
+          Comp.icon = <Compare />;
+          Comp.tooltip = "Remove From Compare List";
+        }else{
+          Comp.icon = <span className={"fas fa-exchange-alt"}></span>;
+          Comp.tooltip = "Add To Compare List";
+      }
+
       if(Product.latest){
         LatestSticker = <img src={require("../../assets/img/NewProduct.png")} alt="New Product" className={classes.latestSticker}/>;
       }else{
@@ -161,20 +232,42 @@ class ProductBox extends React.Component {
       }
 
       if(Product.featured){
-          FeaturedSticker = <img src={require("../../assets/img/FeaturedProduct.png")} alt="New Product" className={classes.featuredSticker}/>;
+          FeaturedSticker = <img src={require("../../assets/img/FeaturedProduct.png")} alt="Featured Product" className={classes.featuredSticker}/>;
       }else{
           FeaturedSticker = null;
       }
 
+      if(Product.unit === 0){
+          OutOfStock = <div className={classes.OutOfStock}></div>;
+      }else{
+          OutOfStock = null;
+      }
+
+      if(Product.discount > 0){
+          DiscountSticker = <h5 className={classes.discountSticker}>{Product.discount}%<br/>OFF</h5>;
+      }else{
+          DiscountSticker = null;
+      }
+
       return (
         <div>
-            <QuickView param={QuickViewModal} cart={this.cart} favToggle={this.FavToggle} event={this.QuickViewToggle} data={data} product={Product} />
+            <QuickView
+                param={QuickViewModal}
+                cart={this.cart}
+                compare={this.compare}
+                favToggle={this.FavToggle}
+                compToggle={this.CompToggle}
+                event={this.QuickViewToggle}
+                data={data} product={Product}
+            />
             <Card className={classes.productCon}>
             <Card className={classes.productHead}>
                 <img src={Product.images[0]} alt={Product.name} className={classes.productPix} />
                 <div className={classes.imgCardOverlay}>
                     {LatestSticker}
                     {FeaturedSticker}
+                    {DiscountSticker}
+                    {OutOfStock}
                 </div>
             </Card>
             <CardBody className={classes.productBody}>
@@ -197,12 +290,12 @@ class ProductBox extends React.Component {
                     </Tooltip>
 
                     <Tooltip
-                        title="Compare Product"
+                        title={Comp.tooltip}
                         placement="top"
                         classes={{ tooltip: classes.tooltips }}
                     >
-                    <Button round justIcon simple color="primary" size="lg" style={{padding: "0px", margin: "0px auto 0px auto"}}>
-                        <CompareArrows />
+                    <Button round justIcon simple onClick={this.CompToggle} color="primary" size="lg" style={{padding: "0px", margin: "0px auto 0px auto"}}>
+                        {Comp.icon}
                     </Button>
                     </Tooltip>
 
@@ -237,8 +330,15 @@ class ProductBox extends React.Component {
                         </Button>
                     </Link>
                     :
-                    <Button color="primary" onClick={this.cart.addProduct} fullWidth round className={classes.Cart}>
-                        <ShoppingCart /> Add To Cart
+                    <Button
+                        color="primary"
+                        onClick={this.cart.addProduct}
+                        fullWidth
+                        round
+                        className={classes.Cart}
+                        disabled={(Product.unit === 0)? true : false }
+                    >
+                        <ShoppingCart /> {(Product.unit === 0)? "Out of Stock" : "Add To Cart" }
                     </Button>
                 }
             </CardBody>
