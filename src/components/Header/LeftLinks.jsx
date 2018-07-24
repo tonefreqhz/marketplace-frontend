@@ -110,8 +110,7 @@ class LeftLinks extends React.Component {
                       </a>,
                       <a
                         onClick={() => {
-                          // this.events.emit("usersLogin", "Vendor");
-                          this.events.emit("usersLogin", "Admin");
+                          this.events.emit("usersLogin", "Vendor");
                         }}
                         className={classes.dropdownLink}
                       >
@@ -137,8 +136,7 @@ class LeftLinks extends React.Component {
                       </a>,
                       <a
                         onClick={() => {
-                          // this.events.emit("usersSignUp", "Vendor");
-                          this.events.emit("usersSignUp", "Admin");
+                          this.events.emit("usersSignUp", "Vendor");
                         }}
                         className={classes.dropdownLink}
                       >
