@@ -35,11 +35,11 @@ class Vendor extends React.Component {
   componentWillMount() {
     const { dispatch } = this.props;
     dispatch(getVendors())
-      .then(
-        () => {
+      // .then(
+      //   () => {
           this.setState(...this.state, {loader: "none"})
-        }
-      );
+      //   }
+      // );
   }
 
   render() {

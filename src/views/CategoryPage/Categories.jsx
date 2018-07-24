@@ -18,7 +18,7 @@ import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import {getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
-const Events = require('events');
+import Events from 'events';
 
 class Categories extends React.Component {
 
@@ -31,6 +31,7 @@ class Categories extends React.Component {
       pageTitle: "",
       pageBanner: "",
       pageInfo: "",
+      id: this.props.match.url.replace("/category/", ""),
     };
     
     document.body.scrollTop = 0;
@@ -57,7 +58,7 @@ class Categories extends React.Component {
                 pageBanner: this.props.front.categories[productCategory].image,
                 products: products,
                 pageInfo: this.props.front.categories[productCategory].info,
-                loader: "none"
+                loader: "none",
               });
           }
         }
@@ -81,7 +82,7 @@ class Categories extends React.Component {
           pageBanner: newProps.front.categories[productCategory].image,
           products: products,
           pageInfo: newProps.front.categories[productCategory].info,
-          loader: "none"
+          loader: "none",
         });
     }
   }
@@ -133,6 +134,7 @@ class Categories extends React.Component {
             categories={front.categories}
             vendors={front.vendors}
             brands={front.brands}
+            categoryId={this.state.id}
             events={this.events}
           />
         </div>

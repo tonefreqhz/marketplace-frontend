@@ -372,8 +372,6 @@ class UsersAuth extends React.Component {
     usersLogin = user => {
         const authType = "login";
         const userType = user;
-
-        if(user === "vendor") return this.userLogIn({ data: "Fake Vendor", user });
         
         let userAddress = this.getUserAddress();
 

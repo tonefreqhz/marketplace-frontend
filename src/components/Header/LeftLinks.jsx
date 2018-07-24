@@ -10,24 +10,26 @@ import {NavLink} from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import {List, ListItem, Tooltip} from "@material-ui/core";
-import {ShoppingCart, CompareArrows} from '@material-ui/icons';
+import {ShoppingCart, Compare} from '@material-ui/icons';
 
 import CustomDropdown from "../../components/CustomDropdown/CustomDropdown.jsx";
 import headerLinksStyle from "../../assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 import Badge from '../../components/Badge/Badge.jsx';
 import UsersAuth from "../Auth/UsersAuth.jsx";
-import {userIs} from "../Auth/CheckUsers.jsx";
+import {userIs} from "../Auth/AccessControl.jsx";
 import Events from "events";
 
 class LeftLinks extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      Cart: (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0
+      Cart: (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0,
+      Compare: (localStorage.compare)? JSON.parse(localStorage.compare).length : 0
     };
 
     if(this.props.events){
       this.props.events.on('add-to-cart', this.updateCart.bind(this));
+      this.props.events.on('add-to-compare', this.updateCompare.bind(this));
     }
 
     this.events = new Events();
@@ -36,6 +38,11 @@ class LeftLinks extends React.Component {
   updateCart() {
     let cart = (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0;
     this.setState(...this.state, {Cart: cart});
+  }
+
+  updateCompare() {
+    let compare = (localStorage.compare)? JSON.parse(localStorage.compare).length : 0;
+    this.setState(...this.state, {Compare: compare});
   }
   
   render() {
@@ -143,22 +150,52 @@ class LeftLinks extends React.Component {
               null
             }
             <ListItem className={classes.listItem}>
+            {(this.state.Compare > 1)?
               <Tooltip title="Compare Products" placement="bottom" classes={{ tooltip: classes.tooltip }}>
                 <NavLink to="/compare" className={classes.navLink} color="transparent">
-                  <CompareArrows /><Badge color="primary" className={classes.navLink}><big style={{fontSize: "1.3em"}}>0</big></Badge>
+                  <Compare /><Badge color="primary" className={classes.navLink}>
+                    <big style={{fontSize: "1.3em"}}>
+                      {this.state.Compare}
+                    </big>
+                  </Badge>
                 </NavLink>
               </Tooltip>
+              :
+              <Tooltip title="Needed 2 Product to Compare" placement="bottom" classes={{ tooltip: classes.tooltip }}>
+                <span className={classes.navLink} color="transparent">
+                  <Compare /><Badge color="primary" className={classes.navLink}>
+                    <big style={{fontSize: "1.3em"}}>
+                      {this.state.Compare}
+                    </big>
+                  </Badge>
+                </span>
+              </Tooltip>
+            }
             </ListItem>
             <ListItem className={classes.listItem}>
+              {(this.state.Cart > 0)?
               <Tooltip title="View Shopping Cart" placement="bottom" classes={{ tooltip: classes.tooltip }}>
                 <NavLink to="/cart" className={classes.navLink} color="transparent">
-                  <ShoppingCart /><Badge color="primary" className={classes.navLink}>
+                  <ShoppingCart />
+                  <Badge color="primary" className={classes.navLink}>
                     <big style={{fontSize: "1.3em"}}>
                       {this.state.Cart}
                     </big>
                   </Badge>
                 </NavLink>
               </Tooltip>
+              :
+              <Tooltip title="Empty Shopping Cart" placement="bottom" classes={{ tooltip: classes.tooltip }}>
+                <span className={classes.navLink} color="transparent">
+                  <ShoppingCart />
+                  <Badge color="primary" className={classes.navLink}>
+                    <big style={{fontSize: "1.3em"}}>
+                      {this.state.Cart}
+                    </big>
+                  </Badge>
+                </span>
+              </Tooltip>
+              }
             </ListItem>
           </List>
       </div>
