@@ -8,6 +8,8 @@ import ProductsComponent from '../../views/Products/products';
 import {
    postProductDetails,
    fetchProducts,
+   putProductDetails,
+   deleteProduct
    } from "../../actions/actions_product";
 import {
   fetchProductBrands
@@ -17,6 +19,9 @@ import {
   fetchProductCategories
 } from "../../actions/actions_product_category";
 
+import {
+  postImage
+} from "../../actions/actions_imageupload";
 
 const ProductsStyle = {
   cardCategoryWhite: {
@@ -56,6 +61,12 @@ const mapDispatchToProps = (dispatch, newProps) => {
     postProductDetails : (productDetails) => {
       dispatch(postProductDetails(productDetails));
     },
+    putProductDetails : (productDetails, productID) => {
+      dispatch(putProductDetails(productDetails, productID));
+    },
+    deleteProduct : (productID) => {
+      dispatch(deleteProduct(productID));
+    },
     fetchProducts : () => {
       dispatch(fetchProducts());
     },
@@ -64,6 +75,9 @@ const mapDispatchToProps = (dispatch, newProps) => {
     },
     fetchProductBrands: () => {
       dispatch(fetchProductBrands());
+    },
+    postImage: (imageDetails, collectionId) => {
+      dispatch(postImage(imageDetails, collectionId));
     }
   }
 }

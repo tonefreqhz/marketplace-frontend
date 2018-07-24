@@ -22,6 +22,7 @@ import EnhancedTableToolbar from "./EnhancedTableToolbar";
 
 import ImagePlaceholder from "../../views/Products/Category/ImagePlaceholder";
 
+
 const styles = theme => ({
     root: {
       width: '100%',
@@ -132,7 +133,8 @@ class EnhancedTable extends React.Component {
   
   
     render() {
-      const {  data, classes, tableTitle, properties, editButton, onDeleteClickSpec, itemName } = this.props;
+      const {  data, classes, tableTitle, properties, editButton, imagePanelDisplay,
+               onDeleteClickSpec, itemName,postImage, collection, product } = this.props;
       const { order, orderBy, selected, rowsPerPage, page, columnData } = this.state;
       const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
       
@@ -181,16 +183,28 @@ class EnhancedTable extends React.Component {
                                       fileInput={`${property.name}${pkey}`} 
                                       width={property.width}
                                       height={property.height}
-                                      
+                                      postImage={postImage}
+                                      collection={collection}
+                                      eachData = {n}
                                       />
                                       :
-                                      property.ucword ? n[property.name].replace(/^\w/, c => c.toUpperCase()) : n[property.name]
+                                      property.ucword ? n[property.name].replace(/^\w/, c => c.toUpperCase()) :
+                                      property.brandMap ? this.props.brands.filter(brand => {
+                                        return (brand._id === n[property.name])
+                                      }).map(brand => brand.name).join(""):
+                                      property.catMap ? this.props.categories.filter(category => {
+                                        return (category._id === n[property.name])
+                                      }).map(category => category.name).join(""):
+                                      n[property.name]
                                      
                                     }
                                     </TableCell>)
                         })}
                         {
-                          editButton !== null ? editButton(n) : null
+                          imagePanelDisplay ? imagePanelDisplay(n) : null
+                        }
+                        {
+                          editButton ? editButton(n) : null
                         }
                         
                       </TableRow>

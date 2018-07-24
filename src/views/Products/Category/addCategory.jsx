@@ -69,7 +69,6 @@ class AddCategory extends React.Component {
       snackBarOpenSuccess: false,
       snackBarMessage: "",
       submitButtonDeactive: false
-      
     };
   }
 
