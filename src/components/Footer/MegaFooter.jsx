@@ -71,7 +71,7 @@ class MegaFooter extends React.Component {
                     aria-labelledby="subscription-dialog"
                     >
                     <DialogTitle id="subscription-dialog">
-                        <h3 color="primary"><Mail /> Subscribe To Newsletter</h3>
+                        <span color="primary"><Mail /> Subscribe To Newsletter</span>
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>

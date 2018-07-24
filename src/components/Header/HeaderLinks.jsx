@@ -10,12 +10,12 @@ import {Link} from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import {List, ListItem, Collapse} from "@material-ui/core";
-import {ExpandLess, ExpandMore, CompareArrows, ShoppingCart} from '@material-ui/icons';
+import {ExpandLess, ExpandMore, Compare, ShoppingCart} from '@material-ui/icons';
 
 import headerLinksStyle from "../../assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 import Badge from '../../components/Badge/Badge.jsx';
 import UsersAuth from "../Auth/UsersAuth.jsx";
-import {userIs} from "../Auth/CheckUsers.jsx";
+import {userIs} from "../Auth/AccessControl.jsx";
 
 class HeaderLinks extends React.Component {
 
@@ -25,11 +25,13 @@ class HeaderLinks extends React.Component {
       productOpen: false,
       loginOpen: false,
       signUpOpen: false,
-      Cart: (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0
+      Cart: (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0,
+      Compare: (localStorage.compare)? JSON.parse(localStorage.compare).length : 0
     };
 
     if(this.props.events){
       this.props.events.on('add-to-cart', this.updateCart.bind(this));
+      this.props.events.on('add-to-compare', this.updateCompare.bind(this));
     }
 
   }
@@ -37,6 +39,11 @@ class HeaderLinks extends React.Component {
   updateCart() {
     let cart = (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0;
     this.setState(...this.state, {Cart: cart});
+  }
+
+  updateCompare() {
+    let compare = (localStorage.compare)? JSON.parse(localStorage.compare).length : 0;
+    this.setState(...this.state, {Compare: compare});
   }
 
   handleProduct = () => {
@@ -56,6 +63,7 @@ class HeaderLinks extends React.Component {
     <div>
         <List className={classes.list}>
           <ListItem className={classes.listItem}>
+          {(this.state.Cart > 0)?
             <Link to="/cart" className={classes.navLink} color="transparent">
               <ShoppingCart />&nbsp;Shopping Cart&nbsp;<Badge color="primary" className={classes.navLink}>
                 <big style={{fontSize: "1.3em"}}>
@@ -63,11 +71,36 @@ class HeaderLinks extends React.Component {
                 </big>
               </Badge>
             </Link>
+            :
+            <span className={classes.navLink} color="transparent">
+              <ShoppingCart />&nbsp;Shopping Cart&nbsp;<Badge color="primary" className={classes.navLink}>
+                <big style={{fontSize: "1.3em"}}>
+                  {this.state.Cart}
+                </big>
+              </Badge>
+            </span>
+          }
           </ListItem>
           <ListItem className={classes.listItem}>
+          {(this.state.Compare > 1)?
             <Link to="/compare" className={classes.navLink} color="transparent">
-              <CompareArrows />&nbsp;Compare&nbsp;<Badge color="primary" className={classes.navLink}><big style={{fontSize: "1.3em"}}>0</big></Badge>
+              <Compare />&nbsp;Compare&nbsp;
+              <Badge color="primary" className={classes.navLink}>
+                <big style={{fontSize: "1.3em"}}>
+                  {this.state.Compare}
+                </big>
+              </Badge>
             </Link>
+            :
+            <span className={classes.navLink} color="transparent">
+              <Compare />&nbsp;Compare&nbsp;
+              <Badge color="primary" className={classes.navLink}>
+                <big style={{fontSize: "1.3em"}}>
+                  {this.state.Compare}
+                </big>
+              </Badge>
+            </span>
+          }
           </ListItem>
           {(!userIs(["customer"]))?
             <span>

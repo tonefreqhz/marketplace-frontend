@@ -83,7 +83,7 @@ class AdvanceSearch extends React.Component {
   }
 
   render() {
-    const { classes, data, slideEvent } = this.props;
+    const { classes, data, slideEvent, ...filters } = this.props;
 
     return(
       <div className={"slider slider-info "+classes.sliderCon}>
@@ -102,7 +102,7 @@ class AdvanceSearch extends React.Component {
           />
         </div>
         <div className={classes.subCons}>
-          <SearchDropdown data={data} />
+          <SearchDropdown data={data} filters={filters} />
         </div>
       </div>
     );

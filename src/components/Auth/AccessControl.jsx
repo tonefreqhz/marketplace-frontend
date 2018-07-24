@@ -1,8 +1,7 @@
 /**
- * @description The Users Authentication Component.
+ * @description The Users Access Control Component.
  * @author Mohammed Odunayo
- * @class UsersAuth
- * @name UsersAuth
+ * @name AccessControl
  */
 
 export const userIs = users => {

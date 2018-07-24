@@ -34,11 +34,11 @@ class Category extends React.Component {
   componentWillMount() {
     const { dispatch } = this.props;
     dispatch(getCategories())
-      .then(
-        () => {
+      // .then(
+      //   () => {
           this.setState(...this.state, {loader: "none"})
-        }
-      );
+      //   }
+      // );
   }
 
   render() {

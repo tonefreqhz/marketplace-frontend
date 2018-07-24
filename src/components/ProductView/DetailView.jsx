@@ -20,6 +20,7 @@ import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import DetailInfo from './DetailInfo';
+import Badge from '../../components/Badge/Badge.jsx';
 
 class DetailView extends React.Component{
     constructor(props) {
@@ -150,7 +151,15 @@ class DetailView extends React.Component{
                 <Button onClick={this.FavToggle} color="primary" round>{(product.favorite)? <span><Favorite/> Remove From Wishlist</span> : <span><FavoriteBorder/> Add To Wishlist</span>}</Button>
             </GridItem>
             <GridItem xs={12} sm={6}>
-                <h2 style={style.productTitle}>{product.name}</h2>
+                <h2 style={style.productTitle}>
+                    {product.name}&nbsp;
+                    <sup>
+                        {(product.featured)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">Featured</Badge> : null}
+                        {(product.discount > 0)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">{product.discount}% OFF</Badge> : null}
+                        {(product.latest)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="primary">Latest</Badge> : null}
+                        {(product.unit === 0)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">Out of Stock</Badge> : null}
+                    </sup>
+                </h2>
                 <h3 className={classes.productPrice}>
                     <del style={Typo.mutedText}>
                         <small>
@@ -181,9 +190,14 @@ class DetailView extends React.Component{
                         </Button>
                     </Link>
                     :
-                    <Button color="primary" onClick={this.cart.addProduct} round className={classes.Cart}>
-                        <ShoppingCart /> Add To Cart
-                    </Button>
+                    (product.unit !== 0) ?
+                        <Button color="primary" onClick={this.cart.addProduct} round className={classes.Cart}>
+                            <ShoppingCart /> Add To Cart
+                        </Button>
+                        :
+                        <Button color="primary" disabled={true} round className={classes.Cart}>
+                            <ShoppingCart/> Out of Stock
+                        </Button>
                 }
                 <br/><br/>
                 <DetailInfo vendor={vendor} brand={brand} product={product} />

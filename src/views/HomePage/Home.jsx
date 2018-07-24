@@ -16,7 +16,7 @@ import Stage from "./Sections/Stage.jsx";
 import Slider from "../../components/Parallax/Slider.jsx";
 import {getSliders, getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
-const Events = require('events');
+import Events from "events";
 
 class Home extends React.Component {
 
