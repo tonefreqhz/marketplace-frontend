@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "../../components/CustomButtons/Button.jsx"
 
-class BanVendor extends React.Component {
+class DeleteVendor extends React.Component {
   state = {
     open: false,
   };
@@ -25,18 +25,18 @@ class BanVendor extends React.Component {
   render() {
     return (
       <div>
-        <Button  color="warning" onClick={this.handleClickOpen}>Ban</Button>
+        <Button  color="danger" onClick={this.handleClickOpen}>Delete</Button>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle> Ban User </DialogTitle>
+          <DialogTitle> Delete User </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure you want to ban/suspend this user? <br />
-              User will be suspended and will need to be manually activated!
+              Are you sure you want to delete this user? <br />
+              User will be permantely deletedd and will lose access to his/her account!
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -53,4 +53,4 @@ class BanVendor extends React.Component {
   }
 }
 
-export default BanVendor;
+export default DeleteVendor;
