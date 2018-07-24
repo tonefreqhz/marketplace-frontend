@@ -42,12 +42,14 @@ class AddPage extends React.Component {
       productDetails: this.props.productDetails,
       categories: [],
       brands: [],
-      selectedOption: [],
-      selectedBrand: null,
-      selectedCategory: null,
-      brandSelect: "react-select-label-hidden",
-      categorySelect: "react-select-label-hidden",
-      tagsSelect: "react-select-label-hidden"
+      selectedOption: this.props.selectElements.selectedOption,
+      tagsSelect: this.props.selectStyle.tagsSelect,
+      selectedBrand: this.props.selectElements.selectedBrand,
+      selectedCategory: this.props.selectElements.selectedCategory,
+      brandSelect: this.props.selectStyle.brandSelect,
+      categorySelect: this.props.selectStyle.categorySelect,
+      selectedColors: this.props.selectElements.selectedColors,
+      colorsSelect: this.props.selectStyle.colorsSelect,
     };
   }
   //Get the value of Input Element
@@ -58,7 +60,15 @@ class AddPage extends React.Component {
   //This handles the tags select element
   handleTagChange = (selectedOption) => {
     this.setState({ selectedOption });
-    this.filterSelectedOption("tags",selectedOption);
+    this.props.setParentSelectElements('selectedOption', selectedOption);
+    this.filterSelectedOption("tag",selectedOption, 'tagsSelect');
+  }
+
+  //This handles the tags select element
+  handleColorChange = (selectedColors) => {
+    this.setState({ selectedColors });
+    this.props.setParentSelectElements('selectedColors', selectedColors);
+    this.filterSelectedOption("color",selectedColors, 'colorsSelect');
   }
 
   
@@ -66,40 +76,49 @@ class AddPage extends React.Component {
   //This handles the brand select element
   handleBrandChange = (selectedBrand) => {
     this.setState({ selectedBrand });
+    this.props.setParentSelectElements('selectedBrand', selectedBrand);
     if(selectedBrand !== null){
       this.setProductDetails("brand_id", selectedBrand.value);
       this.setState({
         brandSelect: "react-select-label-visible"
       })
+      this.props.setParentSelectStyle('brandSelect', 'react-select-label-visible')
     }else{
       this.setState({
         brandSelect: "react-select-label-hidden"
       })
+      this.props.setParentSelectStyle('brandSelect', 'react-select-label-hidden')
     }
   }
 
   //This handles the category select element
   handleCategoryChange = (selectedCategory) => {
     this.setState({ selectedCategory });
+    this.props.setParentSelectElements('selectedCategory', selectedCategory);
     if(selectedCategory !== null){
       this.setProductDetails("category_id", selectedCategory.value);
       this.setState({
         categorySelect: "react-select-label-visible"
       })
+      this.props.setParentSelectStyle('categorySelect', 'react-select-label-visible')  
     }else{
       this.setState({
         categorySelect: "react-select-label-hidden"
       })
+      this.props.setParentSelectStyle('categorySelect', 'react-select-label-hidden')
     }
   }
   //Get the number 
-  filterSelectedOption = (type, options) => {
+  filterSelectedOption = (type, options, selected) => {
     let newSelectedOpt =  options.map(opt => {
       return opt.value
     });
     this.setState({
-      tagsSelect: options.length > 0 ? "react-select-label-visible" : "react-select-label-hidden"
+      [selected] : options.length > 0 ? "react-select-label-visible" : "react-select-label-hidden"
     })
+    let currentStyle = options.length > 0 ? "react-select-label-visible" : "react-select-label-hidden";
+
+    this.props.setParentSelectStyle(selected, currentStyle);
     this.setProductDetails(type, newSelectedOpt);
   }
 
@@ -126,14 +145,24 @@ class AddPage extends React.Component {
   componentWillReceiveProps(newProps){
     if(newProps.product.hasOwnProperty('productCategories') && _.isEqual(this.props.product.productCategories, newProps.product.productCategories) === false){
       this.setState({
-        categories: newProps.product.productCategories
+        categories: newProps.product.productCategories,
       })
+      if(this.state.selectedCategory === null){
+        this.setState({
+          selectedCategory: newProps.product.productCategories.filter(category => category._id === this.state.productDetails.category_id).map(category => { return{value: category._id, label: category.name}})[0]
+        })
+      }
     }
 
     if(newProps.product.hasOwnProperty('productBrands') && _.isEqual(this.props.product.productBrands, newProps.product.productBrands) === false){
       this.setState({
         brands: newProps.product.productBrands
-      })
+      });
+      if(this.state.selectedBrand === null){
+        this.setState({
+          selectedBrand: newProps.product.productBrands.filter(brand => brand._id === this.state.productDetails.brand_id).map(brand => { return{value: brand._id, label: brand.name}})[0]
+        })
+      }
     }
   }
 
@@ -144,7 +173,6 @@ class AddPage extends React.Component {
 
   }
   render(){
-    console.log(this.state);
 
     const {classes} = this.props;
     const {
@@ -156,7 +184,9 @@ class AddPage extends React.Component {
           categorySelect,
           selectedCategory,
           brands,
-          categories
+          categories,
+          selectedColors,
+          colorsSelect
         } = this.state;
     return (
       <div>
@@ -243,56 +273,6 @@ class AddPage extends React.Component {
                         />
                   </FormControl>
                 </GridItem>
-              </Grid>
-              <Grid container>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Unit Cost"
-                    id="unit_cost"
-                    formControlProps={{
-                      fullWidth: true,
-                      required: true
-                    }}
-                    inputProps={{
-                      type:"number",
-                      value: productDetails.unit_cost,
-                      name: "unit_cost",
-                      onChange: this.handleChange
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Unit Price"
-                    id="unit_price"
-                    formControlProps={{
-                      fullWidth: true,
-                      required: true
-                    }}
-                    inputProps={{
-                      type:"number",
-                      value: productDetails.unit_price,
-                      name: "unit_price",
-                      onChange: this.handleChange
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Alt Price"
-                    id="alt_price"
-                    formControlProps={{
-                      fullWidth: true,
-                      required: true
-                    }}
-                    inputProps={{
-                      type:"number",
-                      value: productDetails.alt_price,
-                      name: "alt_price",
-                      onChange: this.handleChange
-                    }}
-                  />
-                </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Length (Inches)"
@@ -339,19 +319,18 @@ class AddPage extends React.Component {
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Color"
-                    id="length"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps ={{
-                      type: "color",
-                      value: productDetails.color,
-                      name: "color",
-                      onChange: this.handleChange
-                    }}
-                  />
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="selectedColors" className={colorsSelect}>Type or Select Product Colors</InputLabel>
+                      <Creatable 
+                        id="selectedColors"
+                        name="selectedColors"
+                        value={selectedColors}
+                        multi={true}
+                        placeholder="Type or Select Product Colors"
+                        onChange={this.handleColorChange}
+                        options={[]}
+                        />
+                  </FormControl>
                 </GridItem>
                 
                 <GridItem xs={12} sm={12} md={4}>
@@ -396,6 +375,8 @@ class AddPage extends React.Component {
                     inputProps={{
                       multiline: true,
                       rows: 3,
+                      name: "short_description",
+                      value: productDetails.short_description,
                       onChange: this.handleChange,
                     }}
                   />
@@ -404,13 +385,15 @@ class AddPage extends React.Component {
                 <GridItem xs={12} sm={12}>
                   <CustomInput
                     labelText="Description"
-                    id="product-description"
+                    id="description"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       multiline: true,
-                      rows: 3,
+                      rows: 5,
+                      value: productDetails.description,
+                      name: "description",
                       onChange: this.handleChange,
                     }}
                   />

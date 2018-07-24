@@ -9,7 +9,11 @@ import {
 postProductBrandDetails,
 fetchProductBrands,
 putProductBrandDetails,
-deleteProductBrand } from "../../actions/actions_product_brand"
+deleteProductBrand } from "../../actions/actions_product_brand";
+
+import {
+  postImage
+} from "../../actions/actions_imageupload";
 
 
 const ProductBrandStyle = {
@@ -59,6 +63,9 @@ const mapDispatchToProps = (dispatch, newProps) => {
     },
     deleteProductBrand: (brandID) => {
       dispatch(deleteProductBrand(brandID));
+    },
+    postImage: (brandDetails, brandId) => {
+      dispatch(postImage(brandDetails, brandId));
     }
   }
 }

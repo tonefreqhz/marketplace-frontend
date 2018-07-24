@@ -119,7 +119,8 @@ class ImagePlaceholder extends React.Component{
 
     render(){
         const {snackBarMessage, snackBarOpen} = this.state;
-        const style = {width: "150px", marginBottom: "10px", marginTop: "10px"};
+        const {fullwidth} = this.props
+        const style = {width: fullwidth ? "100%" : "150px", marginBottom: "10px", marginTop: "10px"};
         const {classes, label} = this.props;
         return (
             <div>

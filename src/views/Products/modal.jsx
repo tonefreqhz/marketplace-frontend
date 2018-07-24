@@ -10,9 +10,13 @@ import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
+import Edit from "@material-ui/icons/Edit";
 // core components
+
 import Button from "../../components/CustomButtons/Button.jsx";
-import ProductStepper from "./stepper.jsx"
+import ProductStepper from "./stepper.jsx";
+import ProductStepperEdit from "./stepperEdit.jsx"
+import ImagePanel from "./ImagePanel";
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 function Transition(props) {
   return <Slide direction="down" {...props} />;
@@ -37,15 +41,72 @@ class AddNew extends React.Component{
       modal: false
     });
   }
+  
   render(){
-    const { classes, fetchProductBrands, fetchProductCategories, product } = this.props;
+    const { 
+      classes,
+      fetchProductBrands,
+      fetchProductCategories,
+      product,
+      postProductDetails,
+      putProductDetails,
+      type,
+   } = this.props;
+
+   let modalButton;
+   let modalContent;
+
+   switch(type){
+      case "add":
+          modalButton = (<Button
+              color="primary"
+              onClick={this.handleClickOpen}>
+              Add New Product
+            </Button>)
+          modalContent = ( 
+          <ProductStepper 
+            onCloseModal={this.handleClose}
+            fetchProductBrands={fetchProductBrands} fetchProductCategories={fetchProductCategories}
+            product={product}
+            postProductDetails={postProductDetails}
+            />
+          )
+      break;
+      case "edit":
+          modalButton = (<Edit onClick={this.handleClickOpen} />)
+          modalContent = ( 
+          <ProductStepperEdit
+            onCloseModal={this.handleClose}
+            eachData={this.props.eachData} 
+            fetchProductBrands={fetchProductBrands} fetchProductCategories={fetchProductCategories}
+            product={product}
+            putProductDetails={putProductDetails}
+            />)
+      break
+      case "imageUpload":
+          modalButton = (<Button
+            color="primary"
+            onClick={this.handleClickOpen}>
+            Upload Product Images
+          </Button>)
+          modalContent = (
+            
+          <ImagePanel
+            imgObj = {this.props.imgObj}
+            eachData={this.props.eachData}
+            collection={this.props.collection}
+            postImage={this.props.postImage}
+            product={this.props.product}
+            />)
+      break;
+      default:
+      break;
+
+
+   }
     return (
       <div>
-        <Button
-          color="primary"
-          onClick={this.handleClickOpen}>
-          Add New Product
-        </Button>
+        {modalButton}
         <Dialog
         fullScreen={true}
         fullWidth={true}
@@ -76,9 +137,7 @@ class AddNew extends React.Component{
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-            <ProductStepper fetchProductBrands={fetchProductBrands} fetchProductCategories={fetchProductCategories}
-            product={product}
-            />
+           {modalContent}
           </DialogContent>
         </Dialog>
       </div>
