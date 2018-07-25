@@ -14,7 +14,12 @@ export function loadProductCategories(result){
 
 export function fetchProductCategories(){
   return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/categories`,
- { method: 'GET'})
+ { 
+   method: 'GET',
+   headers : {
+    "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
+   }
+})
  .then(response => response.json())
  .then(json => {
    dispatch(loadProductCategories(json));
@@ -37,7 +42,8 @@ export function postProductCategoryDetails(productCategoryDetails) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productCategoryDetails)
   })
@@ -60,7 +66,8 @@ export function putProductCategoryDetails(productCategoryDetails, categoryID) {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productCategoryDetails)
   })
@@ -84,7 +91,8 @@ export function deleteProductCategory(categoryID) {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
   })
     .then(response => response.json())

@@ -13,7 +13,12 @@ export function loadProducts(result){
 
 export function fetchProducts(){
   return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products`,
- { method: 'GET'})
+ {
+    method: 'GET',
+    headers: {
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
+    }
+  })
  .then(response => response.json())
  .then(json => {
    dispatch(loadProducts(json));
@@ -36,7 +41,8 @@ export function postProductDetails(productDetails) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productDetails)
   })
@@ -59,7 +65,8 @@ export function putProductDetails(productDetails, productID) {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productDetails)
   })
@@ -74,6 +81,7 @@ export function loadDeleteProduct(results){
   return {
     type: DELETE_PRODUCT,
     payload: results,
+    
   };
 }
 
@@ -82,7 +90,8 @@ export function deleteProduct(productID) {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
   })
     .then(response => response.json())

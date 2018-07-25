@@ -11,7 +11,6 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import _ from "lodash";
 /**
  * @requires EnhancedTableHead
  * @@requires EnhancedTableToolbar
@@ -122,8 +121,8 @@ class EnhancedTable extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-      if(_.isEqual(this.props.data.sort(), newProps.data.sort()) === false){
-        this.setState({data: newProps.data})
+      if(newProps.data.hasOwnProperty("data") && newProps.data.success){
+        this.setState({data: newProps.data.data})
       }
 
       if(this.props.hasOwnProperty("currentSelected")){
@@ -150,10 +149,11 @@ class EnhancedTable extends React.Component {
                 orderBy={orderBy}
                 onSelectAllClick={this.handleSelectAllClick}
                 onRequestSort={this.handleRequestSort}
-                rowCount={data.length}
+                rowCount={data.success ? data.data.length : 0}
               />
               <TableBody>
-                {data
+                {data.data ?
+                data.data
                   .sort(getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((n, pkey) => {
@@ -209,18 +209,20 @@ class EnhancedTable extends React.Component {
                         
                       </TableRow>
                     );
-                  })}
-                {emptyRows > 0 && (
+                  })
+                  :
+                (emptyRows > 0 && (
                   <TableRow style={{ height: 49 * emptyRows }}>
                     <TableCell colSpan={7} />
                   </TableRow>
-                )}
+                ))
+              }
               </TableBody>
             </Table>
           </div>
           <TablePagination
             component="div"
-            count={data.length}
+            count={data.success ? data.data.length: 0}
             rowsPerPage={rowsPerPage}
             page={page}
             backIconButtonProps={{
