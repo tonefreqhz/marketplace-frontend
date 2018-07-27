@@ -28,7 +28,7 @@ import AdminProductCategory from "../Admin/LandingPage/layout.jsx";
 import DiscountCoupon from "../Admin/LandingPage/layout.jsx";
 import AdminCustomers from "../Admin/LandingPage/layout.jsx";
 import AdminMessages from "../Admin/LandingPage/layout.jsx";
-// import EmailTemplate from "../Admin/LandingPage/layout.jsx";
+import EmailTemplate from "../Admin/LandingPage/layout.jsx";
 import AdminProduct from "../Admin/LandingPage/layout.jsx";
 import AdminVendors from "../Admin/LandingPage/layout.jsx";
 import AdminProfile from "../Admin/LandingPage/layout.jsx";
