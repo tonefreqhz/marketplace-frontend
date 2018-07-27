@@ -5,7 +5,7 @@
  */
 
 import { connect } from 'react-redux';
-import ProfilePageStyle from "../assets/jss/material-kit-react/views/profilePage.jsx";
+import {styles} from "../assets/jss/CustomerProfileStyles.jsx";
 import withStyles from "@material-ui/core/styles/withStyles";
 import ProfilePageComponent from '../views/ProfilePage/ProfilePage';
 
@@ -17,4 +17,4 @@ const ProfilePage = connect(
   mapStateToProps,
 )(ProfilePageComponent);
 
-export default withStyles(ProfilePageStyle)(ProfilePage);
+export default withStyles(styles)(ProfilePage);

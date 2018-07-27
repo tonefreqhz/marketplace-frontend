@@ -18,7 +18,7 @@ import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import {getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
-const Events = require('events');
+import Events from "events";
 
 class Vendors extends React.Component {
 
