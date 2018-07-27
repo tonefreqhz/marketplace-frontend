@@ -148,7 +148,7 @@ class AddCategory extends React.Component {
     this.setCategoryDetails(event.target.name, event.target.value);
     
   };
-  //This handles the country select element
+  //This handles the categoryy select element
   handleCategoryKindChange = (selectedCategoryKind) => {
     this.setState({ selectedCategoryKind });
     if(selectedCategoryKind !== null){

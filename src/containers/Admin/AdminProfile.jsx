@@ -5,33 +5,42 @@
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import AdminProfileComponent from '../../Admin/AdminProfile/adminProfile.jsx';
+import {
+  updatedAdminProfile,
+  fetchAdminProfile
+} from "../../actions/actions_admin_adminProfile"
 
-
-const styles = {
-    cardCategoryWhite: {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    cardTitleWhite: {
-      color: "#FFFFFF",
-      marginTop: "0px",
-      minHeight: "auto",
-      fontWeight: "300",
-      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-      marginBottom: "3px",
-      textDecoration: "none"
-    }
-  };
+const UserProfilesStyle = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    width: "100%",
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
+});
   
 const mapStateToProps = state => ({
-  front: state.front
+  adminProfile: state.adminProfile
 });
+const mapDispatchToProps = (dispatch, newProps) => {
+  return {
+    updatedAdminProfile: (adminProfile, adminID) => {
+      dispatch(updatedAdminProfile(adminProfile, adminID));
+    },
+    fetchAdminProfile: (adminID) => {
+      dispatch(fetchAdminProfile(adminID))
+    }
+  }
+}
 
 const AdminProfile = connect(
   mapStateToProps,
+  mapDispatchToProps
 )(AdminProfileComponent);
 
-export default withStyles(styles)(AdminProfile);
+export default withStyles (UserProfilesStyle)(AdminProfile);

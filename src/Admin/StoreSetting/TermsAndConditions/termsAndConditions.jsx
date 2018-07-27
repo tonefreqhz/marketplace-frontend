@@ -20,10 +20,6 @@ class TermsAndConditions extends React.Component {
       cardAnimaton: "cardHidden"
     };
   }
-  state = {
-    age: '',
-    name: 'hai',
-  };
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });

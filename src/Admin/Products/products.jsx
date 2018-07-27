@@ -8,17 +8,76 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Search from "@material-ui/icons/Search"
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
-import Table from "../../components/Table/Table.jsx";
 import Card from "../../components/Card/Card.jsx";
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 import Filter from "../../views/Products/filter.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
-import MessagePages from "../../views/Messages/Pagination.jsx"
-import ModalProduct from "./modalProducts.jsx"
+import Snackbar from '@material-ui/core/Snackbar';
+import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
+
+
+import EnhancedTable from "../../bezopComponents/Table/EnhancedTable";
+
+const columnData = [
+  { id: 'code', numeric: false, disablePadding: true, label: "Product Code"},
+  { id: 'name', numeric: false, disablePadding: true, label: 'Product Name' },
+  { id: 'vendor_id', numeric: false, disablePadding: true, label: 'Vendor ID' },
+  { id: 'category_id', numeric: false, disablePadding: true, label: 'Category ID' },
+  { id: 'brand_id', numeric: false, disablePadding: true, label: 'Brand ID' },
+  { id: 'unit_price', numeric: false, disablePadding: true,  label: 'Unit Price' },
+];
+
+const properties = [{name: "code", component: true, padding: true, numeric: false, img: false},
+{name: "name", component: true, padding: true, numeric: false, img: false},
+{name: "vendor_id", component: true, padding: true, numeric: false, img: false},
+{name: "category_id", component: true, padding: true, numeric: false, img: false},
+{name: "brand_id", component: true, padding: true, numeric: false, img: false},
+{name: "unit_price", component: true, padding: true, numeric: false, img: false}];
+
 
 class AdminProducts extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+        products: [],
+        data: [],
+        snackBarOpenSuccess: false,
+        snackBarMessageSuccess: "",
+        deletedProduct: 0,
+    }
+  }
+
+  componentDidMount(){
+    this.props.fetchProduct();
+  }
+  
+
+  onCloseHandlerSuccess = () => {
+    this.setState({
+      snackBarOpenSuccess: false
+    })
+  }
+
+  handleDeleteClick = (productIDs) => {
+    let counter = 0;
+    for(const productID of productIDs){
+      this.props.deleteProducts(productID);
+      counter++;
+      if(counter === productIDs.length){
+        let newData = this.state.data.filter( datum =>  productIDs.indexOf(datum._id)  === -1) 
+        this.setState({
+          data: newData,
+          snackBarOpenSuccess: true,
+          snackBarMessageSuccess: `You have successfully deleted ${counter} product ${counter === 1 ? "product" : "products"}`
+        })
+      }
+    }
+  }
+
+  
   render() {
+  const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
   
   return (
     <Grid container>
@@ -45,34 +104,30 @@ class AdminProducts extends React.Component {
             <p>List of All Products</p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["ID","Image", "Name", "Quantity", "Price", "Status"]}
-              tableData={[
-                ["0001",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />],
-                ["0002",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />],
-                ["0003",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />],
-                ["0004",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />],
-                ["0005",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />],
-                ["0006",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />],
-                ["0007",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />],
-                ["0008",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />],
-                ["0009",<img alt="Shoe and Shirt"src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg"
-                width="70px"/>, "Black Jean", "30", "$36,738",<ModalProduct />]
-              ]}
+          <EnhancedTable
+              orderBy="name"
+              columnData={columnData}
+              data={data}
+              tableTitle="All Product"
+              properties={properties}
+              onDeleteClickSpec={this.handleDeleteClick}
+              currentSelected = {[]}
+              itemName={{single : "Product", plural: "Products"}}
             />
           </CardBody>
         </Card>
+        <Snackbar
+            anchorOrigin={{vertical: "top", horizontal: "center"}}
+            open={snackBarOpenSuccess}
+            onClose={this.onCloseHandlerSuccess}
+          >
+              <BezopSnackBar
+              onClose={this.onCloseHandlerSuccess}
+              variant="success"
+              message={snackBarMessageSuccess}
+              />
+            </Snackbar>
       </GridItem>
-      <MessagePages />
     </Grid>
   );
 }

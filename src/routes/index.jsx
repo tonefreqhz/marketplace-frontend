@@ -36,9 +36,8 @@ import AdminBrands from "../Admin/LandingPage/layout.jsx";
 import AdminOrder from "../Admin/LandingPage/layout.jsx";
 import AdminStore from "../Admin/LandingPage/layout.jsx";
 import AdminBlog from "../Admin/LandingPage/layout.jsx";
-import AdminSeo from "../Admin/LandingPage/layout.jsx";
-// import Currency from "../Admin/LandingPage/layout.jsx";
-// import Language from "../Admin/LandingPage/layout.jsx";
+import Currency from "../Admin/LandingPage/layout.jsx";
+import Language from "../Admin/LandingPage/layout.jsx";
 
 //Customer Containers
 import Home from "../containers/Home.jsx";
@@ -61,6 +60,10 @@ import ProductList from "../containers/ProductList.jsx";
 import Profile from "../containers/ProfilePage.jsx";
 
 var indexRoutes = [
+  { path: "/admin/templates", name: "EmailTemplate", component: EmailTemplate},
+  { path: "/admin/language", name: "Language", component: Language},
+  { path: "/admin/currency", name: "Currency", component: Currency},
+
   /**
    * @description Admin Route Directories.
    */

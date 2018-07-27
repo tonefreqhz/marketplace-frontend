@@ -20,10 +20,6 @@ class PrivacyPolicy extends React.Component {
       cardAnimaton: "cardHidden"
     };
   }
-  state = {
-    age: '',
-    name: 'hai',
-  };
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -54,7 +50,7 @@ class PrivacyPolicy extends React.Component {
               <Grid container>
                 <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
-                    id="tprivacy-policy"
+                    id="privacy-policy"
                     formControlProps={{
                       fullWidth: true,
                       required: true

@@ -18,52 +18,32 @@ class EmailTemplate extends React.Component{
             tabs={[
                 {
                     tabButton: "Password Reset",
-                    tabContent: (
-                    <span>
-                        <p>
+                    tabContent: ( 
                         <PasswordReset />
-                        </p>
-                    </span>
                     )
                 },
                 {
                     tabButton: "Account Registration",
                     tabContent: (
-                    <span>
-                        <p>
                         <AccountRegistration />
-                        </p>
-                    </span>
                     )
                 },
                 {
                     tabButton: "Account Verification",
                     tabContent: (
-                    <span>
-                        <p>
                         <AccountVerification />
-                        </p>
-                    </span>
                     )
                 },
                 {
                     tabButton: "Order Notification",
                     tabContent: (
-                    <span>
-                        <p>
                         <OrderNotification />
-                        </p>
-                    </span>
                     )
                 },
                 {
                     tabButton: "Message Notification",
                     tabContent: (
-                    <span>
-                        <p>
                         <Message />
-                        </p>
-                    </span>
                     )
                 },
                 ]}
