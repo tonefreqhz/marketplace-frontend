@@ -1,4 +1,4 @@
-//@desc this is the the language list modal
+//@desc this is the currency modal
 //@author Sylvia Onwukwe
 import React from 'react';
 // material-ui components
@@ -10,17 +10,19 @@ import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
+import Edit from "@material-ui/icons/Edit";
 // core components
 import Button from "../../components/CustomButtons/Button.jsx";
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
-import ViewLanguage from "./LanguageList/viewLanguages.jsx";
+import AddCurrency from "./addCurrency.jsx"
+import EditCurrency from "./editCurrency.jsx"
 
 
 function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
 
-class AllLanguages extends React.Component{
+class NewCurrency extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -38,16 +40,35 @@ class AllLanguages extends React.Component{
     })
   }
   render(){
-    const { classes } = this.props;
+    const { classes, type } = this.props;
+    let modalContent;
+    let modalTitle;
+    switch(type){
+      case "add": 
+      modalContent  = <AddCurrency onHandleModalClose={this.handleClose} addStoreCurrency={this.props.addStoreCurrency} adminCurrency={this.props.adminCurrency}/>
+      modalTitle = (<Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleClickOpen}
+                      style={{marginBottom: "10px"}}>
+                        Add New Currency
+                      </Button>);
+    break;
+    case "edit":
+    modalContent = <EditCurrency onHandleModalClose={this.handleClose} eachData={this.props.eachData} specialMethod={this.props.specialMethod} adminCurrency={this.props.adminCurrency}/>;
+    modalTitle = <Edit onClick={this.handleClickOpen} />;
+  break;
+default:
+    modalContent = "";
+    modalTitle = ""
+  break
+}
     return (
       <div>
-        <Button
-          color="primary"
-          round
-          onClick={this.handleClickOpen}>
-          View All Active Languages
-        </Button>
+        {modalTitle}
         <Dialog
+        fullScreen={false}
+        fullWidth={true}
           classes={{
             root: classes.center,
             paper: classes.modal
@@ -74,7 +95,7 @@ class AllLanguages extends React.Component{
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-           <ViewLanguage />
+            {modalContent}
           </DialogContent>
         </Dialog>
       </div>
@@ -82,4 +103,4 @@ class AllLanguages extends React.Component{
   }
 }
 
-export default withStyles(modalStyle)(AllLanguages);
+export default withStyles(modalStyle)(NewCurrency);

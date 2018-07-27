@@ -10,8 +10,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
+import Edit from "@material-ui/icons/Edit";
 // core components
-import Button from "../../components/CustomButtons/Button.jsx";
 import EditProduct from "./editProduct.jsx"
 import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 
@@ -38,15 +38,22 @@ class ModalProduct extends React.Component{
     })
   }
   render(){
-    const { classes } = this.props;
+    const { classes, type } = this.props;
+    let modalContent;
+    let modalTitle;
+    switch(type){
+      case "edit":
+          modalContent = <EditProduct onHandleModalClose={this.handleClose} eachData={this.props.eachData} specialMethod={this.props.specialMethod} adminProduct={this.props.adminProduct}/>;
+          modalTitle = <Edit onClick={this.handleClickOpen} />;
+        break;
+      default:
+          modalContent = "";
+          modalTitle = ""
+        break
+    }
     return (
       <div>
-        <Button
-          color="primary"
-          round
-          onClick={this.handleClickOpen}>
-          View
-        </Button>
+       {modalTitle}
         <Dialog
         fullScreen= {false}
         fullWidth={true}
@@ -76,7 +83,7 @@ class ModalProduct extends React.Component{
           <DialogContent
             id="modal-slide-description"
             className={classes.modalBody}>
-            <EditProduct />
+            {modalContent}
           </DialogContent>
         </Dialog>
       </div>

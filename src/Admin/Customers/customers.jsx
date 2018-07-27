@@ -1,24 +1,89 @@
-//@desc this component displays the list of all registered customers
+//@desc this displays the list of registered customers
 //@author Sylvia Onwukwe
 
 import React from "react";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import TableCell from '@material-ui/core/TableCell';
 import Search from "@material-ui/icons/Search"
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
-import Table from "../../components/Table/Table.jsx";
 import Card from "../../components/Card/Card.jsx";
+import Snackbar from '@material-ui/core/Snackbar';
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
-import MessagePages from "../../views/Messages/Pagination.jsx"
-import BanVendor from "../Vendors/banButton";
-import DeleteVendor from "../Vendors/deleteButton.jsx"
+import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
+import EnhancedTable from "../../bezopComponents/Table/EnhancedTable";
 
-class AdminCustomers extends React.Component{
-  render (){
+const columnData = [
+  { id: 'nonce', numeric: false, disablePadding: true, label: 'Nonce' },
+  { id: 'publicAddress', numeric: false, disablePadding: true, label: 'Public Address' },
+  { id: 'username', numeric: false, disablePadding: true,  label: 'UserName' },
+  { id: 'fullname', numeric: false, disablePadding: true,  label: 'Full Name' },
+  { id: 'gender', numeric: false, disablePadding: true, label: 'Gender'},
+  { id: 'email',  numeric: false, disablePadding: true,  label: 'Email' },
+  { id: 'phone', numeric: false, disablePadding: true, label: 'Phone Number'},
+  { id: 'country', numeric: false, disablePadding: true, label: 'Country'}
+];
+
+const properties = [{name: "nonce", component: true, padding: false, numeric: true, img: false},
+{name: "publicAddress", component: false, padding: false, numeric: false, img: false},
+{name: "username", component: false, padding: false, numeric: false, img: false},
+{name: "fullname", component: false, padding: false, numeric: false, img: false},
+{name: "gender", component: false, padding: false, numeric: false, img: false},
+{name: "email", component: false, padding: false, numeric: false, img: false},
+{name: "phone", component: false, padding: false, numeric: false, img: false},
+{name: "country", component: false, padding: false, numeric: false, img: false}];
+
+class AdminCustomers extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+        customers: [],
+        data: [],
+        snackBarOpenSuccess: false,
+        snackBarMessageSuccess: "",
+        deletedCategory: 0,
+    }
+  }  
+
+  componentDidMount(){
+    this.props.fetchCustomers();
+  }
+
+  editButtonDisplay = (n) =>{
+    return (<TableCell>
+    
+</TableCell>)
+  }
+
+  onCloseHandlerSuccess = () => {
+    this.setState({
+      snackBarOpenSuccess: false
+    })
+  }
+
+  handleDeleteClick = (customerIDs) => {
+    let counter = 0;
+    for(const customerID of customerIDs){
+      this.props.deleteCustomers(customerID);
+      counter++;
+      if(counter === customerIDs.length){
+        let newData = this.state.data.filter( datum =>  customerIDs.indexOf(datum._id)  === -1) 
+        this.setState({
+          data: newData,
+          snackBarOpenSuccess: true,
+          snackBarMessageSuccess: `You have successfully deleted ${counter} customer ${counter === 1 ? "customer" : "customers"}`
+        })
+      }
+    }
+  }
+
+
+  render () {
+    const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
   return (
     <Grid container>
     <GridItem xs={12} md={10}>
@@ -40,32 +105,37 @@ class AdminCustomers extends React.Component{
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4>All Customers</h4>
+            <h4>All Vendors</h4>
             <p>
-              List of All Customers
+              List of All Vendors
             </p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Customer Name","Customer Email Address", "Contact Number", "Contact Address","Total Purchase", "Action"]}
-              tableData={[
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$12,000", <BanVendor />, <DeleteVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$13,000", <BanVendor />, <DeleteVendor />],
-              ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$500", <BanVendor />, <DeleteVendor />],
-              ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road","$10,000", <BanVendor />, <DeleteVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$1,500", <BanVendor />, <DeleteVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$700", <BanVendor />,<DeleteVendor /> ],
-              ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$500", <BanVendor />, <DeleteVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$1,300", <BanVendor />, <DeleteVendor />],
-                ["Anna Berley","annaberley@example.com","07806578909", "Plot 42, Mansion Avenue, Hallmark Road", "$2,800", <BanVendor />, <DeleteVendor />]
-              ]}
+          <EnhancedTable
+              orderBy="name"
+              columnData={columnData}
+              data={data}
+              tableTitle="All Customers"
+              properties={properties}
+              editButton={this.editButtonDisplay}
+              onDeleteClickSpec={this.handleDeleteClick}
+              currentSelected = {[]}
+              itemName={{single : "Customer", plural: "Customers"}}
             />
           </CardBody>
-          
         </Card>
+        <Snackbar
+            anchorOrigin={{vertical: "top", horizontal: "center"}}
+            open={snackBarOpenSuccess}
+            onClose={this.onCloseHandlerSuccess}
+          >
+              <BezopSnackBar
+              onClose={this.onCloseHandlerSuccess}
+              variant="success"
+              message={snackBarMessageSuccess}
+              />
+            </Snackbar>
       </GridItem>
-      <MessagePages />
     </Grid>
   );
 }
