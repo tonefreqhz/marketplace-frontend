@@ -5,7 +5,6 @@ import React from "react";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import TableCell from '@material-ui/core/TableCell';
 import Search from "@material-ui/icons/Search"
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";

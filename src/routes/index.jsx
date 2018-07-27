@@ -38,6 +38,7 @@ import AdminStore from "../Admin/LandingPage/layout.jsx";
 import AdminBlog from "../Admin/LandingPage/layout.jsx";
 import Currency from "../Admin/LandingPage/layout.jsx";
 import Language from "../Admin/LandingPage/layout.jsx";
+import AdminSeo from "../Admin/LandingPage/layout.jsx";
 
 //Customer Containers
 import Home from "../containers/Home.jsx";
@@ -60,13 +61,33 @@ import ProductList from "../containers/ProductList.jsx";
 import Profile from "../containers/ProfilePage.jsx";
 
 var indexRoutes = [
-  { path: "/admin/templates", name: "EmailTemplate", component: EmailTemplate},
-  { path: "/admin/language", name: "Language", component: Language},
-  { path: "/admin/currency", name: "Currency", component: Currency},
-
   /**
    * @description Admin Route Directories.
    */
+  {
+    path: "/admin/templates",
+    name: "EmailTemplate",
+    Component: (props) => userIs(["admin"])?
+      <EmailTemplate {...props} />
+      :
+      <Redirect to={{ pathname: "/login/admin", state: { from: props.location } }} />
+  },
+  { 
+    path: "/admin/language",
+    name: "Language",
+    Component: (props) => userIs(["admin"])?
+      <Language {...props} />
+      :
+      <Redirect to={{ pathname: "/login/admin", state: { from: props.location } }} />
+  },
+  { 
+    path: "/admin/currency",
+    name: "Currency",
+    Component: (props) => userIs(["admin"])?
+      <Currency {...props} />
+      :
+      <Redirect to={{ pathname: "/login/admin", state: { from: props.location } }} />
+  },
   { 
     path: "/admin/categories",
     name: "AdminProductCategory",
