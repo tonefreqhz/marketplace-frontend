@@ -69,9 +69,9 @@ class About extends React.Component {
               <GridContainer>
               <GridItem>
                   <div style={{textAlign: "center", color: "#ffffff"}}>
-                    <h1 className={classes.title}>About Us</h1>
+                    <h1 className={classes.title}>Bezop Demo Store</h1>
                     <h3>
-                    Meet the amazing team behind this project and find out more about how we work.
+                    Visit Store
                     </h3>
                   </div>
               </GridItem>

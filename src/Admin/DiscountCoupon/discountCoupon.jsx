@@ -1,61 +1,129 @@
-//@desc this component displays the list of the discount coupons and also allow admin add new coupon
+//@desc this is the product component on admin's dashboard
 //@author Sylvia Onwukwe
+
 import React from "react";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Search from "@material-ui/icons/Search"
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
-import Table from "../../components/Table/Table.jsx";
 import Card from "../../components/Card/Card.jsx";
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
-import Button from "../../components/CustomButtons/Button.jsx";
-import MessagePages from "../../views/Messages/Pagination.jsx"
-import CreateCoupon from "./addNewButton.jsx"
+import CustomInput from "../../components/CustomInput/CustomInput.jsx";
+import Snackbar from '@material-ui/core/Snackbar';
+import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
 
-class DiscountCoupon extends React.Component{
-  render (){
- 
+
+import EnhancedTable from "../../bezopComponents/Table/EnhancedTable";
+
+const columnData = [
+  { id: 'title', numeric: false, disablePadding: true, label: "Title"},
+  { id: 'vendor_id', numeric: false, disablePadding: true, label: 'Vendor ID' },
+  { id: 'till', numeric: false, disablePadding: true, label: 'Valid Till' },
+];
+
+const properties = [{name: "title", component: true, padding: true, numeric: false, img: false},
+{name: "vendor_id", component: true, padding: true, numeric: false, img: false},
+{name: "till", component: true, padding: true, numeric: false, img: false},
+];
+
+
+class DiscountCoupon extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+        coupons: [],
+        data: [],
+        snackBarOpenSuccess: false,
+        snackBarMessageSuccess: "",
+        deletedCoupons: 0,
+    }
+  }
+
+  componentDidMount(){
+    this.props.fetchCoupons();
+  }
+
+
+  onCloseHandlerSuccess = () => {
+    this.setState({
+      snackBarOpenSuccess: false
+    })
+  }
+
+  handleDeleteClick = (couponIDs) => {
+    let counter = 0;
+    for(const couponID of couponIDs){
+      this.props.deleteCoupon(couponID);
+      counter++;
+      if(counter === couponIDs.length){
+        let newData = this.state.data.filter( datum =>  couponIDs.indexOf(datum._id)  === -1) 
+        this.setState({
+          data: newData,
+          snackBarOpenSuccess: true,
+          snackBarMessageSuccess: `You have successfully deleted this product`
+        })
+      }
+    }
+  }
+
+  
+  render() {
+  const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
+  
   return (
     <Grid container>
     <GridItem xs={12} md={10}>
     </GridItem>
     <GridItem xs={6} md={2}>
-    
+    <CustomInput
+          labelText="Search..."
+          id="coupon_search"
+          primary
+          formControlProps={{
+              fullWidth: false
+          }}
+          inputProps={{
+              endAdornment: (<InputAdornment position="end"><Search/></InputAdornment>)
+          }}
+        />
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4>Discount Coupons</h4>
-            <p>
-              View or Add Discount Coupons
-            </p>
+            <h4>All Discount Coupons</h4>
+            <p>List of Active Coupons</p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={[ "ID", "value","Description", "By Vendor", "Status"]}
-              tableData={[
-                [ "1","$5000", "Store opening coupon valid for first customer", "Bezop Store", "Active"],
-                [ "2","$120", "Valid for products over $1000", "Bezop Store", "Active"],
-                [ "3","$3000", "Store opening coupon valid for first customer", "Bezop Store", "Expired"],
-                [ "4","$290", "Valid for all returning customers", "Bezop Store", "Active"]
-              ]}
+          <EnhancedTable
+              orderBy="name"
+              columnData={columnData}
+              data={data}
+              tableTitle="All Discount Coupons"
+              properties={properties}
+              onDeleteClickSpec={this.handleDeleteClick}
+              currentSelected = {[]}
+              itemName={{single : "Coupon", plural: "Coupons"}}
             />
           </CardBody>
         </Card>
-      </GridItem>
-      <GridItem xs={12} sm={12} md={10}>
-      <MessagePages />
-      </GridItem>
-      <GridItem xs={12} sm={12} md={2}>
-      <CreateCoupon />
-      </GridItem>
-      <GridItem xs={12} sm={12} md={1}>
-      <Button color="primary"> Export </Button>
+        <Snackbar
+            anchorOrigin={{vertical: "top", horizontal: "center"}}
+            open={snackBarOpenSuccess}
+            onClose={this.onCloseHandlerSuccess}
+          >
+              <BezopSnackBar
+              onClose={this.onCloseHandlerSuccess}
+              variant="success"
+              message={snackBarMessageSuccess}
+              />
+            </Snackbar>
       </GridItem>
     </Grid>
   );
 }
 }
+
 export default DiscountCoupon;

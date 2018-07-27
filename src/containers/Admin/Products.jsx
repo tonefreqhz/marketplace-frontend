@@ -5,6 +5,10 @@
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import AdminProductsComponent from '../../Admin/Products/products.jsx';
+import { 
+  fetchProduct,
+  deleteProduct } from "../../actions/actions_admin_product"
+  
 
 
 const styles = {
@@ -38,11 +42,23 @@ const styles = {
   };
   
 const mapStateToProps = state => ({
-  front: state.front
+  adminProduct: state.adminProduct
 });
+
+const mapDispatchToProps = (dispatch, newProps) => {
+  return {
+    fetchProduct: () => {
+      dispatch(fetchProduct());
+    },
+    deleteProduct: (productID) => {
+      dispatch(deleteProduct(productID));
+    }
+  }
+}
 
 const AdminProducts = connect(
   mapStateToProps,
+  mapDispatchToProps
 )(AdminProductsComponent);
 
 export default withStyles(styles)(AdminProducts);

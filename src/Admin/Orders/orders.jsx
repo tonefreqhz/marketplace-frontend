@@ -8,16 +8,73 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Search from "@material-ui/icons/Search"
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
-import Table from "../../components/Table/Table.jsx";
+import Snackbar from '@material-ui/core/Snackbar';
 import Card from "../../components/Card/Card.jsx";
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 import Filter from "./filter.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
-import MessagePages from "../../views/Messages/Pagination.jsx"
+import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
+
+import EnhancedTable from "../../bezopComponents/Table/EnhancedTable";
+
+
+const columnData = [
+  { id: 'order_num', numeric: false, disablePadding: true, label: 'Order Number' },
+  { id: 'kind', numeric: false, disablePadding: true, label: 'Order Kind' },
+  { id: 'customer_id', numeric: false, disablePadding: true,  label: 'Customer ID' },
+  { id: 'vendor_id', numeric: false, disablePadding: true,  label: 'Vendor ID' },
+  { id: 'tracking_num',  numeric: false, disablePadding: true,  label: 'Tracking Number' },
+  { id: 'order_status', numeric: false, disablePadding: true, label: 'Order Status'}
+];
+
+const properties = [{name: "order_num", component: true, padding: true, numeric: false, img: false},
+{name: "kind", component: false, padding: false, numeric: false, img: false, ucword: true},
+{name: "customer_id", component: false, padding: false, numeric: false, img: false},
+{name: "vendor_id", component: false, padding: false, numeric: false, img: false},
+{name: "tracking_num", component: false, padding: false, numeric: false, img: false},
+{name: "order_status", component: false, padding: false, numeric: false, img: false}];
 
 class AdminOrder extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+        orders: [],
+        data: [],
+        snackBarOpenSuccess: false,
+        snackBarMessageSuccess: "",
+        deletedCategory: 0,
+    }
+  }
+
+  componentDidMount(){
+    this.props.fetchOrder();
+  }
+
+    onCloseHandlerSuccess = () => {
+      this.setState({
+        snackBarOpenSuccess: false
+      })
+    }
+
+    handleDeleteClick = (orderIDs) => {
+      let counter = 0;
+      for(const orderID of orderIDs){
+        this.props.deleteOrder(orderID);
+        counter++;
+        if(counter === orderIDs.length){
+          let newData = this.state.data.filter( datum =>  orderIDs.indexOf(datum._id)  === -1) 
+          this.setState({
+            data: newData,
+            snackBarOpenSuccess: true,
+            snackBarMessageSuccess: `You have successfully deleted ${counter} order ${counter === 1 ? "order" : "orders"}`
+          })
+        }
+      }
+    }
+
   render () {
+    const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
   return (
     <Grid container>
     <GridItem xs={12} md={10}>
@@ -45,26 +102,31 @@ class AdminOrder extends React.Component {
             </p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Vendor Name","Vendor Email Address", "Customer Name", "Customer Email Address", "Product", "Quantity","Total Cost",
-              "Order Status"]}
-              tableData={[
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"],
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"],
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"],
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"],
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"],
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"],
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"],
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"],
-                ["Bezop Store","research@bezop.io","Anna Berley","annaberley@example.com", "Black Jean", "30", "$36,738", "Pending"]
-              ]}
+          <EnhancedTable
+              orderBy="name"
+              columnData={columnData}
+              data={data}
+              tableTitle="All Orders"
+              properties={properties}
+              editButton={this.editButtonDisplay}
+              onDeleteClickSpec={this.handleDeleteClick}
+              currentSelected = {[]}
+              itemName={{single : "Order", plural: "Orders"}}
             />
           </CardBody>
         </Card>
-      </GridItem>
-      <MessagePages />
+        <Snackbar
+            anchorOrigin={{vertical: "top", horizontal: "center"}}
+            open={snackBarOpenSuccess}
+            onClose={this.onCloseHandlerSuccess}
+          >
+              <BezopSnackBar
+              onClose={this.onCloseHandlerSuccess}
+              variant="success"
+              message={snackBarMessageSuccess}
+              />
+            </Snackbar>
+      </GridItem>  
     </Grid>
   );
 }
