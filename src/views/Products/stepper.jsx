@@ -8,11 +8,14 @@ import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import _ from "lodash";
 import AddPage from "./productDetails.jsx"
 import BusinessDetails from './businessdetails';
-import CreateProduct from './createproduct';
+import Snackbar from '@material-ui/core/Snackbar';
+
+import Button from "../../components/CustomButtons/Button.jsx";
+import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
 
 const styles = theme => ({
   root: {
@@ -27,29 +30,93 @@ const styles = theme => ({
   },
 });
 
-
-
 class ProductStepper extends React.Component {
   constructor(props){
     super(props)
     this.state = {
       activeStep: 0,
       skipped: new Set(),
+      productDetails: {
+        name: "",
+        code: "",
+        upc: "",
+        sku: "",
+        tags: [],
+        category_id: "",
+        brand_id: "",
+        description: "",
+        short_description: "",
+        unit_cost: "",
+        unit_price: "",
+        alt_price: "",
+        shipping_cost: 0.0,
+        unit: "",
+        length: "",
+        height: "",
+        width: "",
+        colors: [],
+        discount: 0.0,
+        discount_type: "",
+        tax: 0.0,
+        tax_type: "",
+        download: false,
+        download_name: "",
+        deal: false,
+        featured: false,
+        valuation: "FIFO",
+        vendor_id: '5b50cac169bc14dcf81d401f',
+      },
+      selectElements: {
+        selectedOption: [],
+        selectedColors: [],
+        selectedBrand: null,
+        selectedCategory: null,
+        selectedDiscount: null,
+        selectedTax: null,
+        selectedValuation: null,
+      },
+      selectStyle: {
+        taxSelect: "react-select-label-hidden",
+        discountSelect: "react-select-label-hidden",
+        brandSelect: "react-select-label-hidden",
+        categorySelect: "react-select-label-hidden",
+        tagsSelect: "react-select-label-hidden",
+        colorsSelect: "react-select-label-hidden",
+        valuationSelect: "react-select-label-hidden",
+      }
     };
   }
 
   getSteps() {
-    return ['Product Details', 'Business Details', 'Create Product'];
+    return ['Product Details', 'Business Details'];
   }
 
   getStepContent(step) {
+    const {fetchProductBrands, fetchProductCategories, product} = this.props;
+    const {productDetails, selectElements, selectStyle} = this.state;
+
     switch (step) {
       case 0:
-        return <AddPage />;
+        return <AddPage 
+        fetchProductBrands={fetchProductBrands} fetchProductCategories={fetchProductCategories}
+        product={product} 
+        productDetails={productDetails} setParentProductDetails={this.setParentProductDetails}
+        selectElements={selectElements}
+        setParentSelectElements={this.setParentSelectElements}
+        selectStyle={selectStyle}
+        setParentSelectStyle={this.setParentSelectStyle}
+        />;
       case 1:
-        return <BusinessDetails />;
-      case 2:
-        return <CreateProduct/>;
+        return <BusinessDetails
+        product={product} 
+        productDetails={productDetails} 
+        setParentProductDetails={this.setParentProductDetails}
+        selectElements={selectElements}
+        setParentSelectElements={this.setParentSelectElements}
+        selectStyle={selectStyle}
+        setParentSelectStyle={this.setParentSelectStyle}
+        onCloseModal={this.props.onCloseModal}
+        />;
       default:
         return 'Unknown step';
     }
@@ -107,10 +174,101 @@ class ProductStepper extends React.Component {
     return this.state.skipped.has(step);
   }
 
+ setParentProductDetails = (productDetails) => {
+    this.setState({
+      productDetails: productDetails
+    })
+  }
+
+  setParentSelectElements = (type, selectElements) => {
+    let newSelectElement = JSON.parse(JSON.stringify(this.state.selectElements));
+    newSelectElement[type] = selectElements;
+    this.setState({
+      selectElements: newSelectElement
+    })
+  }
+
+  setParentSelectStyle = (type, selectStyle) => {
+    let newSelectStyle = JSON.parse(JSON.stringify(this.state.selectStyle));
+    newSelectStyle[type] = selectStyle;
+    this.setState({
+      selectStyle: newSelectStyle
+    })
+  }
+
+  componentWillReceiveProps(newProps){
+    if(newProps.product.hasOwnProperty('addProduct') && _.isEqual(this.props.product.addProduct, newProps.product.addProduct) === false){
+      let newProductDetails = {
+        name: "",
+        code: "",
+        upc: "",
+        sku: "",
+        tags: [],
+        category_id: "",
+        brand_id: "",
+        description: "",
+        short_description: "",
+        unit_cost: "",
+        unit_price: "",
+        alt_price: "",
+        shipping_cost: "",
+        unit: "",
+        length: "",
+        height: "",
+        width: "",
+        colors: [],
+        discount: 0.0,
+        discount_type: "",
+        tax: 0.0,
+        tax_type: "",
+        download: false,
+        download_name: "",
+        deal: false,
+        featured: false,
+        valuation: "FIFO",
+        vendor_id: '5b50cac169bc14dcf81d401f',
+      };
+
+      let newSelectElements = {
+        selectedOption: [],
+        selectedColors: [],
+        selectedBrand: null,
+        selectedCategory: null,
+        selectedDiscount: null,
+        selectedTax: null,
+        selectedValuation: null,
+      };
+
+      let newSelectStyle = {
+        taxSelect: "react-select-label-hidden",
+        discountSelect: "react-select-label-hidden",
+        brandSelect: "react-select-label-hidden",
+        categorySelect: "react-select-label-hidden",
+        tagsSelect: "react-select-label-hidden",
+        colorsSelect: "react-select-label-hidden",
+        valuationSelect: "react-select-label-hidden",
+      };
+      this.setState({
+        productDetails: newProductDetails,
+        selectElements: newSelectElements,
+        selectStyle: newSelectStyle
+      });
+
+      this.props.onCloseModal();
+    }
+  }
+
+  createProduct = () => {
+    this.props.postProductDetails(this.state.productDetails);
+  }
+
   render() {
+
     const { classes } = this.props;
     const steps = this.getSteps();
-    const { activeStep } = this.state;
+    const { activeStep,
+            snackBarMessageSuccess,
+            snackBarOpenSuccess } = this.state;
 
     return (
       <div className={classes.root}>
@@ -163,18 +321,45 @@ class ProductStepper extends React.Component {
                     Skip
                   </Button>
                 )}
+                {
+                  activeStep === steps.length - 1
+                ?
+                (
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={this.handleNext}
+                  onClick={this.createProduct}
                   className={classes.button}
                 >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                 Finish
                 </Button>
+                )
+                :
+                  (<Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleNext}
+                    className={classes.button}
+                  >
+                   Next
+                  </Button>
+                  )
+                }
               </div>
             </div>
           )}
         </div>
+        <Snackbar
+            anchorOrigin={{vertical: "top", horizontal: "center"}}
+            open={snackBarOpenSuccess}
+            onClose={this.onCloseHandlerSuccess}
+          >
+              <BezopSnackBar
+              onClose={this.onCloseHandlerSuccess}
+              variant="success"
+              message={snackBarMessageSuccess}
+              />
+            </Snackbar>
       </div>
     );
   }

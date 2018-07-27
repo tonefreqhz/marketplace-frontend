@@ -4,6 +4,9 @@ FETCH_PRODUCT_CATEGORIES,
 UPDATE_PRODUCT_CATEGORY_DETAILS,
 DELETE_PRODUCT_CATEGORY
  } from "../actions/actions_product_category";
+ import {
+    PUT_IMAGE
+} from "../actions/actions_imageupload";
 
 const productCategory = (state = {}, action) => {
     let output;
@@ -19,6 +22,9 @@ const productCategory = (state = {}, action) => {
         break;
         case DELETE_PRODUCT_CATEGORY:
             output = {deleteCategory: action.payload}
+        break;
+        case PUT_IMAGE:
+            output = {updateImage: action.payload}
         break;
         default:
             output = state;

@@ -20,7 +20,7 @@ import ProductBox from "./ProductBox.jsx";
 
 class ProductView extends React.Component {
     render() {
-        const { products, heading, moreLink, range, data } = this.props;
+        const { products, heading, moreLink, range, data, filters } = this.props;
 
         const styles = {
             cols:{
@@ -46,9 +46,17 @@ class ProductView extends React.Component {
         }
 
         let boxProducts = [];
-        
         if (products.length > 0 && data.vendors.length > 0 && data.brands.length > 0) {
             boxProducts = products.filter(product => (product.discountPrice >= range[0] && product.discountPrice <= range[1]));
+            if(filters.categories.length > 0){
+                boxProducts = boxProducts.filter(product => (product.categoryId === filters.categories[filters.categories.indexOf(product.categoryId)]));
+            }
+            if(filters.vendors.length > 0){
+                boxProducts = boxProducts.filter(product => (product.vendorId === filters.vendors[filters.vendors.indexOf(product.vendorId)]));
+            }
+            if(filters.brands.length > 0){
+                boxProducts = boxProducts.filter(product => (product.brandId === filters.brands[filters.brands.indexOf(product.brandId)]));
+            }
             boxProducts = boxProducts.slice(0, ((this.props.all)? undefined : 6));
             boxProducts.sort((a,b) => 0.5 - Math.random());
         }

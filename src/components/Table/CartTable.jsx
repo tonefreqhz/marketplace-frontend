@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import { withStyles } from '@material-ui/core/styles';
 import { Hidden, TableRow, TableHead, TableCell, TableBody, Table, Tooltip, TableFooter, TextField } from '@material-ui/core';
-import { ShoppingCart, Clear, ChevronRight, Add, Remove } from '@material-ui/icons';
+import { ShoppingCart, Clear, ChevronRight, Add, Remove, Refresh } from '@material-ui/icons';
 import { primaryColor } from '../../assets/jss/material-kit-react';
 import Button from '../CustomButtons/Button.jsx';
 import tooltipsStyle from "../../assets/jss/material-kit-react/tooltipsStyle.jsx";
@@ -88,6 +88,12 @@ class CartTable extends React.Component {
                 let products = this.state.Products.filter(product => cartData.hasOwnProperty(product.id));
                 this.setState(...this.state, {Cart: cartData, Products: products});
                 this.props.data.events.emit("add-to-cart");
+            },
+            emptyCart: () => {
+                let cartData = JSON.stringify({});
+                localStorage.cart = cartData;
+                this.setState(...this.state, {Cart: cartData, Products: {}});
+                this.props.data.events.emit("add-to-cart");
             }
         };
 
@@ -118,10 +124,29 @@ class CartTable extends React.Component {
 
     const grandTotal = tax + shipment + subTotal;
 
+    const styles = {
+        bigMore:{
+        float: "right", fontSize: "0.4em"
+        }
+    }
+
     return (
         <div className={classes.root}>
         <Hidden smDown>
-            <h2 className={classes.header}><ShoppingCart className={classes.cartIcon}/> Shopping Cart</h2>
+            <h2 className={classes.header}>
+                <ShoppingCart className={classes.cartIcon}/> Shopping Cart
+                <Button
+                    color="primary"
+                    size="sm"
+                    round
+                    style={styles.bigMore}
+                    onClick={() => {
+                        this.cart.emptyCart();
+                    }}
+                >
+                    <Refresh /> Restore Cart
+                </Button>
+            </h2>
         </Hidden>
         <Hidden mdUp>
             <h3 className={classes.header}><ShoppingCart className={classes.cartIcon} /> Shopping Cart</h3>

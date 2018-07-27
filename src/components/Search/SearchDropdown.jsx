@@ -33,18 +33,18 @@ const styles = theme => ({
 class SearchDropdown extends React.Component {
   state = {
     expanded: null,
-    checkedSubCategories: [],
-    subCategories: [],
+    checkedCategories: [],
+    categories: [],
     checkedVendors: [],
     vendors: [],
     checkedBrands: [],
     brands: []
   };
 
-  componentWillReceiveProps() {
-    const { categories, vendors, brands } = this.props.data;
-    
-    this.setState({ subCategories: categories, vendors: vendors, brands: brands });
+  componentWillReceiveProps(newProps) {
+    const { categories, vendors, brands } = newProps.data;
+    const { checkedCategories, checkedVendors, checkedBrands } = newProps.filters;
+    this.setState({ categories, checkedCategories, vendors, checkedVendors, brands, checkedBrands });
   }
 
   handleChange = panel => (event, expanded) => {
@@ -53,52 +53,20 @@ class SearchDropdown extends React.Component {
     });
   };
 
-  handleSubCategories = value => () => {
-    const { checkedSubCategories } = this.state;
-    const currentIndex = checkedSubCategories.indexOf(value);
-    const newChecked = [...checkedSubCategories];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
+  handleChecks = ({type, index}) => {
+    const { events } = this.props.filters
+    switch(type) {
+      case 'categories':
+        events.emit('handleCategories', index);
+        break;
+      case 'vendors':
+        events.emit('handleVendors', index);
+        break;
+      case 'brands':
+        events.emit('handleBrands', index);
+        break;
+      default:
     }
-
-    this.setState({
-      checkedSubCategories: newChecked,
-    });
-  };
-
-  handleVendors = value => () => {
-    const { checkedVendors } = this.state;
-    const currentIndex = checkedVendors.indexOf(value);
-    const newChecked = [...checkedVendors];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    this.setState({
-      checkedVendors: newChecked,
-    });
-  };
-
-  handleBrands = value => () => {
-    const { checkedBrands } = this.state;
-    const currentIndex = checkedBrands.indexOf(value);
-    const newChecked = [...checkedBrands];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    this.setState({
-      checkedBrands: newChecked,
-    });
   };
 
   render() {
@@ -109,18 +77,18 @@ class SearchDropdown extends React.Component {
       <div className={classes.root}>
         <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Sub&nbsp;Categories</Typography>
+            <Typography className={classes.heading}>Categories</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <List>
-              {this.state.subCategories.map((value, index) =>  (
-                <ListItem key={index} dense button className={classes.listItem} onClick={this.handleSubCategories(index)}>
+              {this.state.categories.map((value, index) => (
+                <ListItem key={index} dense button className={classes.listItem} onClick={() => this.handleChecks({type:'categories', index})}>
                   <Avatar alt="Image" src={value.image} />
                   <ListItemText primary={value.name} />
                   <ListItemSecondaryAction>
                     <Checkbox
-                      onClick={this.handleSubCategories(index)}
-                      checked={this.state.checkedSubCategories.indexOf(index) !== -1}
+                      onClick={() => this.handleChecks({type:'categories', index})}
+                      checked={this.state.checkedCategories.indexOf(index) !== -1}
                     />
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -134,13 +102,13 @@ class SearchDropdown extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <List>
-              {this.state.vendors.map((value, index) =>  (
-                <ListItem key={index} dense button className={classes.listItem} onClick={this.handleVendors(index)}>
+              {this.state.vendors.map((value, index) => (
+                <ListItem key={index} dense button className={classes.listItem} onClick={() => this.handleChecks({type:'vendors', index})}>
                   <Avatar alt="Image" src={value.image} />
                   <ListItemText primary={value.name} />
                   <ListItemSecondaryAction>
                     <Checkbox
-                      onClick={this.handleVendors(index)}
+                      onClick={() => this.handleChecks({type:'vendors', index})}
                       checked={this.state.checkedVendors.indexOf(index) !== -1}
                     />
                   </ListItemSecondaryAction>
@@ -155,13 +123,13 @@ class SearchDropdown extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <List>
-              {this.state.brands.map((value, index) =>  (
-                <ListItem key={index} dense button className={classes.listItem} onClick={this.handleBrands(index)}>
+              {this.state.brands.map((value, index) => (
+                <ListItem key={index} dense button className={classes.listItem} onClick={() => this.handleChecks({type:'brands', index})}>
                   <Avatar alt="Image" style={{height: "auto", borderRadius: "0px"}} src={value.image} />
                   <ListItemText primary={value.name} />
                   <ListItemSecondaryAction>
                     <Checkbox
-                      onClick={this.handleBrands(index)}
+                      onClick={() => this.handleChecks({type:'brands', index})}
                       checked={this.state.checkedBrands.indexOf(index) !== -1}
                     />
                   </ListItemSecondaryAction>

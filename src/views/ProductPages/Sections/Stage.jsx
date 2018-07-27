@@ -24,12 +24,66 @@ class Stage extends React.Component {
     super(props);
 
     this.state = {
-      priceRange: [1,2]
+      priceRange: [1,2],
+      checkedCategories: (this.props.categoryId)? [Number(this.props.categoryId)] : [],
+      checkedVendors: (this.props.vendorId)? [Number(this.props.vendorId)] : [],
+      checkedBrands: (this.props.brandId)? [Number(this.props.brandId)] : [],
     }
 
     this.getPriceRange = this.getPriceRange.bind(this);
     this.setPriceRange = this.setPriceRange.bind(this);
+    this.props.events.on('handleCategories', this.handleCategories.bind(this));
+    this.props.events.on('handleVendors', this.handleVendors.bind(this));
+    this.props.events.on('handleBrands', this.handleBrands.bind(this));
   }
+
+  handleCategories = value => {
+    const { checkedCategories } = this.state;
+    const currentIndex = checkedCategories.indexOf(value);
+    const newChecked = [...checkedCategories];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    this.setState({
+      checkedCategories: newChecked,
+    });
+  };
+
+  handleVendors = value => {
+    const { checkedVendors } = this.state;
+    const currentIndex = checkedVendors.indexOf(value);
+    const newChecked = [...checkedVendors];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    this.setState({
+      checkedVendors: newChecked,
+    });
+  };
+
+  handleBrands = value => {
+    const { checkedBrands } = this.state;
+    const currentIndex = checkedBrands.indexOf(value);
+    const newChecked = [...checkedBrands];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    this.setState({
+      checkedBrands: newChecked,
+    });
+  };
 
   componentWillReceiveProps(newProps) {
     if(!this.props.singleProduct) {
@@ -115,7 +169,17 @@ class Stage extends React.Component {
                     <GridItem xs={12} sm={12} md={9}>
                       <div style={styles.cols}>
                         <MinSearch location="stage"/>
-                        <ProductView products={data.products} range={this.state.priceRange} data={data} all={true} heading={data.heading}/>
+                        <ProductView
+                          products={data.products}
+                          range={this.state.priceRange}
+                          data={data}
+                          all={true}
+                          heading={data.heading}
+                          filters={{
+                            categories: this.state.checkedCategories,
+                            vendors: this.state.checkedVendors,
+                            brands: this.state.checkedBrands,
+                          }} />
                       </div>
                     </GridItem>
                   }
@@ -132,6 +196,10 @@ class Stage extends React.Component {
                           slideStep={(priceRange[1] / priceRange[0])}
                           data={data}
                           slideEvent={this.setPriceRange}
+                          checkedCategories={this.state.checkedCategories}
+                          checkedVendors={this.state.checkedVendors}
+                          checkedBrands={this.state.checkedBrands}
+                          events={this.props.events}
                         />
                         {content}
                       </div>

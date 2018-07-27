@@ -6,11 +6,6 @@
 import React from "react";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
-
-/**
- * @requires lodash
- */
-import _ from "lodash";
 // core components
 import GridItem from "../../../components/Grid/GridItem.jsx";
 import Card from "../../../components/Card/Card.jsx";
@@ -37,7 +32,8 @@ const properties = [{name: "name", component: true, padding: true, numeric: fals
 {name: "kind", component: false, padding: false, numeric: false, img: false, ucword: true},
 {name: "description", component: false, padding: false, numeric: false, img: false},
 {name: "icon", component: false, padding: false, numeric: false, img: true, width: 500, height: 500},
-{name: "banner", component: false, padding: false, numeric: false, img: true, width: 1024, height: 576}];
+{name: "banner", component: false, padding: false, numeric: false, img: true, width: 1024, height: 576}
+];
 
 
 class Category extends React.Component{
@@ -55,6 +51,7 @@ class Category extends React.Component{
 
   componentDidMount(){
     this.props.fetchProductCategories();
+    //console.log("working")
   }
 
   editButtonDisplay = (n) =>{
@@ -63,16 +60,16 @@ class Category extends React.Component{
 </TableCell>)
   }
 
-  componentDidUpdate(prevProps){
-    if(this.props.productCategory.hasOwnProperty("categories") && (_.isEqual(this.props.productCategory.categories, prevProps.productCategory.categories) === false)){
+  componentWillReceiveProps(newProps){
+    if(newProps.productCategory.hasOwnProperty("categories")){
         this.setState({
-          data: this.props.productCategory.categories
+          data: newProps.productCategory.categories
         })
     }
 
-    if(this.props.productCategory.hasOwnProperty("addCategory") && (_.isEqual(this.props.productCategory.addCategory, prevProps.productCategory.addCategory) === false)){
+    if(newProps.productCategory.hasOwnProperty("addCategory")){
       let newCategories = JSON.parse(JSON.stringify(this.state.data));
-      newCategories.unshift(this.props.productCategory.addCategory);
+      newCategories.unshift(newProps.productCategory.addCategory);
 
       this.setState({
         data: newCategories,
@@ -81,12 +78,12 @@ class Category extends React.Component{
       });
     }
 
-    if(this.props.productCategory.hasOwnProperty("updateCategory") && (_.isEqual(this.props.productCategory.updateCategory, prevProps.productCategory.updateCategory) === false)){
+    if(newProps.productCategory.hasOwnProperty("updateCategory")){
       let newCategories = JSON.parse(JSON.stringify(this.state.data));
       let updateCategories;
       updateCategories = newCategories.map( category => {
-                if(this.props.productCategory.updateCategory._id === category._id){
-                  return this.props.productCategory.updateCategory;
+                if(newProps.productCategory.updateCategory._id === category._id){
+                  return newProps.productCategory.updateCategory;
                 }else{
                   return category;
                 }
@@ -97,6 +94,19 @@ class Category extends React.Component{
         snackBarOpenSuccess: true,
         snackBarMessageSuccess: "You have successfully updated product category",
       });
+    }
+
+    if(newProps.productCategory.hasOwnProperty("updateImage")){
+        let newData = this.state.data.map(datum => {
+          if(datum._id === newProps.productCategory.updateImage._id){
+            return newProps.productCategory.updateImage
+          }else{
+            return datum
+          }
+        })
+        this.setState({
+            data: newData
+        })
     }
   }
 
@@ -123,15 +133,18 @@ class Category extends React.Component{
     }
   }
 
+
   render(){
-  const { classes, postProductCategoryDetails, productCategory} = this.props;
+  const { classes, postProductCategoryDetails, productCategory, postImage} = this.props;
   const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
   return (
     <Grid container>
     <GridItem xs={12} md={9}>
     </GridItem>
     <GridItem xs={6} md={3}>
-    <AddNewProductCategory productCategory={productCategory} addProductCategory={postProductCategoryDetails} type="add"/>
+    <AddNewProductCategory 
+    productCategory={productCategory}
+    addProductCategory={postProductCategoryDetails} type="add"/>
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -149,6 +162,8 @@ class Category extends React.Component{
               editButton={this.editButtonDisplay}
               onDeleteClickSpec={this.handleDeleteClick}
               currentSelected = {[]}
+              postImage={postImage}
+              collection="category"
               itemName={{single : "Product Category", plural: "Product Categories"}}
             />
           </CardBody>

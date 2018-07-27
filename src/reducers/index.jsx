@@ -18,8 +18,8 @@ import adminProduct from './reducers_admin_products';
 import adminProfile from './reducers_admin_adminProfile';
 import adminVendors from './reducers_admin_vendor';
 import subscriber from "./reducers_admin_subscribers";
-
-
+import vendorProfile from './reducers_vendor';
+import product from './reducers_product';
 
 const rootReducer = combineReducers({
   front,
@@ -37,7 +37,9 @@ const rootReducer = combineReducers({
   adminProduct,
   adminProfile,
   adminVendors,
-  subscriber
+  subscriber,
+  vendorProfile,
+  product
 });
 
 export default rootReducer;

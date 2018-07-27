@@ -13,7 +13,7 @@ export function loadCoupons(result){
 }
 
 export function fetchCoupons(){
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons`,
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/coupons`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -32,7 +32,7 @@ export function loadDeleteCoupon(results){
 
 export function deleteCoupon(couponID) {
   console.log(couponID);
-  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/coupons/${couponID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/coupons/${couponID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
