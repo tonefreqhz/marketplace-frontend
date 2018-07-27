@@ -3,46 +3,29 @@
 *@author Sylvia Onwukwe
 */
 import { connect } from 'react-redux';
-import withStyles from "@material-ui/core/styles/withStyles";
 import AdminCustomersComponent from '../../Admin/Customers/customers.jsx';
-
-
-const styles = {
-    cardCategoryWhite: {
-      "&,& a,& a:hover,& a:focus": {
-        color: "white",
-        margin: "0",
-        fontSize: "14px",
-        marginTop: "0",
-        marginBottom: "0"
-      },
-      "& a,& a:hover,& a:focus": {
-        color: "#FFFFFF"
-      }
-    },
-    cardTitleWhite: {
-      color: "#FFFFFF",
-      marginTop: "0px",
-      minHeight: "auto",
-      fontWeight: "300",
-      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-      marginBottom: "3px",
-      textDecoration: "none",
-      "& small": {
-        color: "#777",
-        fontSize: "65%",
-        fontWeight: "400",
-        lineHeight: "1"
-      }
-    }
-  };
+import { 
+  fetchCustomers,
+  deleteCustomers } from "../../actions/actions_admin_customers"
   
 const mapStateToProps = state => ({
-  front: state.front
+  adminCustomers: state.adminCustomers
 });
+
+const mapDispatchToProps = (dispatch, newProps) => {
+  return {
+    fetchCustomers: () => {
+      dispatch(fetchCustomers());
+    },
+    deleteCustomers: (customerID) => {
+      dispatch(deleteCustomers(customerID));
+    }
+  }
+}
 
 const AdminCustomers = connect(
   mapStateToProps,
+  mapDispatchToProps
 )(AdminCustomersComponent);
 
-export default withStyles(styles)(AdminCustomers);
+export default AdminCustomers;

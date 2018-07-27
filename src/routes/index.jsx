@@ -32,7 +32,6 @@ import AdminBrands from "../Admin/LandingPage/layout.jsx";
 import AdminOrder from "../Admin/LandingPage/layout.jsx";
 import AdminStore from "../Admin/LandingPage/layout.jsx";
 import AdminBlog from "../Admin/LandingPage/layout.jsx";
-import AdminSeo from "../Admin/LandingPage/layout.jsx";
 import Currency from "../Admin/LandingPage/layout.jsx";
 import Language from "../Admin/LandingPage/layout.jsx";
 
@@ -82,7 +81,6 @@ var indexRoutes = [
   { path: "/admin/orders", name: "AdminOrder", component:AdminOrder},
   { path: "/admin/brands", name: "AdminBrands", component: AdminBrands},
   { path: "/admin/blog", name: "AdminBlog", component: AdminBlog},
-  { path: "/admin/seo", name: "AdminSeo", component: AdminSeo},
   { path: "/admin", name: "Dashboard", component: Admin},
 
   { path: "/categories", name: "Categories", component: Category },

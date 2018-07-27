@@ -8,7 +8,6 @@ import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import SupervisorAccount from "@material-ui/icons/SupervisorAccount";
 import Layers from "@material-ui/icons/Layers";
 import LocalOffer from "@material-ui/icons/LocalOffer";
-import Search from "@material-ui/icons/Search";
 import Loyalty from "@material-ui/icons/Loyalty"
 import Language from "@material-ui/icons/Language"
 import Settings from "@material-ui/icons/Settings"
@@ -25,7 +24,6 @@ import AdminStore from "../containers/Admin/StoreSetting.jsx";
 import AdminCustomers from "../containers/Admin/Customers.jsx";
 import AdminMessage from "../containers/Admin/Messages.jsx";
 import AdminBrands from "../containers/Admin/ProductBrands.jsx";
-import AdminSeo from "../containers/Admin/SEO.jsx"
 import DiscountCoupon from "../containers/Admin/Coupon.jsx";
 import AdminBlog from "../containers/Admin/Blog.jsx";
 import Currency from "../containers/Admin/Currency.jsx";
@@ -103,13 +101,6 @@ const adminRoutes = [
     navbarName: "Language",
     icon: Language,
     component: AdminLanguage
-  },
-  {
-    path: "/admin/seo",
-    sidebarName: "SEO",
-    navbarName: "SEO",
-    icon: Search,
-    component: AdminSeo
   },
   {
     path: "/admin/coupons",

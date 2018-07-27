@@ -3,9 +3,8 @@
 import React from 'react';
 
 import NavPills from "../../components/NavPills/NavPills.jsx";
-import Subscribers from "./AllSubscribers/allSubscribers.jsx";
+import Subscribers from "../../containers/Admin/Subscribers";
 import SendNewsletter from "./NewsLetter/newsletters.jsx";
-import LiveChats from "./LiveChats/livechats.jsx"; 
 import ContactForm from "./ContactForm/contactForm.jsx"
 import SupportTicket from './SupportTicket/supportTicket.jsx';
 class AdminMessage extends React.Component{
@@ -24,12 +23,6 @@ class AdminMessage extends React.Component{
           tabButton: "Newsletters",
           tabContent: (
                <SendNewsletter />
-          )
-        },
-        {
-          tabButton: "Live Chats",
-          tabContent: (
-                <LiveChats />
           )
         },
         {
