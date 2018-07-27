@@ -18,7 +18,7 @@ import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import {getCategories, getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
-const Events = require('events');
+import Events from "events";
 
 class Vendors extends React.Component {
 
@@ -30,6 +30,7 @@ class Vendors extends React.Component {
       products: {},
       pageTitle: "",
       pageBanner: "",
+      id: this.props.match.url.replace("/vendor/", ""),
     };
     
     document.body.scrollTop = 0;
@@ -127,6 +128,7 @@ class Vendors extends React.Component {
             categories={front.categories}
             vendors={front.vendors}
             brands={front.brands}
+            vendorId={this.state.id}
             events={this.events}
           />
         </div>

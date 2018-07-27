@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {Select, IconButton, FormControl, MenuItem, InputLabel, Chip, DialogActions, DialogContent, DialogTitle, Slide, Dialog} from "@material-ui/core";
 // @material-ui/icons
-import {Close, ShoppingCart, Pageview, CompareArrows, FavoriteBorder, Favorite, ShoppingBasket} from "@material-ui/icons";
+import {Close, ShoppingCart, Pageview, Compare, FavoriteBorder, Favorite, ShoppingBasket} from "@material-ui/icons";
 
 import Button from "../../components/CustomButtons/Button.jsx";
 import Typo from "../../assets/jss/material-kit-react/components/typographyStyle.jsx"
@@ -20,6 +20,7 @@ import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import ProductInfo from "./ProductInfo.jsx";
+import Badge from '../../components/Badge/Badge.jsx';
 
 function Transition(props) {
   return <Slide direction="down" {...props} />;
@@ -46,7 +47,7 @@ class QuickView extends React.Component{
     }
 
   render(){
-    const { classes, param, event, favToggle, product, data, cart } = this.props;
+    const { classes, param, event, favToggle, product, data, cart, compare, compToggle } = this.props;
     const settings = {
         dots: true,
         infinite: true,
@@ -97,11 +98,34 @@ class QuickView extends React.Component{
                         return(<img className="slick-image" src={image} alt={product.name} key={index} />);
                     })}
                 </Carousel>
-                <Button onClick={event} color="primary" round><CompareArrows/> Compare</Button>
-                <Button onClick={favToggle} color="primary" round>{(product.favorite)? <span><Favorite/> Remove From Wishlist</span> : <span><FavoriteBorder/> Add To Wishlist</span>}</Button>
+                <Button
+                    onClick={compToggle}
+                    color="primary"
+                    round
+                >
+                    {(compare.checkCompare())?
+                        <span><Compare /> Remove From Compare List</span>
+                        :
+                        <span><span className={"fas fa-exchange-alt"}></span> Add To Compare List</span>
+                    }
+                </Button>
+                <Button
+                    onClick={favToggle}
+                    color="primary"
+                    round
+                >
+                    {(product.favorite)? <span><Favorite/> Remove From Wishlist</span> : <span><FavoriteBorder/> Add To Wishlist</span>}
+                </Button>
               </GridItem>
               <GridItem xs={12} sm={7}>
-                <h2 style={style.productTitle}>{product.name}</h2>
+                <h2 style={style.productTitle}>{product.name}&nbsp;
+                    <sup>
+                        {(product.featured)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">Featured</Badge> : null}
+                        {(product.discount > 0)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">{product.discount}% OFF</Badge> : null}
+                        {(product.latest)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="primary">Latest</Badge> : null}
+                        {(product.unit === 0)? <Badge style={{fontWeight: "bold", fontSize: "small"}} color="danger">Out of Stock</Badge> : null}
+                    </sup>
+                </h2>
                 <h3 className={classes.productPrice}>
                     <del style={Typo.mutedText}>
                         <small>
@@ -130,7 +154,10 @@ class QuickView extends React.Component{
                         <Button onClick={event} color="primary" round><ShoppingBasket/> Checkout</Button>
                     </Link>
                     :
-                    <Button color="primary" onClick={cart.addProduct} round><ShoppingCart/> Add To Cart</Button>
+                    (product.unit !== 0) ?
+                        <Button color="primary" onClick={cart.addProduct} round><ShoppingCart/> Add To Cart</Button>
+                        :
+                        <Button color="primary" disabled={true} round><ShoppingCart/> Out of Stock</Button>
                 }
                 <br/><br/>
                 <ProductInfo data={data} product={product} />

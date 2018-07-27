@@ -9,7 +9,11 @@ import {
 postProductCategoryDetails,
 fetchProductCategories,
 putProductCategoryDetails,
-deleteProductCategory } from "../../actions/actions_product_category"
+deleteProductCategory } from "../../actions/actions_product_category";
+
+import {
+  postImage
+} from "../../actions/actions_imageupload";
 
 
 const ProductCategoryStyle = {
@@ -59,6 +63,9 @@ const mapDispatchToProps = (dispatch, newProps) => {
     },
     deleteProductCategory: (categoryID) => {
       dispatch(deleteProductCategory(categoryID));
+    },
+    postImage: (imageDetails, categoryId) => {
+      dispatch(postImage(imageDetails, categoryId));
     }
   }
 }

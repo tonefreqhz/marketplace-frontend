@@ -5,6 +5,10 @@ UPDATE_PRODUCT_BRAND_DETAILS,
 DELETE_PRODUCT_BRAND
  } from "../actions/actions_product_brand";
 
+ import {
+     PUT_IMAGE
+ } from "../actions/actions_imageupload";
+
 const productBrand = (state = {}, action) => {
     let output;
     switch(action.type){
@@ -19,6 +23,9 @@ const productBrand = (state = {}, action) => {
         break;
         case DELETE_PRODUCT_BRAND:
             output = {deleteBrand: action.payload}
+        break;
+        case PUT_IMAGE:
+            output = {updateImage: action.payload}
         break;
         default:
             output = state;
