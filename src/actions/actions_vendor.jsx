@@ -9,7 +9,7 @@ export function loadUpdatedVendorProfile(result){
 }
 
 export function updatedVendorProfile(vendorProfile, vendorID){
-    return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/vendors/${vendorID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/vendors/${vendorID}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -32,7 +32,7 @@ export function loadUserUpdate(result){
 }
 
 export function fetchUserProfile(vendorID){
-    return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/vendors/${vendorID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/vendors/${vendorID}`, {
         method: 'GET'
     })
     .then(response => response.json())

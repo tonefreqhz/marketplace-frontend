@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 import front from './reducers_front';
 import productCategory from './reducers_product_category';
 import productBrand from './reducers_product_brand';
+
 import adminBlog from './reducers_admin_blog';
 import adminCoupon from "./reducers_admin_coupon";
 import adminCurrency from "./reducers_admin_currency";
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   front,
   productCategory,
   productBrand,
+
   adminBlog,
   adminCoupon,
   adminCurrency,

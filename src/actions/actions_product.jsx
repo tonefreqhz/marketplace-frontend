@@ -12,7 +12,7 @@ export function loadProducts(result){
 }
 
 export function fetchProducts(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products`,
+return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products`,
  { method: 'GET'})
  .then(response => response.json())
  .then(json => {
@@ -32,7 +32,7 @@ export function loadProductDetail(results) {
 
 
 export function postProductDetails(productDetails) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products`, {
+return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -55,7 +55,7 @@ export function loadUpdatedProductDetails(results){
 }
 
 export function putProductDetails(productDetails, productID) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products/${productID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products/${productID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
@@ -78,7 +78,7 @@ export function loadDeleteProduct(results){
 }
 
 export function deleteProduct(productID) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products/${productID}`, {
+return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products/${productID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
