@@ -9,8 +9,8 @@ import React from "react";
 import {NavLink} from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import {List, ListItem, Tooltip} from "@material-ui/core";
-import {ShoppingCart, Compare} from '@material-ui/icons';
+import {List, ListItem, Tooltip, Avatar} from "@material-ui/core";
+import {ShoppingCart, Compare, AccountCircle, PowerSettingsNew} from '@material-ui/icons';
 
 import CustomDropdown from "../../components/CustomDropdown/CustomDropdown.jsx";
 import headerLinksStyle from "../../assets/jss/material-kit-react/components/headerLinksStyle.jsx";
@@ -197,6 +197,40 @@ class LeftLinks extends React.Component {
               </Tooltip>
               }
             </ListItem>
+            {(userIs(["customer"]))?
+              <ListItem className={classes.listItem}>
+                <Tooltip title="My Account" placement="right" classes={{ tooltip: classes.tooltip }}>
+                  <span color="transparent" style={{padding: "0px"}}>
+                    <CustomDropdown
+                      buttonText={
+                        <Avatar alt="User Avatar" src={require('../../assets/img/faces/marc.jpg')} />
+                      }
+                      buttonProps={{
+                        className: classes.navLink,
+                        style: {padding: "7px 12px"},
+                        color: "transparent",
+                      }}
+                      dropdownList={[
+                        <NavLink
+                          to="/profile"
+                          className={classes.dropdownLink}
+                        >
+                          <AccountCircle style={{marginBottom: "-8px"}} /> My Profile
+                        </NavLink>,
+                        <a
+                          onClick={() => this.events.emit("usersLogOut", "customer")}
+                          className={classes.dropdownLink}
+                        >
+                          <PowerSettingsNew style={{marginBottom: "-8px"}} /> Logout
+                        </a>,
+                      ]}
+                    />
+                  </span>
+                </Tooltip>
+              </ListItem>
+              :
+              null
+            }
           </List>
       </div>
     );

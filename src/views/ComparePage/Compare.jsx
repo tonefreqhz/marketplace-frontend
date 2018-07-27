@@ -1,8 +1,8 @@
 /**
- * @description The cart page view.
+ * @description The compare page view.
  * @author Mohammed Odunayo
- * @class Cart
- * @name Cart
+ * @class Compare
+ * @name Compare
  */
 
 import React from "react";
@@ -13,14 +13,14 @@ import Footer from "../../components/Footer/Footer.jsx";
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
 import LeftLinks from "../../components/Header/LeftLinks.jsx";
 import Stage from "./Sections/Stage.jsx";
-import {getVendors, getBrands, getProducts} from "../../actions/actions_front.jsx";
+import {getVendors, getBrands, getProducts, getCategories} from "../../actions/actions_front.jsx";
 import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Parallax from "../../components/Parallax/Parallax";
 import Events from "events";
 
-class Cart extends React.Component {
+class Compare extends React.Component {
 
   constructor(props) {
     super(props);
@@ -38,11 +38,12 @@ class Cart extends React.Component {
     const { dispatch } = this.props;
     dispatch(getVendors());
     dispatch(getBrands());
+    dispatch(getCategories());
     dispatch(getProducts())
       .then(
         () => {
-          let cart = (localStorage.cart)? JSON.parse(localStorage.cart) : {};
-          let products = this.props.front.products.filter(product => cart.hasOwnProperty(product.id));
+          let compare = (localStorage.compare)? JSON.parse(localStorage.compare) : [];
+          let products = this.props.front.products.filter(product => compare.hasOwnProperty(compare.indexOf(product.id)));
           this.setState(...this.state, {loader: "none", products: products});
         }
       );
@@ -50,7 +51,7 @@ class Cart extends React.Component {
 
   render() {
     const { classes, front, ...rest } = this.props;
-    document.title = "Shopping Cart @ Bezop Store || Worlds First Decentralized Store";
+    document.title = "Compare Products @ Bezop Store || Worlds First Decentralized Store";
 
     return (
       <div>
@@ -75,9 +76,9 @@ class Cart extends React.Component {
               <GridContainer>
               <GridItem>
                   <div style={{textAlign: "center", color: "#ffffff"}}>
-                    <h1 className={classes.title}>Shopping Cart</h1>
+                    <h1 className={classes.title}>Compare Products</h1>
                     <h3>
-                    Complete your shopping with few clicks.
+                    Checkmate products of choice, & choose the best.
                     </h3>
                   </div>
               </GridItem>
@@ -91,6 +92,7 @@ class Cart extends React.Component {
             events={this.events}
             vendors={front.vendors}
             brands={front.brands}
+            categories={front.categories}
           />
         </div>
         <Footer topFooter={true} />
@@ -100,4 +102,4 @@ class Cart extends React.Component {
 }
 
 
-export default Cart;
+export default Compare;

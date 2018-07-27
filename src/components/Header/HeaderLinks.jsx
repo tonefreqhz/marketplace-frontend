@@ -9,13 +9,14 @@ import React from "react";
 import {Link} from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import {List, ListItem, Collapse} from "@material-ui/core";
-import {ExpandLess, ExpandMore, Compare, ShoppingCart} from '@material-ui/icons';
+import {List, ListItem, Collapse, Avatar} from "@material-ui/core";
+import {ExpandLess, ExpandMore, Compare, ShoppingCart, AccountCircle, PowerSettingsNew} from '@material-ui/icons';
 
 import headerLinksStyle from "../../assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 import Badge from '../../components/Badge/Badge.jsx';
 import UsersAuth from "../Auth/UsersAuth.jsx";
 import {userIs} from "../Auth/AccessControl.jsx";
+import Events from "events";
 
 class HeaderLinks extends React.Component {
 
@@ -23,6 +24,7 @@ class HeaderLinks extends React.Component {
     super(props);
     this.state = { 
       productOpen: false,
+      accountOpen: false,
       loginOpen: false,
       signUpOpen: false,
       Cart: (localStorage.cart)? Object.keys(JSON.parse(localStorage.cart)).length : 0,
@@ -33,6 +35,8 @@ class HeaderLinks extends React.Component {
       this.props.events.on('add-to-cart', this.updateCart.bind(this));
       this.props.events.on('add-to-compare', this.updateCompare.bind(this));
     }
+
+    this.events = new Events();
 
   }
 
@@ -49,9 +53,15 @@ class HeaderLinks extends React.Component {
   handleProduct = () => {
     this.setState(state => ({ productOpen: !state.productOpen }));
   };
+
+  handleAccount = () => {
+    this.setState(state => ({ accountOpen: !state.accountOpen }));
+  };
+
   handleLogin = () => {
     this.setState(state => ({ loginOpen: !state.loginOpen }));
   };
+
   handleSignUp = () => {
     this.setState(state => ({ signUpOpen: !state.signUpOpen }));
   };
@@ -61,7 +71,27 @@ class HeaderLinks extends React.Component {
 
   return (
     <div>
+      <UsersAuth events={this.events} />
         <List className={classes.list}>
+          <ListItem className={classes.listItem} onClick={this.handleAccount}>
+            <a className={classes.navLink} color="transparent" >
+              <Avatar alt="User Avatar" src={require('../../assets/img/faces/marc.jpg')} style={{marginRight: "10px"}} />
+              <span style={{marginTop: "8px"}}>Account
+              {this.state.accountOpen ? <ExpandLess style={{marginBottom: "-8px"}} /> : <ExpandMore style={{marginBottom: "-8px"}} />}</span>
+            </a>
+          </ListItem>
+          <ListItem className={classes.listItem}>
+            <Collapse in={this.state.accountOpen} timeout="auto" unmountOnExit color="transparent">
+              <List component="div" style={{marginLeft: "30px"}}>
+                <ListItem button className={classes.nested}>
+                  <Link to="/profile" className={classes.dropdownLink}><AccountCircle style={{marginBottom: "-8px"}} /> My Profile</Link>
+                </ListItem>
+                <ListItem button className={classes.nested}>
+                  <a onClick={() => this.events.emit("usersLogOut", "customer")} className={classes.dropdownLink}><PowerSettingsNew style={{marginBottom: "-8px"}} /> Logout</a>
+                </ListItem>
+              </List>
+            </Collapse>
+          </ListItem>
           <ListItem className={classes.listItem}>
           {(this.state.Cart > 0)?
             <Link to="/cart" className={classes.navLink} color="transparent">
@@ -116,7 +146,7 @@ class HeaderLinks extends React.Component {
                       <a
                         className={classes.dropdownLink}
                         onClick={() => {
-                          UsersAuth.startLogin("Customer");
+                          this.events.emit("usersLogin", "Customer");
                         }}
                       >
                         Customer Login
@@ -126,7 +156,7 @@ class HeaderLinks extends React.Component {
                       <a
                         className={classes.dropdownLink}
                         onClick={() => {
-                          UsersAuth.startLogin("Vendor");
+                          this.events.emit("usersLogin", "Vendor");
                         }}
                       >
                         Vendor Login
@@ -147,7 +177,7 @@ class HeaderLinks extends React.Component {
                       <a
                         className={classes.dropdownLink}
                         onClick={() => {
-                          UsersAuth.startSignUp("Customer");
+                          this.events.emit("usersSignUp", "Customer");
                         }}
                       >
                         Customer Sign Up
@@ -157,7 +187,7 @@ class HeaderLinks extends React.Component {
                       <a
                         className={classes.dropdownLink}
                         onClick={() => {
-                          UsersAuth.startSignUp("Vendor");
+                          this.events.emit("usersSignUp", "Vendor");
                         }}
                       >
                         Vendor Sign Up

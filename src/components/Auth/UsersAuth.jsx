@@ -69,6 +69,7 @@ class UsersAuth extends React.Component {
         this.events.on('pageLogin', this.pageLogin.bind(this));
         this.events.on('usersSignUp', this.startSignUp.bind(this));
         this.events.on('pageSignUp', this.pageSignUp.bind(this));
+        this.events.on('usersLogOut', this.userLogOut.bind(this));
     }
 
     startLogin = user => {
@@ -232,8 +233,23 @@ class UsersAuth extends React.Component {
 
     completed = (user, message) => {
 
-        const url = (user === "customer")? "/profile" : "/dashboard";
-        const profile = (user === "customer")? "Profile" : "Dashboard";
+        let url, profile;
+
+        switch(user){
+            case "customer":
+                url = "/profile";
+                profile = "Profile";
+                break;
+            case "vendor":
+                url = "/dashboard";
+                profile = "Dashboard";
+                break;
+            case "admin":
+                url = "/admin";
+                profile = "Control Panel";
+                break;
+            default:
+        }
 
         let actionButton = <Links to={url}>
             <Button
@@ -503,6 +519,7 @@ class UsersAuth extends React.Component {
     userLogOut = user => {
         localStorage.removeItem(LS_KEY+user);
         this.setState({ auth: {[user]: undefined} });
+        window.location.assign("/");
     };
 
     handleClose = () => {
