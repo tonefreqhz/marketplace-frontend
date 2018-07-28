@@ -67,7 +67,7 @@ class Message extends React.Component {
                       required: true
                     }}
                     inputProps={{
-                        multiline: "true",
+                        multiline: true,
                         rows: 5
                     }}
                   />

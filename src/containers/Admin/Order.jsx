@@ -5,6 +5,9 @@
 import { connect } from 'react-redux';
 import withStyles from "@material-ui/core/styles/withStyles";
 import AdminOrderComponent from '../../Admin/Orders/orders.jsx';
+import { 
+  fetchOrder,
+  deleteOrder } from "../../actions/actions_admin_order"
 
 
 const styles = {
@@ -38,11 +41,24 @@ const styles = {
   };
   
 const mapStateToProps = state => ({
-  front: state.front
+  adminVendor: state.adminVendor
 });
+
+const mapDispatchToProps = (dispatch, newProps) => {
+  return {
+    fetchOrder: () => {
+      dispatch(fetchOrder());
+    },
+    deleteOrder: (orderID) => {
+      dispatch(deleteOrder(orderID));
+    }
+  }
+}
+
 
 const AdminOrder = connect(
   mapStateToProps,
+  mapDispatchToProps
 )(AdminOrderComponent);
 
 export default withStyles(styles)(AdminOrder);

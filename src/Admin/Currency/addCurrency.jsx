@@ -2,188 +2,320 @@
 //@author Sylvia Onwukwe
 import React from 'react';
 // material-ui components
-import withStyles from "@material-ui/core/styles/withStyles";
-import Slide from "@material-ui/core/Slide";
-import Dialog from "@material-ui/core/Dialog";
+import GridItem from "../../components/Grid/GridItem.jsx";
+import Card from "../../components/Card/Card.jsx";
+import CardHeader from "../../components/Card/CardHeader.jsx";
+import CardBody from "../../components/Card/CardBody.jsx";
 import InputLabel from "@material-ui/core/InputLabel";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import IconButton from "@material-ui/core/IconButton";
-import Select from "@material-ui/core/Select"
-import MenuItem from '@material-ui/core/MenuItem';
-// @material-ui/icons
-import Close from "@material-ui/icons/Close";
+import Snackbar from '@material-ui/core/Snackbar';
+import BezopSnackBar from "../../assets/jss/bezop-mkr/BezopSnackBar";
+import CardFooter from "../../components/Card/CardFooter.jsx";
+import Grid from "@material-ui/core/Grid";
+import FormControl from "@material-ui/core/FormControl";
+import Select2 from "react-select";
+
+import _ from "lodash";
+import 'react-select/dist/react-select.css';
 // core components
 import Button from "../../components/CustomButtons/Button.jsx";
-import modalStyle from "../../assets/jss/material-kit-react/modalStyle.jsx";
-import GridItem from "../../components/Grid/GridItem.jsx";
+import validator from "../../helpers/validator";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx"
-function Transition(props) {
-  return <Slide direction="down" {...props} />;
-}
+
 class AddCurrency extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
-      currency: '',
-      name: 'hai',
-
+      cardAnimaton: "cardHidden",
+      storeCurrency: {
+        name:"",
+        description: "",
+        kind: "",
+        code: "",
+        icon: ""
+      },
+      storeCurrencyError: {
+        name:false,
+        description: false,
+        kind: false,
+        code: false,
+        icon: false
+      },
+      selectedCurrencyKind: null,
+      currencyKindSelect: "react-select-label-hidden",
+      snackBarOpen: true,
+      snackBarOpenSuccess: false,
+      snackBarMessage: "",
+      submitButtonDeactive: false
+      
     };
   }
-  handleClickOpen = () =>  {
+
+  //Check the imput Error
+  inputErrorValidation(type, value, value2 = null){
+    let output = false;
+    switch(type){
+      case "name":
+          output = validator.minStrLen(value, 3);
+      break;
+      case "kind":
+          output = validator.isEmpty(value) || validator.contained(value, ['fiat', 'digital']);
+      break;
+      default:
+        output = false;
+      break
+    }
+
+    return output;
+  }
+  onCloseHandler = () => {
+    this.setState({ snackBarOpen: false });
+  }
+
+  onCloseHandlerSuccess = () => {
+    this.setState({ snackBarOpenSuccess: false });
+  }
+
+  //Setting the state of all input feilds
+  setStoreCurrency = (type, value) => {
+    let newstoreCurrency = JSON.parse(JSON.stringify(this.state.storeCurrency));
+    newstoreCurrency[type] = value;
     this.setState({
-      modal: true
+      storeCurrency: newstoreCurrency,
     });
+
+    this.setStoreCurrencySpecialError(type, value);
   }
-  handleClose = () => {
+
+  //Setting the state every fields that have error
+  setStoreCurrencySpecialError(type, value){
+    let newValue = value === null ? "" : value;
+    let newStoreCurrencyError = JSON.parse(JSON.stringify(this.state.storeCurrencyError));
+    newStoreCurrencyError[type] = this.inputErrorValidation(type, newValue);
     this.setState({
-      modal: false
-    })
+      storeCurrencyError: newStoreCurrencyError
+    });
+    this.changeSubmitButton();
   }
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  changeSubmitButton(){
+    let newStoreCurrencyError = JSON.parse(JSON.stringify(this.state.storeCurrencyError));
+    let newStoreCurrency = JSON.parse(JSON.stringify(this.state.storeCurrency));
+    if(!newStoreCurrencyError.name && !newStoreCurrencyError.description && !newStoreCurrencyError.kind){
+        if(!validator.isEmpty(newStoreCurrency.name) && !validator.isEmpty(newStoreCurrency.description) && !validator.isEmpty(newStoreCurrency.kind)){
+          this.setState({
+            submitButtonDeactive: true
+          })
+        }else{
+          this.setState({
+            submitButtonDeactive: false
+          })
+        }
+    }else{
+      this.setState({
+        submitButtonDeactive: false
+      })
+    }
+  }
 
+  //Get the value of Input Element
+  handleChange =  (event) => {
+    this.setStoreCurrency(event.target.name, event.target.value);
+    
+  };
+  //This handles the currency select element
+  handleCurrencyKindChange = (selectedCurrencyKind) => {
+    this.setState({ selectedCurrencyKind });
+    if(selectedCurrencyKind !== null){
+      this.setStoreCurrency("kind", selectedCurrencyKind.value);
+      this.setState({
+        currencyKindSelect: "react-select-label-visible"
+      })
+    }else{
+      this.setState({
+        currencyKindSelect: "react-select-label-hidden",
+      })
+      this.setStoreCurrency("kind", "")
+      this.setStoreCurrencySpecialError("kind", null);
+    }
+  }
+
+  //Create new Currency
+  createNewCurrency = () => {
+    let newStoreCurrency = JSON.parse(JSON.stringify(this.state.storeCurrency));
+    console.log(newStoreCurrency, validator.minStrLen(newStoreCurrency.name, 3), validator.minStrLen(newStoreCurrency.description, 15), validator.contained(newStoreCurrency.kind, ['fiat', 'digital']))
+    if(!validator.minStrLen(newStoreCurrency.name, 3) && !validator.minStrLen(newStoreCurrency.description, 15) && !validator.contained(newStoreCurrency.kind, ['fiat', 'digital'])){
+      this.props.addStoreCurrency(this.state.storeCurrency);
+    }else{
+      this.setState({
+        snackBarMessage: "All fields are required",
+        snackBarOpen: true
+      })
+    }
+    
+  }
+
+  componentWillReceiveProps(newProps){
+    if(newProps.adminCurrency.hasOwnProperty("addCurrency") && (_.isEqual(this.props.adminCurrency.addCurrency, newProps.adminCurrency.addCurrency) === false)){
+        this.setState({
+          storeCurrency: {
+            token: "",
+            name:"",
+            description: "",
+            kind: "",
+            code: "",
+            symbol: "",
+            exchange: "",
+            icon: ""
+          },
+          snackBarOpenSuccess: true,
+          selectedCurrencyKind: null,
+        });
+
+        this.props.onHandleModalClose();
+    }
+  }
+
+  componentDidMount() {
+    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
+    this.cardAnimationSetTimeout = setTimeout(
+        this.setState({ cardAnimaton: "" }),
+      700
+    );
+
+  }
+  //Clear the slider when moving to another page
+  componentWillUnmount(){
+    clearTimeout(this.cardAnimationSetTimeout);
+  }
 
   render(){
-    const { classes } = this.props;
+    console.log(this.props)
+    const {storeCurrency,
+      currencyKindSelect,
+      selectedCurrencyKind,
+      storeCurrencyError,
+      snackBarOpen,
+      snackBarMessage,
+      submitButtonDeactive
+     } = this.state;
     return (
       <div>
-        <Button
-          color="primary"
-          round
-          onClick={this.handleClickOpen}>
-          Add New Currency
-        </Button>
-        <Dialog
-          classes={{
-            root: classes.center,
-            paper: classes.modal
-          }}
-          open={this.state.modal}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={this.handleClose}
-          aria-labelledby="modal-slide-title"
-          aria-describedby="modal-slide-description">
-          <DialogTitle
-            id="classic-modal-slide-title"
-            disableTypography
-            className={classes.modalHeader}>
-            <IconButton
-              className={classes.modalCloseButton}
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              onClick={this.handleClose}>
-              <Close className={classes.modalClose} />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent
-            id="modal-slide-description"
-            className={classes.modalBody}>
-            <GridItem>
-                  <form>
-                      <CustomInput
-                        labelText="Currency Name"
-                        id="newcurrency"
-                        formControlProps={{
-                          fullWidth: true,
-                          required: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                        }}
+        <Card>
+            <CardHeader color="primary">
+              <div>
+                <h4>Add New Store Currency</h4>
+              </div>
+              <div>
+                <p>All Currencies</p>
+              </div>
+            </CardHeader>
+            <CardBody>
+              <Grid container>
+                <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                    labelText="Access Token"
+                    id="token"
+                    inputProps={{
+                      name:"token",
+                      onChange: this.handleChange
+                    }}
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                  />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+          <CustomInput
+                    labelText={storeCurrencyError.name === false? "Currency Name" : "The length of Currency must not be less than 3 characters"}
+                    id="name"
+                    error={storeCurrencyError.name}
+                    inputProps={{
+                      value: storeCurrency.name,
+                      name:"name",
+                      onChange: this.handleChange
+                    }}
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                  />
+                </GridItem>
+                </Grid>
+                <Grid container>
+                <GridItem xs={12} sm={12} md={12}>
+                  <FormControl >
+                    <InputLabel htmlFor="selectedCurrencyKind" className={currencyKindSelect}>Type or Select Currency Kind</InputLabel>
+                    <Select2 
+                      id="selectedCurrencyKind"
+                      name="selectedCurrencyKind"
+                      value={selectedCurrencyKind}
+                      placeholder="Type or Select Currency Kind"
+                      onChange={this.handleCurrencyKindChange}
+                      options={[
+                        {value: "fiat", label: "Fiat"},
+                        {value: "digital", label: "Digital"}
+                      ]}
+                      className={storeCurrencyError.kind === true ? "select-menu-error": ""}
                       />
-                       <CustomInput
-                        labelText="Code"
-                        id="code"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                        }}
-                      />
-                      <CustomInput
-                        labelText="Description"
-                        id="currency_description"
-                        formControlProps={{
-                          fullWidth: true,
-                          required: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                        }}
-                      />
-                     <InputLabel>Select Currency Kind</InputLabel>
-                     <Select
-                        value={this.state.currency}
-                        onChange={this.handleChange}
-                        inputProps={{
-                        name: 'currency',
-                        id: 'currencies',
-                        required: true
-                        }}
-                    >
-                        <MenuItem value="Digital">Digital</MenuItem>
-                        <MenuItem value="Fiat">Fiat</MenuItem>
-                    </Select>
-                    <CustomInput
-                        labelText="Exchange Value"
-                        id="currency_exchange"
-                        formControlProps={{
-                          fullWidth: true,
-                          required: true
-                        }}
-                        inputProps={{
-                          type: "number",
-                        }}
-                      />
-                      <CustomInput
-                        labelText="View Count"
-                        id="view_count"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "number",
-                        }}
-                      />
-                       <CustomInput
-                        labelText="Symbol"
-                        id="currency-symbol"
-                        formControlProps={{
-                          fullWidth: true,
-                          required: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                        }}
-                      />
-                      <label htmlFor="contained-button-file">
-                        <Button variant="contained" color="primary" component="span">
-                            Choose Currency icon
+                  </FormControl>
+                </GridItem>
+                </Grid>
+              
+                <Grid container>
+                <GridItem xs={12}>
+                <CustomInput
+                    error={storeCurrencyError.description}
+                    labelText={storeCurrencyError.description === false ? "Description" : "The length of Currency must not be less than 15 characters"}
+                    id="description"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      name: "description",
+                      onChange: this.handleChange,
+                      value: storeCurrency.description,
+                    }}
+                  />
+                </GridItem>
+                <CustomInput
+                    labelText="Currency Code"
+                    id="code"
+                    error={storeCurrencyError.name}
+                    inputProps={{
+                      name:"code",
+                      onChange: this.handleChange
+                    }}
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                  />
+                </Grid>
+            </CardBody>
+            <CardFooter>
+                    <Grid container>
+                      <GridItem xs={12}>
+                        <Button variant="contained" color="primary" component="span" disabled={!submitButtonDeactive} onClick={this.createNewCurrency}>
+                          Create Currency
                         </Button>
-                        </label>
-                        <input style={{display: "none"}}
-                        accept="image/*"
-                        className={classes.input}
-                        id="contained-button-file"
-                        type="file"
-                        />
-                        <GridItem>
-                      <Button color="primary"> Add </Button>
                       </GridItem>
-                      </form>
-                      </GridItem>
-          </DialogContent>
-        </Dialog>
+                    </Grid>
+            </CardFooter>
+          </Card>
+          <Snackbar
+            anchorOrigin={{vertical: "top", horizontal: "center"}}
+            open={snackBarOpen}
+            onClose={this.onCloseHandler}
+          >
+              <BezopSnackBar
+              onClose={this.onCloseHandler}
+              variant="error"
+              message={snackBarMessage}
+              />
+            </Snackbar>
       </div>
     );
   }
 }
-
-export default withStyles(modalStyle)(AddCurrency);
+export default AddCurrency;

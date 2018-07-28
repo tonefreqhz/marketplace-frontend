@@ -18,7 +18,7 @@ import {PageLoader} from "../../components/PageLoader/PageLoader.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Parallax from "../../components/Parallax/Parallax";
-const Events = require('events');
+import Events from "events";
 
 class Cart extends React.Component {
 

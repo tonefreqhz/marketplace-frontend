@@ -159,7 +159,7 @@ class Brand extends React.Component{
               data={data}
               tableTitle="All Product Brand"
               properties={properties}
-              editButton={this.editButtonDisplay}
+                editButton={this.editButtonDisplay}
               onDeleteClickSpec={this.handleDeleteClick}
               currentSelected = {[]}
               collection="brand"

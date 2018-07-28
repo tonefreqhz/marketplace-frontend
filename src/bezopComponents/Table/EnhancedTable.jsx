@@ -149,7 +149,7 @@ class EnhancedTable extends React.Component {
                 orderBy={orderBy}
                 onSelectAllClick={this.handleSelectAllClick}
                 onRequestSort={this.handleRequestSort}
-                rowCount={data.length}
+                rowCount={data.success ? data.data.length : 0}
               />
               <TableBody>
                 {data?
@@ -224,7 +224,7 @@ class EnhancedTable extends React.Component {
           </div>
           <TablePagination
             component="div"
-            count={data.length}
+            count={data.success ? data.data.length: 0}
             rowsPerPage={rowsPerPage}
             page={page}
             backIconButtonProps={{
