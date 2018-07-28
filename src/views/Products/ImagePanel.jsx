@@ -48,7 +48,7 @@ class ImagePanel extends React.Component{
                             srcImage={eachData[img.label]} 
                             label={img.label}
                             eachData={eachData} 
-                            fileInput={`${img.label}${eachData._id}`}
+                            fileInput={`${img.label}${eachData.id}`}
                             fullwidth={img.fullWidth} 
                             width={img.width}
                             height={img.height}

@@ -120,7 +120,7 @@ class EditBrand extends React.Component {
 
   //Create new Brand
   updateBrand = () => {
-    this.props.specialMethod(this.state.brandDetails, this.props.eachData._id);
+    this.props.specialMethod(this.state.brandDetails, this.props.eachData.id);
   }
 
   componentWillReceiveProps(newProps){

@@ -57,6 +57,7 @@ class EditCategory extends React.Component {
         name: this.props.eachData.name,
         description: this.props.eachData.description,
         kind: this.props.eachData.kind,
+        parent: this.props.eachData.parent
       },
       categoryDetailsError: {
         name:false,
@@ -64,6 +65,7 @@ class EditCategory extends React.Component {
         kind: false,
       },
       selectedCategoryKind: {value: this.props.eachData.kind, label: this.props.eachData.kind.replace(/^\w/, c => c.toUpperCase())},
+      selectedCategoryParent: "0",
       categoryKindSelect: "react-select-label-hidden",
       snackBarOpen: true,
       snackBarMessage: "",
@@ -144,9 +146,24 @@ class EditCategory extends React.Component {
     }
   }
 
+  handleCategoryParentChange = (selectedCategoryParent) => {
+    this.setState({ selectedCategoryParent });
+    if(selectedCategoryParent !== null){
+      this.setCategoryDetails("parent", selectedCategoryParent.value);
+      this.setState({
+        categoryParentSelect: "react-select-label-visible"
+      })
+    }else{
+      this.setState({
+        categoryParentSelect: "react-select-label-hidden",
+      })
+      this.setCategoryDetails("parent", "0");
+    }
+  }
+
   //Create new Category
   updateCategory = () => {
-    this.props.specialMethod(this.state.categoryDetails, this.props.eachData._id);
+    this.props.specialMethod(this.state.categoryDetails, this.props.eachData.id);
   }
 
   componentWillReceiveProps(newProps){
@@ -161,16 +178,22 @@ class EditCategory extends React.Component {
         this.setState({ cardAnimaton: "" }),
       700
     );
-  }
+
+    this.setState({
+      selectedCategoryParent: this.props.eachData.parent === "0" ? null : this.props.categories.filter(category => category.id === this.props.eachData.parent).map(category => {return {value: category.id, label: category.name}})[0]
+  })
+}
   //Clear the slider when moving to another page
   componentWillUnmount(){
     clearTimeout(this.cardAnimationSetTimeout);
   }
   render(){
-    const {classes} = this.props;
+    const {classes, categories, eachData} = this.props;
     const {categoryDetails,
            categoryKindSelect,
            selectedCategoryKind,
+           categoryParentSelect,
+           selectedCategoryParent,
            categoryDetailsError,
            snackBarOpen,
            snackBarMessage,
@@ -190,7 +213,7 @@ class EditCategory extends React.Component {
             </CardHeader>
             <CardBody>
               <Grid container>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText={categoryDetailsError.name === false? "Category Name" : "The length of Category must not be less than 3 characters"}
                     id="name"
@@ -206,7 +229,7 @@ class EditCategory extends React.Component {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={4}>
                   <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="selectedCategoryKind" className={categoryKindSelect}>Type or Select Category Kind</InputLabel>
                     <Select2 
@@ -220,6 +243,21 @@ class EditCategory extends React.Component {
                         {value: "physical", label: "Physical"}
                       ]}
                       className={categoryDetailsError.kind === true ? "select-menu-error": ""}
+                      />
+                  </FormControl>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="selectedCategoryParent" className={categoryParentSelect}>Type or Select Parent Category</InputLabel>
+                    <Select2 
+                      id="selectedCategoryParent"
+                      name="selectedCategoryParent"
+                      value={selectedCategoryParent}
+                      placeholder="Type or Select Parent Category"
+                      onChange={this.handleCategoryParentChange}
+                      options={categories.filter(category => category.id !== eachData.id).map(category => {
+                        return {value: category.id, label: category.name}
+                      })}
                       />
                   </FormControl>
                 </GridItem>

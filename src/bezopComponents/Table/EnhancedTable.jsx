@@ -73,7 +73,7 @@ class EnhancedTable extends React.Component {
   
     handleSelectAllClick = (event, checked) => {
       if (checked) {
-        this.setState(state => ({ selected: state.data.map(n => n._id) }));
+        this.setState(state => ({ selected: state.data.map(n => n.id) }));
         return;
       }
       this.setState({ selected: [] });
@@ -121,8 +121,8 @@ class EnhancedTable extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-      if(newProps.data.hasOwnProperty("data") && newProps.data.success){
-        this.setState({data: newProps.data.data})
+      if(newProps.hasOwnProperty("data")){
+        this.setState({data: newProps.data})
       }
 
       if(this.props.hasOwnProperty("currentSelected")){
@@ -133,10 +133,10 @@ class EnhancedTable extends React.Component {
   
     render() {
       const {  data, classes, tableTitle, properties, editButton, imagePanelDisplay,
-               onDeleteClickSpec, itemName,postImage, collection, product } = this.props;
+               onDeleteClickSpec, itemName,postImage, collection } = this.props;
       const { order, orderBy, selected, rowsPerPage, page, columnData } = this.state;
       const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-      
+      console.log(data);
       return (
         <Paper className={classes.root}>
           <EnhancedTableToolbar numSelected={selected.length} itemName={itemName} tableTitle={tableTitle} onDeleteClick={() => onDeleteClickSpec(selected)}/>
@@ -149,30 +149,30 @@ class EnhancedTable extends React.Component {
                 orderBy={orderBy}
                 onSelectAllClick={this.handleSelectAllClick}
                 onRequestSort={this.handleRequestSort}
-                rowCount={data.success ? data.data.length : 0}
+                rowCount={data.length}
               />
               <TableBody>
-                {data.data ?
-                data.data
+                {data?
+                data
                   .sort(getSorting(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((n, pkey) => {
-                    const isSelected = this.isSelected(n._id);
+                    const isSelected = this.isSelected(n.id);
                     return (
                       <TableRow
                         hover
                         role="checkbox"
                         aria-checked={isSelected}
                         tabIndex={-1}
-                        key={n._id}
+                        key={n.id}
                         selected={isSelected}
                       >
-                        <TableCell padding="checkbox" onClick={event => this.handleClick(event, n._id)}>
+                        <TableCell padding="checkbox" onClick={event => this.handleClick(event, n.id)}>
                           <Checkbox checked={isSelected} />
                         </TableCell>
                         {properties.map((property, key) => {
                             return (<TableCell
-                                    key={`${n._id}.${key}`}
+                                    key={`${n.id}.${key}`}
                                     component={property.component === true? "th" : "td"}
                                     padding={property.padding === true? "none" : "default"}
                                     numeric={property.numeric}>
@@ -190,11 +190,13 @@ class EnhancedTable extends React.Component {
                                       :
                                       property.ucword ? n[property.name].replace(/^\w/, c => c.toUpperCase()) :
                                       property.brandMap ? this.props.brands.filter(brand => {
-                                        return (brand._id === n[property.name])
+                                        return (brand.id === n[property.name])
                                       }).map(brand => brand.name).join(""):
                                       property.catMap ? this.props.categories.filter(category => {
-                                        return (category._id === n[property.name])
+                                        return (category.id === n[property.name][property.catMain])
                                       }).map(category => category.name).join(""):
+                                      property.subname ?
+                                      n[property.name][property.subname]:
                                       n[property.name]
                                      
                                     }
@@ -222,7 +224,7 @@ class EnhancedTable extends React.Component {
           </div>
           <TablePagination
             component="div"
-            count={data.success ? data.data.length: 0}
+            count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
             backIconButtonProps={{

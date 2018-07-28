@@ -52,12 +52,10 @@ class AddBrand extends React.Component {
       brandDetails: {
         name:"",
         description: "",
-        kind: "",
       },
       brandDetailsError: {
         name:false,
         description: false,
-        kind: false,
       },
       selectedBrandKind: null,
       brandKindSelect: "react-select-label-hidden",

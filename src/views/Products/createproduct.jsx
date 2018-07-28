@@ -235,7 +235,7 @@ class ContainedButtons extends React.Component {
             </CardHeader>
             <CardBody>
               <Grid container>
-
+              
                 <GridItem xs={12} md={6}>
                 <ImagePlaceholder srcImage={srcFront}/>
                 <label htmlFor="contained-button-file">

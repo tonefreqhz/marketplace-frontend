@@ -37,6 +37,7 @@ export function loadProductDetail(results) {
 
 
 export function postProductDetails(productDetails) {
+  console.log(productDetails);
   return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products`, {
     method: 'POST',
     headers: {

@@ -41,7 +41,6 @@ class Category extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-        categories: [],
         data: [],
         snackBarOpenSuccess: false,
         snackBarMessageSuccess: "Yet to decide the action",
@@ -56,7 +55,9 @@ class Category extends React.Component{
 
   editButtonDisplay = (n) =>{
     return (<TableCell>
-    {<AddNewProductCategory type="edit" eachData={n} productCategory={this.props.productCategory} specialMethod={this.props.putProductCategoryDetails}/>}
+    {<AddNewProductCategory type="edit" eachData={n} productCategory={this.props.productCategory}
+    categories={this.state.data}
+     specialMethod={this.props.putProductCategoryDetails}/>}
 </TableCell>)
   }
 
@@ -81,8 +82,8 @@ class Category extends React.Component{
     if(newProps.productCategory.hasOwnProperty("updateCategory")){
       let newCategories = JSON.parse(JSON.stringify(this.state.data));
       let updateCategories;
-      updateCategories = newCategories.map( category => {
-                if(newProps.productCategory.updateCategory._id === category._id){
+      updateCategories= newCategories.map( category => {
+                if(newProps.productCategory.updateCategory.id === category.id){
                   return newProps.productCategory.updateCategory;
                 }else{
                   return category;
@@ -98,7 +99,7 @@ class Category extends React.Component{
 
     if(newProps.productCategory.hasOwnProperty("updateImage")){
         let newData = this.state.data.map(datum => {
-          if(datum._id === newProps.productCategory.updateImage._id){
+          if(datum.id === newProps.productCategory.updateImage.id){
             return newProps.productCategory.updateImage
           }else{
             return datum
@@ -123,7 +124,7 @@ class Category extends React.Component{
       this.props.deleteProductCategory(categoryID);
       counter++;
       if(counter === categoryIDs.length){
-        let newData = this.state.data.filter( datum =>  categoryIDs.indexOf(datum._id)  === -1) 
+        let newData = this.state.data.filter( datum =>  categoryIDs.indexOf(datum.id)  === -1) 
         this.setState({
           data: newData,
           snackBarOpenSuccess: true,
@@ -144,6 +145,7 @@ class Category extends React.Component{
     <GridItem xs={6} md={3}>
     <AddNewProductCategory 
     productCategory={productCategory}
+    categories={data}
     addProductCategory={postProductCategoryDetails} type="add"/>
     </GridItem>
       <GridItem xs={12} sm={12} md={12}>
