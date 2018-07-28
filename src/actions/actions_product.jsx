@@ -12,8 +12,13 @@ export function loadProducts(result){
 }
 
 export function fetchProducts(){
-return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products`,
- { method: 'GET'})
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products`,
+ {
+    method: 'GET',
+    headers: {
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
+    }
+  })
  .then(response => response.json())
  .then(json => {
    dispatch(loadProducts(json));
@@ -32,11 +37,13 @@ export function loadProductDetail(results) {
 
 
 export function postProductDetails(productDetails) {
-return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products`, {
+  console.log(productDetails);
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/products`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productDetails)
   })
@@ -59,7 +66,8 @@ return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products/
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productDetails)
   })
@@ -74,6 +82,7 @@ export function loadDeleteProduct(results){
   return {
     type: DELETE_PRODUCT,
     payload: results,
+    
   };
 }
 
@@ -82,7 +91,8 @@ return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/products/
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
   })
     .then(response => response.json())

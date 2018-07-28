@@ -78,7 +78,7 @@ class Brand extends React.Component{
       let newBrands = JSON.parse(JSON.stringify(this.state.data));
       let updateBrands;
       updateBrands = newBrands.map( brand => {
-                if(newProps.productBrand.updateBrand._id === brand._id){
+                if(newProps.productBrand.updateBrand.id === brand.id){
                   return newProps.productBrand.updateBrand;
                 }else{
                   return brand;
@@ -94,8 +94,9 @@ class Brand extends React.Component{
     }
 
     if(newProps.productBrand.hasOwnProperty("updateImage")){
+      
       let newData = this.state.data.map(datum => {
-        if(datum._id === newProps.productBrand.updateImage._id){
+        if(datum.id === newProps.productBrand.updateImage.id){
           return newProps.productBrand.updateImage
         }else{
           return datum
@@ -122,7 +123,7 @@ class Brand extends React.Component{
       this.props.deleteProductBrand(brandID);
       counter++;
       if(counter === brandIDs.length){
-        let newData = this.state.data.filter( datum =>  brandIDs.indexOf(datum._id)  === -1) 
+        let newData = this.state.data.filter( datum =>  brandIDs.indexOf(datum.id)  === -1) 
         this.setState({
           data: newData,
           snackBarOpenSuccess: true,
@@ -135,6 +136,8 @@ class Brand extends React.Component{
   render(){
   const { classes, postProductBrandDetails, productBrand, postImage} = this.props;
   const { data, snackBarOpenSuccess, snackBarMessageSuccess } = this.state;
+
+  //console.log(data);
 
   return (
     <Grid container>

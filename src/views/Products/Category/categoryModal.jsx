@@ -47,7 +47,7 @@ class CategoryModal extends React.Component {
     let modalTitle;
     switch(type){
       case "add": 
-          modalContent  = <AddCategory onHandleModalClose={this.handleClose} addProductCategory={this.props.addProductCategory} productCategory={this.props.productCategory}/>
+          modalContent  = <AddCategory onHandleModalClose={this.handleClose} addProductCategory={this.props.addProductCategory} productCategory={this.props.productCategory} categories={this.props.categories}/>
           modalTitle = (<Button
                           variant="contained"
                           color="primary"
@@ -57,7 +57,8 @@ class CategoryModal extends React.Component {
                           </Button>);
         break;
       case "edit":
-          modalContent = <EditCategory onHandleModalClose={this.handleClose} eachData={this.props.eachData} specialMethod={this.props.specialMethod} productCategory={this.props.productCategory}/>;
+          modalContent = <EditCategory onHandleModalClose={this.handleClose} eachData={this.props.eachData} specialMethod={this.props.specialMethod} productCategory={this.props.productCategory}
+          categories={this.props.categories}/>;
           modalTitle = <Edit onClick={this.handleClickOpen} />;
         break;
       default:

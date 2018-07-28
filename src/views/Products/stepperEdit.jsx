@@ -39,49 +39,78 @@ class ProductStepperEdit extends React.Component {
         code: this.props.eachData.code,
         upc: this.props.eachData.upc,
         sku: this.props.eachData.sku,
-        tag: this.props.eachData.tag || [],
-        category_id: this.props.eachData.category_id,
-        brand_id: this.props.eachData.brand_id,
-        description: this.props.eachData.description,
-        short_description: this.props.eachData.short_description,
-        unit_cost: this.props.eachData.unit_cost,
-        unit_price: this.props.eachData.unit_price,
-        alt_price: this.props.eachData.alt_price,
-        shipping_cost: this.props.eachData.shipping_cost || 0.0,
-        unit: this.props.eachData.unit,
-        length: this.props.eachData.length,
-        height: this.props.eachData.height,
-        width: this.props.eachData.width,
-        color: this.props.eachData.color || [],
-        discount: this.props.eachData.discount || 0.00,
-        discount_type: this.props.eachData.discount_type || "fixed",
-        tax: this.props.eachData.tax || 0.00,
-        tax_type: this.props.eachData.tax_type || "fixed",
-        download: this.props.eachData.download || false,
-        download_name: this.props.eachData.download_name,
-        deal: this.props.eachData.deal || false,
-        featured: this.props.eachData.featured || false,
-        valuation: this.props.eachData.valuation,
+        category: {
+          main: this.props.eachData.category.main,
+          sub: this.props.eachData.category.sub
+        },
+        brand: this.props.eachData.brand,
+        description: {
+          color: this.props.eachData.description.color,
+          unit: this.props.eachData.description.unit,
+          long: this.props.eachData.description.long,
+          short: this.props.eachData.description.short,
+          tags: this.props.eachData.description.tags,
+        },
+        variety:{
+          options: this.props.eachData.variety.options,
+          parent: this.props.eachData.variety.parent
+        },
+        price: {
+          deal: this.props.eachData.price.deal,
+          valuation:this.props.eachData.price.valuation,
+          cost_price: this.props.eachData.price.cost_price,
+          unit_price: this.props.eachData.price.unit_price,
+          slash_price: this.props.eachData.price.slash_price,
+          discount: this.props.eachData.price.discount,
+          discount_type: this.props.eachData.price.discount_type,
+          tax: this.props.eachData.price.tax,
+          tax_type: this.props.eachData.price.tax_type,
+        },
+        shipping_details: {
+          cost: this.props.eachData.shipping_details.cost,
+          length: this.props.eachData.shipping_details.length,
+          height: this.props.eachData.shipping_details.height,
+          width: this.props.eachData.shipping_details.width,
+          weight: this.props.eachData.shipping_details.weight,
+        },
+        manufacture_details: {
+          make: this.props.eachData.manufacture_details.make,
+          model_number: this.props.eachData.manufacture_details.model_number,
+          release_date: this.props.eachData.manufacture_details.release_date.match(/^\d{4}[/-](0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])/)[0]
+        },
+        download: {
+          downloadable: this.props.eachData.download.downloadable,
+          download_name: this.props.eachData.download.download_name,
+        },
+        analytics:{
+          featured: this.props.eachData.analytics.featured,
+        },
+        extra_fields: this.props.eachData.extra_fields
+        
       },
       selectElements: {
-        selectedOption: this.props.eachData.tag.length > 0 ? this.props.eachData.tag.map(tag => { return {value: tag, label: tag}}) : [],
-        selectedColors: this.props.eachData.color.length > 0 ? this.props.eachData.color.map(color => { return {value: color, label: color}}) : [],
+        selectedOption: this.props.eachData.description.tag &&this.props.eachData.description.tag.length > 0 ? this.props.eachData.description.tag.map(tag => { return {value: tag, label: tag}}) : [],
+        selectedColors: this.props.eachData.description.color.length > 0 ? this.props.eachData.description.color.map(color => { return {value: color, label: color}}) : [],
+        selectedParents: this.props.eachData.variety.options.length > 0 ? this.props.eachData.variety.parent.map(color => { return {value: color, label: color}}) : [],
         selectedBrand: null,
         selectedCategory: null,
-        selectedDiscount: this.props.eachData.tax_type.length > 0 ? {value: this.props.eachData.discount_type, label: this.props.eachData.discount_type.replace(/^\w/, c => c.toUpperCase())} :null,
-        selectedTax: {value: this.props.eachData.tax_type, label: this.props.eachData.tax_type.replace(/^\w/, c => c.toUpperCase())},
-        selectedValuation: {value: this.props.eachData.valuation, label: this.props.eachData.valuation},
+        selectedSubCategory: null,
+        selectedDiscount: this.props.eachData.price.discount_type, label: this.props.eachData.price.discount_type.length > 0 ? {value: this.props.eachData.price.discount_type, label: this.props.eachData.price.discount_type.replace(/^\w/, c => c.toUpperCase())} :null,
+        selectedTax: {value: this.props.eachData.price.tax_type, label: this.props.eachData.price.tax_type.replace(/^\w/, c => c.toUpperCase())},
+        selectedValuation: {value: this.props.eachData.price.valuation, label: this.props.eachData.price.valuation},
       },
       selectStyle: {
-        taxSelect: `react-select-label-${this.props.eachData.tax_type.length > 0 ? "visible" : "hidden"}`,
-        discountSelect: `react-select-label-${this.props.eachData.discount_type.length > 0 ? "visible" : "hidden"}`,
-        brandSelect: `react-select-label-${this.props.eachData.brand_id.length > 0 ? "visible" : "hidden"}`,
-        categorySelect: `react-select-label-${this.props.eachData.category_id.length > 0 ? "visible" : "hidden"}`,
-        tagsSelect: `react-select-label-${this.props.eachData.tag.length > 0 ? "visible" : "hidden"}`,
-        colorsSelect: `react-select-label-${this.props.eachData.color.length > 0 ? "visible" : "hidden"}`,
-        valuationSelect: `react-select-label-${this.props.eachData.valuation.length > 0 ? "visible" : "hidden"}`,
+        taxSelect: `react-select-label-${this.props.eachData.price.tax_type.length > 0 ? "visible" : "hidden"}`,
+        discountSelect: `react-select-label-${this.props.eachData.price.discount_type.length > 0 ? "visible" : "hidden"}`,
+        brandSelect: `react-select-label-${this.props.eachData.brand && this.props.eachData.brand.length > 0 ? "visible" : "hidden"}`,
+        categorySelect: `react-select-label-${this.props.eachData.category.main &&this.props.eachData.category.main.length > 0 ? "visible" : "hidden"}`,
+        subCategorySelect: `react-select-label-${this.props.eachData.category.sub && this.props.eachData.category.sub.length > 0 ? "visible" : "hidden"}`,
+        tagsSelect: `react-select-label-${this.props.eachData.description.tag && this.props.eachData.description.tag.length > 0 ? "visible" : "hidden"}`,
+        colorsSelect: `react-select-label-${this.props.eachData.description.color && this.props.eachData.description.color.length > 0 ? "visible" : "hidden"}`,
+        parentSelect: `react-select-label-${this.props.eachData.variety.parent.length > 0 ? "visible" : "hidden"}`,
+        valuationSelect: `react-select-label-${this.props.eachData.price.valuation.length > 0 ? "visible" : "hidden"}`,
       },
-      productId: this.props.eachData._id,
+      productId: this.props.eachData.id,
     };
   }
 
@@ -210,6 +239,7 @@ class ProductStepperEdit extends React.Component {
     const { classes } = this.props;
     const steps = this.getSteps();
     const { activeStep } = this.state;
+    console.log(this.state.productId);
     return (
       <div className={classes.root}>
         <Stepper activeStep={activeStep}>

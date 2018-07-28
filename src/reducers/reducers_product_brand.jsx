@@ -13,19 +13,19 @@ const productBrand = (state = {}, action) => {
     let output;
     switch(action.type){
         case POST_PRODUCT_BRAND_DETAILS:
-            output = {addBrand: action.payload};
+            output = {addBrand: action.payload.data};
         break;
         case FETCH_PRODUCT_BRANDS:
-            output = {brands: action.payload};
+            output = {brands: action.payload.data};
         break;
         case UPDATE_PRODUCT_BRAND_DETAILS:
-            output = {updateBrand: action.payload}
+            output = {updateBrand: action.payload.data}
         break;
         case DELETE_PRODUCT_BRAND:
-            output = {deleteBrand: action.payload}
+            output = {deleteBrand: action.payload.data}
         break;
         case PUT_IMAGE:
-            output = {updateImage: action.payload}
+            output = {updateImage: action.payload.data}
         break;
         default:
             output = state;

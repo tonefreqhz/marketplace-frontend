@@ -13,7 +13,8 @@ return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/vendors/$
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
         },
         body: JSON.stringify(vendorProfile)
     })
@@ -32,8 +33,11 @@ export function loadUserUpdate(result){
 }
 
 export function fetchUserProfile(vendorID){
-return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/vendors/${vendorID}`, {
-        method: 'GET'
+    return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/vendors/${vendorID}`, {
+        method: 'GET',
+        headers: {
+            "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
+        }
     })
     .then(response => response.json())
     .then(json => {

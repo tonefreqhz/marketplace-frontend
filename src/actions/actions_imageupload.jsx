@@ -14,7 +14,8 @@ export function loadImageUpload(results) {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
       },
       body: JSON.stringify(imageDetail)
     })

@@ -34,10 +34,9 @@ const columnData = [
 ];
 
 const properties = [{name: "name", component: true, padding: true, numeric: false, img: false,},
-{name: "short_description", component: false, padding: false, numeric: false, img: false},
-{name: "category_id", component: false, padding: false, numeric: false, img:false, catMap: true},
-{name: "brand_id", component: false, padding: false, numeric: false, img: false, brandMap: true},
-{name: "images", component: false, padding: false, numeric: false, img: false, imgPanel: true}]
+{name: "description", subname: "short", component: false, padding: false, numeric: false, img: false},
+{name: "category", catMain:"main", component: false, padding: false, numeric: false, img: false, catMap: true},
+{name: "brand", component: false, padding: false, numeric: false, img: false, brandMap: true}]
 
 const imagePanelView = [ 
   // {
