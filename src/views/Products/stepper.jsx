@@ -30,60 +30,92 @@ const styles = theme => ({
   },
 });
 
+const productInformation = {
+  name: "",
+  code: "",
+  upc: "",
+  sku: "",
+  category: {
+    main: "",
+    sub: ""
+  },
+  brand: "",
+  description: {
+    color: [],
+    unit: "",
+    long: "",
+    short: "",
+    tag: [],
+  },
+  variety:{
+    options: false,
+    parent: "",
+  },
+  price: {
+    deal: false,
+    valuation: "FIFO",
+    cost_price: "",
+    unit_price: "",
+    slash_price: "",
+    discount: 0.0,
+    discount_type: "",
+    tax: 0.0,
+    tax_type: "",
+  },
+  shipping_details: {
+    cost: 0.0,
+    length: "",
+    height: "",
+    width: "",
+    weight: "",
+  },
+  manufacture_details: {
+    make: "",
+    model_number: "",
+    release_date: null
+  },
+  download: {
+    downloadable: false,
+    download_name: "",
+  },
+  analytics:{
+    featured: false,
+  },
+  extra_fields: []
+  
+};
+
+const selectElementsDropdown = {
+  selectedOption: [],
+  selectedColors: [],
+  selectedBrand: null,
+  selectedCategory: null,
+  selectedSubCategory: null,
+  selectedDiscount: null,
+  selectedTax: null,
+  selectedValuation: null,
+}
+
+const selectStyleDropdown = {
+  taxSelect: "react-select-label-hidden",
+  discountSelect: "react-select-label-hidden",
+  brandSelect: "react-select-label-hidden",
+  categorySelect: "react-select-label-hidden",
+  subCategorySelect: "react-select-label-hidden",
+  tagsSelect: "react-select-label-hidden",
+  colorsSelect: "react-select-label-hidden",
+  valuationSelect: "react-select-label-hidden",
+}
+
 class ProductStepper extends React.Component {
   constructor(props){
     super(props)
     this.state = {
       activeStep: 0,
       skipped: new Set(),
-      productDetails: {
-        name: "",
-        code: "",
-        upc: "",
-        sku: "",
-        tags: [],
-        category_id: "",
-        brand_id: "",
-        description: "",
-        short_description: "",
-        unit_cost: "",
-        unit_price: "",
-        alt_price: "",
-        shipping_cost: 0.0,
-        unit: "",
-        length: "",
-        height: "",
-        width: "",
-        colors: [],
-        discount: 0.0,
-        discount_type: "",
-        tax: 0.0,
-        tax_type: "",
-        download: false,
-        download_name: "",
-        deal: false,
-        featured: false,
-        valuation: "FIFO",
-        vendor_id: '5b50cac169bc14dcf81d401f',
-      },
-      selectElements: {
-        selectedOption: [],
-        selectedColors: [],
-        selectedBrand: null,
-        selectedCategory: null,
-        selectedDiscount: null,
-        selectedTax: null,
-        selectedValuation: null,
-      },
-      selectStyle: {
-        taxSelect: "react-select-label-hidden",
-        discountSelect: "react-select-label-hidden",
-        brandSelect: "react-select-label-hidden",
-        categorySelect: "react-select-label-hidden",
-        tagsSelect: "react-select-label-hidden",
-        colorsSelect: "react-select-label-hidden",
-        valuationSelect: "react-select-label-hidden",
-      }
+      productDetails: productInformation,
+      selectElements: selectElementsDropdown,
+      selectStyle: selectStyleDropdown
     };
   }
 
@@ -198,65 +230,17 @@ class ProductStepper extends React.Component {
 
   componentWillReceiveProps(newProps){
     if(newProps.product.hasOwnProperty('addProduct') && _.isEqual(this.props.product.addProduct, newProps.product.addProduct) === false){
-      let newProductDetails = {
-        name: "",
-        code: "",
-        upc: "",
-        sku: "",
-        tags: [],
-        category_id: "",
-        brand_id: "",
-        description: "",
-        short_description: "",
-        unit_cost: "",
-        unit_price: "",
-        alt_price: "",
-        shipping_cost: "",
-        unit: "",
-        length: "",
-        height: "",
-        width: "",
-        colors: [],
-        discount: 0.0,
-        discount_type: "",
-        tax: 0.0,
-        tax_type: "",
-        download: false,
-        download_name: "",
-        deal: false,
-        featured: false,
-        valuation: "FIFO",
-        vendor_id: '5b50cac169bc14dcf81d401f',
-      };
-
-      let newSelectElements = {
-        selectedOption: [],
-        selectedColors: [],
-        selectedBrand: null,
-        selectedCategory: null,
-        selectedDiscount: null,
-        selectedTax: null,
-        selectedValuation: null,
-      };
-
-      let newSelectStyle = {
-        taxSelect: "react-select-label-hidden",
-        discountSelect: "react-select-label-hidden",
-        brandSelect: "react-select-label-hidden",
-        categorySelect: "react-select-label-hidden",
-        tagsSelect: "react-select-label-hidden",
-        colorsSelect: "react-select-label-hidden",
-        valuationSelect: "react-select-label-hidden",
-      };
+      
       this.setState({
-        productDetails: newProductDetails,
-        selectElements: newSelectElements,
-        selectStyle: newSelectStyle
+        productDetails: productInformation,
+        selectElements: selectElementsDropdown,
+        selectStyle: selectStyleDropdown
       });
 
       this.props.onCloseModal();
     }
   }
+  
 
   createProduct = () => {
     this.props.postProductDetails(this.state.productDetails);
