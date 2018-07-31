@@ -36,8 +36,7 @@
     "react-swipeable-views": "0.12.13",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "web3": "^1.0.0-beta.34",
-    "unirest": "^0.5.1"
+    "web3": "^1.0.0-beta.34"
   },
   "eslintIgnore": [
     "src/index.js",
