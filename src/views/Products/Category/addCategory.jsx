@@ -56,15 +56,19 @@ class AddCategory extends React.Component {
       categoryDetails: {
         name:"",
         description: "",
+        parent: "0",
         kind: "",
       },
       categoryDetailsError: {
         name:false,
         description: false,
+        parent: false,
         kind: false,
       },
       selectedCategoryKind: null,
       categoryKindSelect: "react-select-label-hidden",
+      selectedCategoryParent: null,
+      categoryParentSelect: "react-select-label-hidden",
       snackBarOpen: true,
       snackBarOpenSuccess: false,
       snackBarMessage: "",
@@ -165,6 +169,21 @@ class AddCategory extends React.Component {
     }
   }
 
+  handleCategoryParentChange = (selectedCategoryParent) => {
+    this.setState({ selectedCategoryParent });
+    if(selectedCategoryParent !== null){
+      this.setCategoryDetails("parent", selectedCategoryParent.value);
+      this.setState({
+        categoryParentSelect: "react-select-label-visible"
+      })
+    }else{
+      this.setState({
+        categoryParentSelect: "react-select-label-hidden",
+      })
+      this.setCategoryDetails("parent", "0");
+    }
+  }
+
   //Create new Category
   createNewCategory = () => {
     let newCategoryDetails = JSON.parse(JSON.stringify(this.state.categoryDetails));
@@ -186,10 +205,14 @@ class AddCategory extends React.Component {
           categoryDetails: {
             name:"",
             description: "",
+            parent: "0",
             kind: "",
           },
           snackBarOpenSuccess: true,
           selectedCategoryKind: null,
+          categoryKindSelect: "react-select-label-hidden",
+          selectedCategoryParent: null,
+          categoryParentSelect: "react-select-label-hidden",
         });
 
         this.props.onHandleModalClose();
@@ -209,17 +232,17 @@ class AddCategory extends React.Component {
     clearTimeout(this.cardAnimationSetTimeout);
   }
   render(){
-    const {classes} = this.props;
+    const {classes, categories} = this.props;
     const {categoryDetails,
            categoryKindSelect,
            selectedCategoryKind,
+           categoryParentSelect,
+           selectedCategoryParent,
            categoryDetailsError,
            snackBarOpen,
            snackBarMessage,
            submitButtonDeactive
           } = this.state;
-        
-          
     return (
       <div>
         
@@ -234,7 +257,7 @@ class AddCategory extends React.Component {
             </CardHeader>
             <CardBody>
               <Grid container>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText={categoryDetailsError.name === false? "Category Name" : "The length of Category must not be less than 3 characters"}
                     id="name"
@@ -250,7 +273,7 @@ class AddCategory extends React.Component {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={4}>
                   <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="selectedCategoryKind" className={categoryKindSelect}>Type or Select Category Kind</InputLabel>
                     <Select2 
@@ -264,6 +287,21 @@ class AddCategory extends React.Component {
                         {value: "physical", label: "Physical"}
                       ]}
                       className={categoryDetailsError.kind === true ? "select-menu-error": null}
+                      />
+                  </FormControl>
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="selectedCategoryParent" className={categoryParentSelect}>Type or Select Parent Category</InputLabel>
+                    <Select2 
+                      id="selectedCategoryParent"
+                      name="selectedCategoryParent"
+                      value={selectedCategoryParent}
+                      placeholder="Type or Select Parent Category"
+                      onChange={this.handleCategoryParentChange}
+                      options={categories.map(category => {
+                        return {value: category.id, label: category.name}
+                      })}
                       />
                   </FormControl>
                 </GridItem>

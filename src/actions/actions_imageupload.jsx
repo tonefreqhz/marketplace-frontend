@@ -9,12 +9,13 @@ export function loadImageUpload(results) {
   }
   
   
-  export function postImage(imageDetail, collectionId) {
-    return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/image/${collectionId}`, {
+export function postImage(imageDetail, collectionId) {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/media/${collectionId}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
       },
       body: JSON.stringify(imageDetail)
     })
@@ -23,5 +24,5 @@ export function loadImageUpload(results) {
         dispatch(loadImageUpload(json));
       })
       .catch(error => console.log(error));
-  }
+}
   

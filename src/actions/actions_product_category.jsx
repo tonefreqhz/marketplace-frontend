@@ -13,8 +13,13 @@ export function loadProductCategories(result){
 }
 
 export function fetchProductCategories(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/categories`,
- { method: 'GET'})
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/categories`,
+ { 
+   method: 'GET',
+   headers : {
+    "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
+   }
+})
  .then(response => response.json())
  .then(json => {
    dispatch(loadProductCategories(json));
@@ -33,11 +38,12 @@ export function loadProductCategoryDetail(results) {
 
 
 export function postProductCategoryDetails(productCategoryDetails) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/categories`, {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/categories`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productCategoryDetails)
   })
@@ -56,11 +62,12 @@ export function loadUpdatedProductCategoryDetails(results){
 }
 
 export function putProductCategoryDetails(productCategoryDetails, categoryID) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/categories/${categoryID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/categories/${categoryID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productCategoryDetails)
   })
@@ -80,11 +87,12 @@ export function loadDeleteProductCategory(results){
 
 export function deleteProductCategory(categoryID) {
   console.log(categoryID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/categories/${categoryID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/categories/${categoryID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
   })
     .then(response => response.json())

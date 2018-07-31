@@ -30,60 +30,95 @@ const styles = theme => ({
   },
 });
 
+const productInformation = {
+  name: "",
+  code: "",
+  upc: "",
+  sku: "",
+  category: {
+    main: "",
+    sub: ""
+  },
+  brand: "",
+  description: {
+    color: [],
+    unit: "",
+    long: "",
+    short: "",
+    tag: [],
+  },
+  variety:{
+    options: false,
+    parent: "",
+  },
+  price: {
+    deal: false,
+    valuation: "FIFO",
+    costPrice: "",
+    unitPrice: "",
+    slashPrice: "",
+    discount: 0.0,
+    discountType: "",
+    tax: 0.0,
+    taxType: "",
+  },
+  shippingDetails: {
+    cost: 0.0,
+    length: "",
+    height: "",
+    width: "",
+    weight: "",
+  },
+  manufactureDetails: {
+    make: "",
+    modelNumber: "",
+    releaseDate: null
+  },
+  download: {
+    downloadable: false,
+    downloadName: "",
+  },
+  analytics:{
+    featured: false,
+  },
+  extraFields: []
+  
+};
+
+const selectElementsDropdown = {
+  selectedOption: [],
+  selectedColors: [],
+  selectedBrand: null,
+  selectedCategory: null,
+  selectedSubCategory: null,
+  selectedDiscount: null,
+  selectedTax: null,
+  selectedValuation: null,
+}
+
+const selectStyleDropdown = {
+  taxSelect: "react-select-label-hidden",
+  discountSelect: "react-select-label-hidden",
+  brandSelect: "react-select-label-hidden",
+  categorySelect: "react-select-label-hidden",
+  subCategorySelect: "react-select-label-hidden",
+  tagsSelect: "react-select-label-hidden",
+  colorsSelect: "react-select-label-hidden",
+  valuationSelect: "react-select-label-hidden",
+}
+
 class ProductStepper extends React.Component {
   constructor(props){
     super(props)
     this.state = {
       activeStep: 0,
       skipped: new Set(),
-      productDetails: {
-        name: "",
-        code: "",
-        upc: "",
-        sku: "",
-        tags: [],
-        category_id: "",
-        brand_id: "",
-        description: "",
-        short_description: "",
-        unit_cost: "",
-        unit_price: "",
-        alt_price: "",
-        shipping_cost: 0.0,
-        unit: "",
-        length: "",
-        height: "",
-        width: "",
-        colors: [],
-        discount: 0.0,
-        discount_type: "",
-        tax: 0.0,
-        tax_type: "",
-        download: false,
-        download_name: "",
-        deal: false,
-        featured: false,
-        valuation: "FIFO",
-        vendor_id: '5b50cac169bc14dcf81d401f',
-      },
-      selectElements: {
-        selectedOption: [],
-        selectedColors: [],
-        selectedBrand: null,
-        selectedCategory: null,
-        selectedDiscount: null,
-        selectedTax: null,
-        selectedValuation: null,
-      },
-      selectStyle: {
-        taxSelect: "react-select-label-hidden",
-        discountSelect: "react-select-label-hidden",
-        brandSelect: "react-select-label-hidden",
-        categorySelect: "react-select-label-hidden",
-        tagsSelect: "react-select-label-hidden",
-        colorsSelect: "react-select-label-hidden",
-        valuationSelect: "react-select-label-hidden",
-      }
+      productDetails: productInformation,
+      selectElements: selectElementsDropdown,
+      selectStyle: selectStyleDropdown,
+      snackBarVariant: "success",
+      snackBarOpenSuccess: false,
+      snackBarMessageSuccess: "Alright",
     };
   }
 
@@ -196,67 +231,37 @@ class ProductStepper extends React.Component {
     })
   }
 
+  onCloseHandlerSuccess = () => {
+    this.setState({
+      snackBarOpenSuccess: false
+    })
+  } 
+
   componentWillReceiveProps(newProps){
+
+    if(newProps.hasOwnProperty("modalStatus") && !newProps.modalStatus){
+      this.handleReset();
+    }
+
     if(newProps.product.hasOwnProperty('addProduct') && _.isEqual(this.props.product.addProduct, newProps.product.addProduct) === false){
-      let newProductDetails = {
-        name: "",
-        code: "",
-        upc: "",
-        sku: "",
-        tags: [],
-        category_id: "",
-        brand_id: "",
-        description: "",
-        short_description: "",
-        unit_cost: "",
-        unit_price: "",
-        alt_price: "",
-        shipping_cost: "",
-        unit: "",
-        length: "",
-        height: "",
-        width: "",
-        colors: [],
-        discount: 0.0,
-        discount_type: "",
-        tax: 0.0,
-        tax_type: "",
-        download: false,
-        download_name: "",
-        deal: false,
-        featured: false,
-        valuation: "FIFO",
-        vendor_id: '5b50cac169bc14dcf81d401f',
-      };
-
-      let newSelectElements = {
-        selectedOption: [],
-        selectedColors: [],
-        selectedBrand: null,
-        selectedCategory: null,
-        selectedDiscount: null,
-        selectedTax: null,
-        selectedValuation: null,
-      };
-
-      let newSelectStyle = {
-        taxSelect: "react-select-label-hidden",
-        discountSelect: "react-select-label-hidden",
-        brandSelect: "react-select-label-hidden",
-        categorySelect: "react-select-label-hidden",
-        tagsSelect: "react-select-label-hidden",
-        colorsSelect: "react-select-label-hidden",
-        valuationSelect: "react-select-label-hidden",
-      };
+      if(typeof newProps.product.addProduct === "string"){
+        this.setState({
+            snackBarVariant: "error",
+            snackBarMessageSuccess: newProps.product.addProduct,
+            snackBarOpenSuccess: true
+        })
+        return false;
+      }
       this.setState({
-        productDetails: newProductDetails,
-        selectElements: newSelectElements,
-        selectStyle: newSelectStyle
+        productDetails: productInformation,
+        selectElements: selectElementsDropdown,
+        selectStyle: selectStyleDropdown
       });
 
       this.props.onCloseModal();
     }
   }
+  
 
   createProduct = () => {
     this.props.postProductDetails(this.state.productDetails);
@@ -268,7 +273,8 @@ class ProductStepper extends React.Component {
     const steps = this.getSteps();
     const { activeStep,
             snackBarMessageSuccess,
-            snackBarOpenSuccess } = this.state;
+            snackBarOpenSuccess,
+            snackBarVariant } = this.state;
 
     return (
       <div className={classes.root}>
@@ -356,7 +362,7 @@ class ProductStepper extends React.Component {
           >
               <BezopSnackBar
               onClose={this.onCloseHandlerSuccess}
-              variant="success"
+              variant={snackBarVariant}
               message={snackBarMessageSuccess}
               />
             </Snackbar>

@@ -20,7 +20,7 @@ import Banner from "../layouts/Dashboard/Dashboard.jsx";
 import Shop from "../layouts/Dashboard/Dashboard.jsx";
 import Support from "../layouts/Dashboard/Dashboard.jsx";
 import UserProfile from "../layouts/Dashboard/Dashboard.jsx";
-// import Blog from "../layouts/Dashboard/Dashboard.jsx";
+import Blog from "../layouts/Dashboard/Dashboard.jsx";
 
 //Admin Containers
 import Admin from "../Admin/LandingPage/layout.jsx";
@@ -248,6 +248,14 @@ var indexRoutes = [
     name: "Support",
     Component: (props) => userIs(["vendor"])?
       <Support {...props} />
+      :
+      <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
+  },
+  { 
+    path: "/dashboard/blog",
+    name: "Blog",
+    Component: (props) => userIs(["vendor"])?
+      <Blog {...props} />
       :
       <Redirect to={{ pathname: "/login/vendor", state: { from: props.location } }} />
   },

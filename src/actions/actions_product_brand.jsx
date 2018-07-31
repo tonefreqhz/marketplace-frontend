@@ -13,8 +13,13 @@ export function loadProductBrands(result){
 }
 
 export function fetchProductBrands(){
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/brands`,
- { method: 'GET'})
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/brands`,
+ { 
+   method: 'GET',
+   headers:{
+    "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
+   }
+  })
  .then(response => response.json())
  .then(json => {
    dispatch(loadProductBrands(json));
@@ -33,11 +38,12 @@ export function loadProductBrandDetail(results) {
 
 
 export function postProductBrandDetails(productBrandDetails) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/brands`, {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/brands`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productBrandDetails)
   })
@@ -56,11 +62,12 @@ export function loadUpdatedProductBrandDetails(results){
 }
 
 export function putProductBrandDetails(productBrandDetails, brandID) {
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/brands/${brandID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/brands/${brandID}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
     body: JSON.stringify(productBrandDetails)
   })
@@ -80,11 +87,12 @@ export function loadDeleteProductBrand(results){
 
 export function deleteProductBrand(brandID) {
   console.log(brandID);
-  return dispatch => fetch(`${process.env.REACT_APP_PROD_API_URL}/api/v1/brands/${brandID}`, {
+  return dispatch => fetch(`${process.env.REACT_APP_API_URL_CALL}/api/v1/brands/${brandID}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "authorization" : `Bearer ${JSON.parse(localStorage["bezop-login:vendor"]).accessToken}`
     },
   })
     .then(response => response.json())

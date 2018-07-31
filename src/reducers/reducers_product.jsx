@@ -19,27 +19,35 @@ import {
     
     const product = (state = {}, action) => {
         let output;
+        let data
         switch(action.type){
             case POST_PRODUCT_DETAILS:
-                output = {addProduct: action.payload};
+                data = action.payload.success ? action.payload.data: "There was an error creating product";
+                output = {addProduct: data};
             break;
             case FETCH_PRODUCTS:
-                output = {getAll: action.payload};
+                data = action.payload.success ? action.payload.data.result: "There was an error fetching data";
+                output = {getAll: data};
             break;
             case UPDATE_PRODUCT_DETAILS:
-                output = {updateProduct: action.payload}
+                data = action.payload.success ? action.payload.data: "There was an error updating product";
+                output = {updateProduct: data}
             break;
             case DELETE_PRODUCT:
-                output = {deleteProduct: action.payload}
+                data = action.payload.success ? action.payload.data: "There was an error deleting product";
+                output = {deleteProduct: data}
             break;
             case FETCH_PRODUCT_BRANDS:
-                output = {productBrands: action.payload}
+                data = action.payload.success ? action.payload.data: "There was an error fetching product category"; 
+                output = {productBrands: data}
             break;
             case FETCH_PRODUCT_CATEGORIES:
-                output = {productCategories: action.payload}
+                data = action.payload.success ? action.payload.data: "There was an error fetching product category";          
+                output = {productCategories: data}
             break;
             case PUT_IMAGE:
-                output = {updateImage: action.payload}
+                data = action.payload.success ? action.payload.data: "There was an error uploading product images";            
+                output = {updateImage: data}
             break;
             default:
                 output = state;

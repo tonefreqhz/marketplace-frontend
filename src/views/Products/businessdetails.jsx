@@ -7,6 +7,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select2 from "react-select";
 import _ from "lodash";
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Datetime from "react-datetime";
 
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Card from "../../components/Card/Card.jsx";
@@ -23,6 +26,8 @@ import checkboxAdnRadioStyle from "../../assets/jss/material-kit-react/checkboxA
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import { withStyles } from "@material-ui/core";
 
+import Button from "../../components/CustomButtons/Button.jsx";
+
 
 const styles = theme => ({
   root: {
@@ -35,6 +40,15 @@ const styles = theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
+  },
+  floatRight : {
+    float: "right",
+    margin: "5px",
+    ...theme.button
+  },
+  marginTopFormControl:{
+    marginTop:"15px",
+    ...theme.MuiFormControl
   },
   ...checkboxAdnRadioStyle
 });
@@ -53,6 +67,7 @@ class BusinessDetails extends React.Component {
       selectedTax: this.props.selectElements.selectedTax,
       discountSelect: this.props.selectStyle.discountSelect,
       selectedDiscount: this.props.selectElements.selectedDiscount,
+      selected: [],
     };
   }
 
@@ -62,12 +77,13 @@ class BusinessDetails extends React.Component {
     this.setState({ selectedDiscount });
     let currentStyle = '';
     if(selectedDiscount !== null){
-      this.setProductDetails("discount_type", selectedDiscount.value);
+      this.setProductDetails("discountType", selectedDiscount.value, "price");
       this.setState({
         discountSelect: "react-select-label-visible"
       });
       currentStyle = 'visible';
     }else{
+      this.setProductDetails("discountType","percent" , "price");
       this.setState({
         discountSelect: "react-select-label-hidden"
       })
@@ -82,12 +98,13 @@ class BusinessDetails extends React.Component {
     this.setState({ selectedValuation });
     let currentStyle = '';
     if(selectedValuation !== null){
-      this.setProductDetails("valuation", selectedValuation.value);
+      this.setProductDetails("valuation", selectedValuation.value, "price");
       this.setState({
         valuationSelect: "react-select-label-visible"
       });
       currentStyle = 'visible';
     }else{
+      this.setProductDetails("valuation","LIFO", "price");
       this.setState({
         valuationSelect: "react-select-label-hidden"
       })
@@ -103,12 +120,13 @@ class BusinessDetails extends React.Component {
     this.props.setParentSelectElements('selectedTax', selectedTax);
     let currentStyle = '';
     if(selectedTax !== null){
-      this.setProductDetails("tax_type", selectedTax.value);
+      this.setProductDetails("taxType", selectedTax.value, "price");
       this.setState({
         taxSelect: "react-select-label-visible"
       })
       currentStyle = 'visible';
     }else{
+      this.setProductDetails("taxType", "percent", "price");
       this.setState({
         taxSelect: "react-select-label-hidden"
       })
@@ -119,22 +137,51 @@ class BusinessDetails extends React.Component {
   }
 
   handleChange = event => {
-    this.setProductDetails(event.target.name, event.target.value);
+    let names = event.target.name.split("|");
+    if(names.length === 1){
+      this.setProductDetails(names[0], event.target.value);
+    }else{
+      this.setProductDetails(names[0], event.target.value, names[1]);
+    }
+    
   };
 
   handleCheckboxChange = event => {
+    let names = event.target.name.split("|");
     let boolVal = event.target.value === "unchecked";
-    this.setProductDetails(event.target.name, boolVal);
+    if(names.length === 1){
+      this.setProductDetails(names[0], boolVal);
+    }else{
+      this.setProductDetails(names[0], boolVal, names[1])
+    }
   }
 
-  setProductDetails = (type, value) => {
+  setProductDetails = (type, value, parent = null) => {
     let newProductDetails = JSON.parse(JSON.stringify(this.state.productDetails));
-    newProductDetails[type] = value
+    if(parent === null){
+      newProductDetails[type] = value
+    }else{
+      newProductDetails[parent][type] = value
+    }
     this.setState({
         productDetails: newProductDetails
     })
     
     this.props.setParentProductDetails(newProductDetails);
+  }
+
+
+  filterSelectedOption = (type, options, selected,parent = null) => {
+    let newSelectedOpt =  options.map(opt => {
+      return opt.value
+    });
+    this.setState({
+      [selected] : options.length > 0 ? "react-select-label-visible" : "react-select-label-hidden"
+    })
+    let currentStyle = options.length > 0 ? "react-select-label-visible" : "react-select-label-hidden";
+
+    this.props.setParentSelectStyle(selected, currentStyle);
+    this.setProductDetails(type, newSelectedOpt, parent);
   }
 
   componentDidMount() {
@@ -145,10 +192,34 @@ class BusinessDetails extends React.Component {
       }.bind(this),
       700
     );
+    if(this.props.productDetails.extraFields.length === 0){
+      this.handleAddExtraField();
+    }
+    
+    
+  }
+
+  handleExtraChange = (event) => {
+    let names = event.target.name.split("|"); 
+    let newProductDetails = JSON.parse(JSON.stringify(this.state.productDetails));
+    newProductDetails.extraFields.map((field, key) => {
+        if(key === parseInt(names[1], 10)){
+          field[names[0]] = event.target.value;
+        }
+        return field;
+    })
+    this.setState({
+      productDetails: newProductDetails
+    })
+
+    this.props.setParentProductDetails(newProductDetails);
   }
 
   componentWillReceiveProps(newProps){
     if(newProps.product.hasOwnProperty('addProduct') && _.isEqual(this.props.product.addProduct, newProps.product.addProduct) === false){
+      if(typeof newProps.product.addProduct === "string"){
+        return false;
+      }
       this.props.onCloseModal();
     }
   }
@@ -156,6 +227,57 @@ class BusinessDetails extends React.Component {
   componentWillUnmount(){
     clearTimeout(this.cardAnimationSetTimeout);
   }
+
+  handleAddExtraField = () => {
+    let newProductDetails = JSON.parse(JSON.stringify(this.state.productDetails));
+
+    newProductDetails.extraFields.push({name: "", value: ""});
+    this.setState({
+      productDetails: newProductDetails
+    })
+
+    this.props.setParentProductDetails(newProductDetails);
+  }
+
+  handleDeletedExtraField = (event, id) => {
+    const { selected } = this.state;
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    this.setState({ selected: newSelected });
+  };
+
+  isSelected = id => this.state.selected.indexOf(id) !== -1;
+
+  handleSelectedDeleted = () => {
+    let newProductDetails = JSON.parse(JSON.stringify(this.state.productDetails));
+    newProductDetails.extraFields = this.state.productDetails.extraFields.filter((field, key) => { return this.state.selected.indexOf(key) === -1});
+
+    this.setState({
+      productDetails: newProductDetails,
+      selected: []
+    });
+
+    this.props.setParentProductDetails(newProductDetails);
+  }
+
+  handleReleaseDateChange = (newDateTime) => {
+    this.setProductDetails("releaseDate", newDateTime.format('YYYY-MM-DD'), "manufactureDetails");
+  }
+
 
 
   render(){
@@ -166,9 +288,9 @@ class BusinessDetails extends React.Component {
       taxSelect,
       discountSelect,
       valuationSelect,
-      selectedValuation
+      selectedValuation,
     } = this.state;
-
+    
     return (
       <div>
           <div>
@@ -178,19 +300,20 @@ class BusinessDetails extends React.Component {
               <p>Business Details</p>
             </CardHeader>
             <CardBody>
+              <h3>Price</h3>
               <Grid container>
               <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Unit Cost"
-                    id="unit_cost"
+                    labelText="Cost Price"
+                    id="costPrice"
                     formControlProps={{
                       fullWidth: true,
                       required: true
                     }}
                     inputProps={{
                       type:"number",
-                      value: productDetails.unit_cost,
-                      name: "unit_cost",
+                      value: productDetails.price.costPrice,
+                      name: "costPrice|price",
                       onChange: this.handleChange
                     }}
                   />
@@ -198,48 +321,32 @@ class BusinessDetails extends React.Component {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Unit Price"
-                    id="unit_price"
+                    id="unitPrice"
                     formControlProps={{
                       fullWidth: true,
                       required: true
                     }}
                     inputProps={{
                       type:"number",
-                      value: productDetails.unit_price,
-                      name: "unit_price",
+                      value: productDetails.price.unitPrice,
+                      name: "unitPrice|price",
                       onChange: this.handleChange
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Alt Price"
-                    id="alt_price"
+                    labelText="Slash Price"
+                    id="slashPrice"
                     formControlProps={{
                       fullWidth: true,
                       required: true
                     }}
                     inputProps={{
                       type:"number",
-                      value: productDetails.alt_price,
-                      name: "alt_price",
+                      value: productDetails.price.slashPrice,
+                      name: "slashPrice|price",
                       onChange: this.handleChange
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Shipping Cost"
-                    id="shipping_cost"
-                    formControlProps={{
-                      fullWidth: true,
-                      required: true
-                    }}
-                    inputProps={{
-                      type:"number",
-                      value: productDetails.shipping_cost,
-                      name: "shipping_cost",
-                      onChange: this.handleChange,
                     }}
                   />
                 </GridItem>
@@ -269,8 +376,8 @@ class BusinessDetails extends React.Component {
                     }}
                     inputProps={{
                       type:"number",
-                      value: productDetails.discount,
-                      name: "discount",
+                      value: productDetails.price.discount,
+                      name: "discount|price",
                       onChange: this.handleChange,
                     }}
                   />
@@ -301,8 +408,8 @@ class BusinessDetails extends React.Component {
                     }}
                     inputProps={{
                       type:"number",
-                      name: "tax",
-                      value: productDetails.tax,
+                      name: "tax|price",
+                      value: productDetails.price.tax,
                       onChange: this.handleChange,
                     }}
                   />
@@ -324,41 +431,6 @@ class BusinessDetails extends React.Component {
                     </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Unit (eg dozen)"
-                    id="unit"
-                    formControlProps={{
-                      fullWidth: true,
-                      required: true
-                    }}
-                    inputProps={{
-                      type:"text",
-                      value: productDetails.unit,
-                      name: "unit",
-                      onChange: this.handleChange
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <FormControlLabel
-                  control={<Checkbox
-                      checked={productDetails.download}
-                      tabIndex={-1}
-                      onClick={this.handleCheckboxChange}
-                      checkedIcon={<Check className={classes.checkedIcon}/>}
-                      icon={<Check className={classes.uncheckedIcon}/>}
-                      classes={{
-                          checked: classes.checked,
-                      }}
-                      value={productDetails.download === true? "checked": "unchecked"}
-                      inputProps={{
-                        name: "download"
-                      }}
-                  />}
-                  label="Downloadable Product" 
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
                   <FormControlLabel
                   control={<Checkbox
                       checked={productDetails.deal}
@@ -371,12 +443,171 @@ class BusinessDetails extends React.Component {
                       }}
                       value={productDetails.deal === true? "checked": "unchecked"}
                       inputProps={{
-                        name: "deal"
+                        name: "deal|price"
                       }}
                   />}
                   label="Deal of the Day" 
                   />
                 </GridItem>
+
+                </Grid>
+                <h3>Shipping Details</h3>
+                <Grid container>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Shipping Cost"
+                    id="shippingCost"
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                    inputProps={{
+                      type:"number",
+                      value: productDetails.shippingDetails.cost,
+                      name: "cost|shippingDetails",
+                      onChange: this.handleChange,
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Length (Inches)"
+                    id="length"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      type:"text",
+                      value: productDetails.shippingDetails.length,
+                      name: "length|shippingDetails",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Width (Inches)"
+                    id="width"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      type: "text",
+                      value: productDetails.shippingDetails.width,
+                      name: "width|shippingDetails",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Height (Inches)"
+                    id="height"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps ={{
+                      type: "text",
+                      value: productDetails.shippingDetails.height,
+                      name: "height|shippingDetails",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Weight (kilogram)"
+                    id="weight"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps ={{
+                      type: "text",
+                      value: productDetails.shippingDetails.weight,
+                      name: "weight|shippingDetails",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                </Grid>
+                <h3>Downloadable Product</h3>
+                <Grid container>
+                <GridItem xs={12} sm={12} md={4}>
+                  <FormControlLabel
+                  control={<Checkbox
+                      checked={productDetails.download.downloadable}
+                      tabIndex={-1}
+                      onClick={this.handleCheckboxChange}
+                      checkedIcon={<Check className={classes.checkedIcon}/>}
+                      icon={<Check className={classes.uncheckedIcon}/>}
+                      classes={{
+                          checked: classes.checked,
+                      }}
+                      value={productDetails.download.downloadable === true? "checked": "unchecked"}
+                      inputProps={{
+                        name: "downloadable|download"
+                      }}
+                  />}
+                  label="Downloadable Product"
+                  className={classes.marginTopFormControl} 
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Download Filename"
+                    id="downloadFilename"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps ={{
+                      type: "text",
+                      value: productDetails.download.downloadName,
+                      name: "downloadName|download",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                </Grid>
+                <h3>Variety</h3>
+                <Grid container>
+                <GridItem xs={12} sm={12} md={4}>
+                  <FormControlLabel
+                  control={<Checkbox
+                      checked={productDetails.variety.options}
+                      tabIndex={-1}
+                      onClick={this.handleCheckboxChange}
+                      checkedIcon={<Check className={classes.checkedIcon}/>}
+                      icon={<Check className={classes.uncheckedIcon}/>}
+                      classes={{
+                          checked: classes.checked,
+                      }}
+                      value={productDetails.variety.options === true? "checked": "unchecked"}
+                      inputProps={{
+                        name: "options|variety"
+                      }}
+                  />}
+                  label="Variety Options"
+                  className={classes.marginTopFormControl} 
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                    labelText="Parent Product"
+                    id="parent"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps ={{
+                      type: "text",
+                      value: productDetails.variety.parent,
+                      name: "parent|variety",
+                      onChange: this.handleChange
+                    }}
+                  />
+                </GridItem>
+                </Grid>
+                <h3>Analytics</h3>
+                <Grid container>
                 <GridItem xs={12} sm={12} md={4}>
                   <FormControlLabel
                   control={
@@ -390,15 +621,136 @@ class BusinessDetails extends React.Component {
                       classes={{
                           checked: classes.checked,
                       }}
-                      value={productDetails.featured === true? "checked": "unchecked"}
+                      value={productDetails.analytics.featured === true? "checked": "unchecked"}
                       inputProps={{
-                        name: "featured"
+                        name: "featured|analytics"
                       }}
                   />}
                   label="Feature Product" 
                   />
                 </GridItem>
               </Grid>
+              <h3>Manufacture Details</h3>
+              <Grid container>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <CustomInput
+                      labelText="Make"
+                      id="make"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps ={{
+                        type: "text",
+                        value: productDetails.manufactureDetails.make,
+                        name: "make|manufactureDetails",
+                        onChange: this.handleChange
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <CustomInput
+                      labelText="Model Number"
+                      id="modelNumber"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps ={{
+                        type: "text",
+                        value: productDetails.manufactureDetails.modelNumber,
+                        name: "modelNumber|manufactureDetails",
+                        onChange: this.handleChange
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                  <FormControl fullWidth>
+                      <Datetime
+                        dateFormat="YYYY-MM-DD"
+                        timeFormat={false}
+                        onChange={this.handleReleaseDateChange}
+                        value={productDetails.manufactureDetails.releaseDate}
+                        inputProps={{
+                           placeholder: "Datetime Picker Here",
+                          name: "releaseDate|manufactureDetails"
+                          }}
+                      />
+                    </FormControl>
+                  </GridItem>
+              </Grid>
+              <h3>
+                Product Extra Fields 
+                <Button
+                    justIcon
+                    round
+                    color="danger"
+                    onClick={this.handleSelectedDeleted}
+                    className={classes.floatRight}
+                  >
+                  <DeleteIcon/>
+                </Button>
+
+                <Button
+                    justIcon
+                    round
+                    color="primary"
+                    onClick={this.handleAddExtraField}
+                    className={classes.floatRight}
+                  >
+                  <AddIcon/>
+                </Button>
+              </h3>
+              
+              {
+                this.state.productDetails.extraFields.map((field, key) => {
+                const selected = this.isSelected(key);
+                return (<Grid container key={key}>
+                  <GridItem xs={12} sm={12} md={5}>
+                  <CustomInput
+                    labelText="Extra Field Name"
+                    id={`name${key}`}
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                    inputProps={{
+                      type:"text",
+                      value: field.name,
+                      name:`name|${key}|extraFields`,
+                      onChange: this.handleExtraChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={5}>
+                  <CustomInput
+                    labelText="Extra Field Value"
+                    id={`value${key}`}
+                    formControlProps={{
+                      fullWidth: true,
+                      required: true
+                    }}
+                    inputProps={{
+                      type:"text",
+                      value: field.value,
+                      name:`value|${key}|extraFields`,
+                      onChange: this.handleExtraChange
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={2}>
+                  <FormControlLabel
+                  control={
+                  <Checkbox
+                      checked={selected}
+                      tabIndex={-1}
+                      onClick={event => this.handleDeletedExtraField(event, key)}                     
+                  />}
+                  />
+                </GridItem>
+                </Grid>)
+              })
+              }
+              
+              
             </CardBody>
             <CardFooter>
             </CardFooter>

@@ -489,7 +489,7 @@ class UsersAuth extends React.Component {
               responseJSON.user = user.toLowerCase();
               return responseJSON;
             }else{
-              throw new Error(`Authentication Failed: ${responseJSON.message}`);
+              throw new Error(`Authentication Failed: ${(responseJSON.message)?responseJSON.message : responseJSON.error.message}`);
             }
         });
     }
