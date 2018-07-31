@@ -1,6 +1,8 @@
-//@desc These are the sidebar items/routes
-//@author Sylvia Onwukwe
-//@co author Ifeoluwa Odewale
+/**
+ * @desc These are the sidebar items/routes
+*@author Ifeoluwa Odewale
+*@co author Sylvia Onwukwe
+ */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
@@ -11,7 +13,7 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Email from "@material-ui/icons/Email"
-import Language from "@material-ui/icons/Language"
+//import Language from "@material-ui/icons/Language"
 
 // core components/views
 import DashboardPage from "../containers/Dashboard.jsx";
@@ -111,24 +113,6 @@ export const dashboardRoutes = [
     navbarName: "Blog",
     icon: Store,
     component: Blog,
-    dropdown: "blog",
-    subMenu: [
-      {
-        path: "/dashboard/blog",
-        sidebarName: "Blog",
-        navbarName: "Blog",
-        icon: Language,
-        component: Blog,
-        exact: true
-      },
-      {
-        path: "/dashboard/blog/category",
-        sidebarName: "Blog Category",
-        navbarName: "Blog Category",
-        icon: Language,
-        component: ProductCategory,
-      }
-    ]
   },
   {
     path: "/dashboard/support",
